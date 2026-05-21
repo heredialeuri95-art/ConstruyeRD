@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConstruyeRD — Lista de espera</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#2d6a2d;
+  --verde-claro:#7ec87e;
+  --verde-bg:#eaf3de;
+  --rojo:#c0392b;
+  --azul:#042c53;
+  --texto:#1a1a1a;
+  --gris:#f5f5f3;
+  --borde:#e0e0da;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Manrope',sans-serif;
+  background:#fff;
+  color:var(--texto);
+  overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:0.5px solid var(--borde);
+}
+.logo-nav{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;color:var(--azul)}
+.logo-nav span{color:var(--rojo)}
+.nav-badge{background:var(--verde-bg);color:var(--verde);font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:0.5px solid #97c459}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:120px 24px 80px;
+  text-align:center;
+  position:relative;
+  background:#fff;
+}
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, #eaf3de 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 80%, #e6f1fb 0%, transparent 60%);
+  pointer-events:none;
+}
+.flag-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--azul);color:white;
+  font-size:12px;font-weight:500;
+  padding:6px 16px;border-radius:20px;
+  margin-bottom:28px;
+  animation:fadeUp .6s ease both;
+}
+.flag-icon{width:20px;height:14px;border-radius:2px;overflow:hidden;display:inline-flex;flex-direction:column}
+.flag-icon .f1{flex:1;background:#002d62}
+.flag-icon .f2{flex:1;background:#fff}
+.flag-icon .f3{flex:1;background:#ce1126}
+h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,9vw,96px);
+  line-height:0.95;
+  letter-spacing:2px;
+  color:var(--azul);
+  margin-bottom:8px;
+  animation:fadeUp .7s .1s ease both;
+}
+h1 .accent{color:var(--verde)}
+h1 .accent-red{color:var(--rojo)}
+.hero-sub{
+  font-size:clamp(16px,2.5vw,20px);
+  color:#555;
+  max-width:520px;
+  line-height:1.6;
+  margin:16px auto 48px;
+  font-weight:400;
+  animation:fadeUp .7s .2s ease both;
+}
+.hero-sub strong{color:var(--texto);font-weight:600}
+
+/* FORM */
+.form-wrap{
+  width:100%;max-width:500px;
+  animation:fadeUp .7s .3s ease both;
+}
+.form-card{
+  background:#fff;
+  border:1px solid var(--borde);
+  border-radius:20px;
+  padding:32px;
+  box-shadow:0 4px 40px rgba(0,0,0,0.06);
+}
+.form-title{font-size:15px;font-weight:600;color:var(--texto);margin-bottom:20px;text-align:left}
+.form-title span{color:var(--verde)}
+.input-group{margin-bottom:14px}
+.input-group label{display:block;font-size:12px;font-weight:600;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.input-group input,.input-group select{
+  width:100%;padding:13px 16px;
+  border:1px solid var(--borde);
+  border-radius:12px;
+  font-family:'Manrope',sans-serif;
+  font-size:14px;color:var(--texto);
+  background:#fafaf8;
+  transition:border-color .2s,background .2s;
+  outline:none;
+}
+.input-group input:focus,.input-group select:focus{
+  border-color:var(--verde);
+  background:#fff;
+}
+.input-group select{appearance:none;cursor:pointer}
+.submit-btn{
+  width:100%;padding:15px;
+  background:var(--verde);color:#fff;
+  border:none;border-radius:12px;
+  font-family:'Manrope',sans-serif;
+  font-size:15px;font-weight:600;
+  cursor:pointer;
+  transition:background .2s,transform .1s;
+  margin-top:6px;
+}
+.submit-btn:hover{background:#235223}
+.submit-btn:active{transform:scale(.98)}
+.form-note{font-size:12px;color:#999;text-align:center;margin-top:12px}
+
+/* SUCCESS */
+.success-msg{
+  display:none;
+  text-align:center;
+  padding:32px 16px;
+}
+.success-icon{font-size:48px;margin-bottom:12px}
+.success-title{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--verde);letter-spacing:1px;margin-bottom:8px}
+.success-text{font-size:14px;color:#666;line-height:1.6}
+.success-share{margin-top:20px}
+.share-btn{
+  display:inline-block;padding:10px 24px;
+  background:var(--azul);color:#fff;
+  border-radius:10px;font-size:13px;font-weight:600;
+  text-decoration:none;cursor:pointer;border:none;font-family:'Manrope',sans-serif;
+}
+
+/* TRUST BADGES */
+.trust-row{
+  display:flex;align-items:center;justify-content:center;gap:24px;
+  flex-wrap:wrap;
+  margin-top:48px;
+  animation:fadeUp .7s .4s ease both;
+}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:13px;color:#777}
+.trust-dot{width:6px;height:6px;border-radius:50%;background:var(--verde-claro);flex-shrink:0}
+
+/* COUNTER */
+.counter-wrap{
+  margin-top:64px;
+  padding:24px 32px;
+  background:var(--gris);
+  border-radius:16px;
+  display:inline-flex;align-items:center;gap:20px;
+  animation:fadeUp .7s .5s ease both;
+}
+.counter-num{font-family:'Bebas Neue',sans-serif;font-size:48px;line-height:1;color:var(--azul)}
+.counter-label{font-size:13px;color:#777;line-height:1.5;text-align:left;max-width:160px}
+.counter-label strong{display:block;font-size:14px;color:var(--texto)}
+
+/* BENEFITS */
+.benefits{
+  padding:80px 24px;
+  background:var(--gris);
+}
+.benefits-inner{max-width:1000px;margin:0 auto}
+.section-tag{
+  font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;
+  color:var(--verde);margin-bottom:12px;
+}
+.section-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(36px,6vw,64px);
+  line-height:1;letter-spacing:1px;
+  color:var(--azul);margin-bottom:48px;
+}
+.section-title span{color:var(--verde)}
+.benefits-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+}
+.benefit-card{
+  background:#fff;
+  border:0.5px solid var(--borde);
+  border-radius:16px;
+  padding:28px 24px;
+  transition:transform .2s,box-shadow .2s;
+}
+.benefit-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.07)}
+.benefit-icon{
+  width:44px;height:44px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;margin-bottom:16px;
+}
+.bi-green{background:var(--verde-bg);color:var(--verde)}
+.bi-blue{background:#e6f1fb;color:#0c447c}
+.bi-amber{background:#faeeda;color:#633806}
+.bi-red{background:#fcebeb;color:#791f1f}
+.benefit-title{font-size:15px;font-weight:600;color:var(--texto);margin-bottom:8px}
+.benefit-desc{font-size:13px;color:#777;line-height:1.6}
+
+/* FOR WHO */
+.forwho{padding:80px 24px;background:#fff}
+.forwho-inner{max-width:900px;margin:0 auto}
+.audience-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;
+  margin-top:40px;
+}
+.audience-card{
+  border:0.5px solid var(--borde);border-radius:16px;
+  padding:24px;display:flex;gap:14px;align-items:flex-start;
+}
+.aud-flag{font-size:28px;flex-shrink:0}
+.aud-title{font-size:14px;font-weight:600;color:var(--texto);margin-bottom:4px}
+.aud-desc{font-size:13px;color:#777;line-height:1.5}
+
+/* FINAL CTA */
+.final-cta{
+  background:var(--azul);
+  padding:80px 24px;
+  text-align:center;
+  color:#fff;
+}
+.final-cta h2{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(40px,7vw,72px);
+  letter-spacing:2px;margin-bottom:16px;
+  line-height:1;
+}
+.final-cta h2 span{color:var(--verde-claro)}
+.final-cta p{font-size:15px;color:rgba(255,255,255,.65);margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto}
+.final-btn{
+  display:inline-block;
+  padding:16px 40px;
+  background:var(--verde);color:#fff;
+  border-radius:12px;font-size:15px;font-weight:600;
+  text-decoration:none;cursor:pointer;border:none;font-family:'Manrope',sans-serif;
+  transition:background .2s;
+}
+.final-btn:hover{background:#235223}
+
+/* FOOTER */
+footer{
+  padding:24px;text-align:center;
+  font-size:12px;color:#aaa;
+  border-top:0.5px solid var(--borde);
+}
+footer strong{color:var(--texto)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.fade-in{animation:fadeUp .6s ease both}
+
+/* MOBILE */
+@media(max-width:600px){
+  nav{padding:14px 20px}
+  .hero{padding:100px 16px 60px}
+  .form-card{padding:24px 20px}
+  .counter-wrap{flex-direction:column;text-align:center;gap:8px}
+  .counter-label{text-align:center}
+  .trust-row{gap:14px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo-nav">Construye<span>RD</span></div>
+  <div class="nav-badge">Lanzamiento próximo</div>
+</nav>
+
+<section class="hero">
+  <div class="flag-pill">
+    <span class="flag-icon"><span class="f1"></span><span class="f2"></span><span class="f3"></span></span>
+    República Dominicana
+  </div>
+  <h1>Construye<br><span class="accent">sin</span> <span class="accent-red">sorpresas</span></h1>
+  <p class="hero-sub">
+    La primera plataforma dominicana para <strong>presupuestar, contratar y supervisar</strong> tu construcción — desde RD o desde el extranjero.
+  </p>
+
+  <div class="form-wrap">
+    <div class="form-card">
+      <div id="formSection">
+        <div class="form-title">Regístrate gratis — sé de los <span>primeros</span></div>
+        <div class="input-group">
+          <label>Tu nombre</label>
+          <input type="text" id="nombre" placeholder="Ej: María González" required>
+        </div>
+        <div class="input-group">
+          <label>WhatsApp (con código de país)</label>
+          <input type="tel" id="whatsapp" placeholder="Ej: +1 809 555 0000" required>
+        </div>
+        <div class="input-group">
+          <label>¿Desde dónde nos escribes?</label>
+          <select id="pais">
+            <option value="">Selecciona...</option>
+            <option>República Dominicana</option>
+            <option>Estados Unidos</option>
+            <option>España</option>
+            <option>Italia</option>
+            <option>Puerto Rico</option>
+            <option>Otro país</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>¿Qué quieres hacer?</label>
+          <select id="interes">
+            <option value="">Selecciona...</option>
+            <option>Construir una casa en RD</option>
+            <option>Encontrar un maestro confiable</option>
+            <option>Supervisar mi obra desde el extranjero</option>
+            <option>Registrarme como trabajador / maestro</option>
+            <option>Solo quiero ver cómo funciona</option>
+          </select>
+        </div>
+        <button class="submit-btn" onclick="registrar()">Quiero ser de los primeros →</button>
+        <div class="form-note">Gratis para siempre · Sin spam · Solo te avisamos cuando lancemos</div>
+      </div>
+      <div class="success-msg" id="successSection">
+        <div class="success-icon">✅</div>
+        <div class="success-title">¡Ya estás dentro!</div>
+        <div class="success-text">Te avisamos por WhatsApp cuando ConstruyeRD abra sus puertas.<br>Eres parte de los fundadores.</div>
+        <div class="success-share">
+          <button class="share-btn" onclick="compartir()">Comparte con alguien que construye en RD</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-row">
+    <div class="trust-item"><div class="trust-dot"></div>100% gratis registrarse</div>
+    <div class="trust-item"><div class="trust-dot"></div>Precios reales del mercado</div>
+    <div class="trust-item"><div class="trust-dot"></div>Trabajadores verificados</div>
+    <div class="trust-item"><div class="trust-dot"></div>Supervisión desde el extranjero</div>
+  </div>
+
+  <div class="counter-wrap">
+    <div class="counter-num" id="counterNum">47</div>
+    <div class="counter-label"><strong>personas registradas</strong>esperando el lanzamiento</div>
+  </div>
+</section>
+
+<section class="benefits">
+  <div class="benefits-inner">
+    <div class="section-tag">Por qué ConstruyeRD</div>
+    <div class="section-title">Todo lo que<br>necesitas para <span>construir bien</span></div>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon bi-green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div class="benefit-title">Presupuesto inteligente</div>
+        <div class="benefit-desc">Calcula cemento, blocks, varillas, mano de obra y acabados con precios reales y actualizados del mercado dominicano.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon bi-blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="benefit-title">Maestros verificados</div>
+        <div class="benefit-desc">Directorio de trabajadores con historial real, fotos de proyectos anteriores, valoraciones de clientes y precio por día.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon bi-amber">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.845v6.31a1 1 0 0 1-1.447.894L15 14"/><rect x="1" y="6" width="15" height="13" rx="2"/></svg>
+        </div>
+        <div class="benefit-title">Supervisión remota</div>
+        <div class="benefit-desc">Fotos y videos diarios del avance, aprueba gastos desde tu teléfono y habla directo con el maestro — desde donde estés.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon bi-red">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="benefit-title">Control total de gastos</div>
+        <div class="benefit-desc">Todos los comprobantes organizados, historial de materiales y alertas cuando algo se sale del presupuesto.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="forwho">
+  <div class="forwho-inner">
+    <div class="section-tag">Para quién es</div>
+    <div class="section-title">Hecho para <span>ti</span></div>
+    <div class="audience-grid">
+      <div class="audience-card">
+        <div class="aud-flag">🇩🇴</div>
+        <div>
+          <div class="aud-title">Dominicanos en RD</div>
+          <div class="aud-desc">Que quieren construir sin que les cobren de más y con maestros de confianza verificados.</div>
+        </div>
+      </div>
+      <div class="audience-card">
+        <div class="aud-flag">🇺🇸</div>
+        <div>
+          <div class="aud-title">Dominicanos en USA</div>
+          <div class="aud-desc">Que sueñan con construir en RD pero no pueden supervisar su obra en persona.</div>
+        </div>
+      </div>
+      <div class="audience-card">
+        <div class="aud-flag">🌍</div>
+        <div>
+          <div class="aud-title">Diáspora en Europa</div>
+          <div class="aud-desc">España, Italia, Francia — dominicanos que quieren invertir en su tierra sin perder el dinero.</div>
+        </div>
+      </div>
+      <div class="audience-card">
+        <div class="aud-flag">🔨</div>
+        <div>
+          <div class="aud-title">Maestros y trabajadores</div>
+          <div class="aud-desc">Que quieren más clientes, mejor reputación y proyectos organizados con comprobantes digitales.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <h2>Sé de los<br><span>primeros</span></h2>
+  <p>Los primeros 200 registrados tendrán acceso gratuito de por vida a las funciones premium de ConstruyeRD.</p>
+  <button class="final-btn" onclick="document.getElementById('nombre').focus();window.scrollTo({top:0,behavior:'smooth'})">Registrarme gratis ahora →</button>
+</section>
+
+<footer>
+  <strong>ConstruyeRD</strong> · La plataforma de construcción de República Dominicana · 2025
+</footer>
+
+<script>
+let count = 47;
+
+function registrar(){
+  const nombre = document.getElementById('nombre').value.trim();
+  const wa = document.getElementById('whatsapp').value.trim();
+  const pais = document.getElementById('pais').value;
+  const interes = document.getElementById('interes').value;
+  if(!nombre || !wa || !pais || !interes){
+    alert('Por favor completa todos los campos para registrarte.');
+    return;
+  }
+  count++;
+  document.getElementById('counterNum').textContent = count;
+  document.getElementById('formSection').style.display = 'none';
+  document.getElementById('successSection').style.display = 'block';
+}
+
+function compartir(){
+  const texto = '¡Me registré en ConstruyeRD! La plataforma para construir en República Dominicana sin sorpresas. Presupuestos reales, maestros verificados y supervisión remota. Regístrate gratis antes del lanzamiento 👇';
+  if(navigator.share){
+    navigator.share({title:'ConstruyeRD',text:texto,url:window.location.href});
+  } else {
+    navigator.clipboard.writeText(texto + '\n' + window.location.href).then(()=>{
+      alert('Texto copiado. Pégalo en WhatsApp o Instagram.');
+    });
+  }
+}
+
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('fade-in');
+  });
+},{threshold:0.1});
+document.querySelectorAll('.benefit-card,.audience-card').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
