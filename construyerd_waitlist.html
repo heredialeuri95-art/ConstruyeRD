@@ -3,483 +3,1128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ConstruyeRD — Lista de espera</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ConstruyeRD — La plataforma de construcción de República Dominicana</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --verde:#2d6a2d;
-  --verde-claro:#7ec87e;
-  --verde-bg:#eaf3de;
-  --rojo:#c0392b;
-  --azul:#042c53;
-  --texto:#1a1a1a;
-  --gris:#f5f5f3;
-  --borde:#e0e0da;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:'Manrope',sans-serif;
-  background:#fff;
-  color:var(--texto);
-  overflow-x:hidden;
-}
+  :root {
+    --verde: #1a7a4a;
+    --verde-claro: #23a663;
+    --verde-hover: #15603b;
+    --azul: #1a3a6e;
+    --oro: #e8a020;
+    --oro-claro: #f5c842;
+    --bg: #f5f2eb;
+    --blanco: #ffffff;
+    --texto: #1a1a1a;
+    --texto-gris: #5a5a5a;
+    --borde: #ddd8ce;
+    --chat-bg: #f9f7f3;
+    --radio: 12px;
+    --radio-xl: 20px;
+  }
 
-/* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 32px;
-  background:rgba(255,255,255,0.92);
-  backdrop-filter:blur(12px);
-  border-bottom:0.5px solid var(--borde);
-}
-.logo-nav{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;color:var(--azul)}
-.logo-nav span{color:var(--rojo)}
-.nav-badge{background:var(--verde-bg);color:var(--verde);font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;border:0.5px solid #97c459}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* HERO */
-.hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:120px 24px 80px;
-  text-align:center;
-  position:relative;
-  background:#fff;
-}
-.hero::before{
-  content:'';
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, #eaf3de 0%, transparent 70%),
-    radial-gradient(ellipse 40% 30% at 80% 80%, #e6f1fb 0%, transparent 60%);
-  pointer-events:none;
-}
-.flag-pill{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--azul);color:white;
-  font-size:12px;font-weight:500;
-  padding:6px 16px;border-radius:20px;
-  margin-bottom:28px;
-  animation:fadeUp .6s ease both;
-}
-.flag-icon{width:20px;height:14px;border-radius:2px;overflow:hidden;display:inline-flex;flex-direction:column}
-.flag-icon .f1{flex:1;background:#002d62}
-.flag-icon .f2{flex:1;background:#fff}
-.flag-icon .f3{flex:1;background:#ce1126}
-h1{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(52px,9vw,96px);
-  line-height:0.95;
-  letter-spacing:2px;
-  color:var(--azul);
-  margin-bottom:8px;
-  animation:fadeUp .7s .1s ease both;
-}
-h1 .accent{color:var(--verde)}
-h1 .accent-red{color:var(--rojo)}
-.hero-sub{
-  font-size:clamp(16px,2.5vw,20px);
-  color:#555;
-  max-width:520px;
-  line-height:1.6;
-  margin:16px auto 48px;
-  font-weight:400;
-  animation:fadeUp .7s .2s ease both;
-}
-.hero-sub strong{color:var(--texto);font-weight:600}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--texto);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-/* FORM */
-.form-wrap{
-  width:100%;max-width:500px;
-  animation:fadeUp .7s .3s ease both;
-}
-.form-card{
-  background:#fff;
-  border:1px solid var(--borde);
-  border-radius:20px;
-  padding:32px;
-  box-shadow:0 4px 40px rgba(0,0,0,0.06);
-}
-.form-title{font-size:15px;font-weight:600;color:var(--texto);margin-bottom:20px;text-align:left}
-.form-title span{color:var(--verde)}
-.input-group{margin-bottom:14px}
-.input-group label{display:block;font-size:12px;font-weight:600;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
-.input-group input,.input-group select{
-  width:100%;padding:13px 16px;
-  border:1px solid var(--borde);
-  border-radius:12px;
-  font-family:'Manrope',sans-serif;
-  font-size:14px;color:var(--texto);
-  background:#fafaf8;
-  transition:border-color .2s,background .2s;
-  outline:none;
-}
-.input-group input:focus,.input-group select:focus{
-  border-color:var(--verde);
-  background:#fff;
-}
-.input-group select{appearance:none;cursor:pointer}
-.submit-btn{
-  width:100%;padding:15px;
-  background:var(--verde);color:#fff;
-  border:none;border-radius:12px;
-  font-family:'Manrope',sans-serif;
-  font-size:15px;font-weight:600;
-  cursor:pointer;
-  transition:background .2s,transform .1s;
-  margin-top:6px;
-}
-.submit-btn:hover{background:#235223}
-.submit-btn:active{transform:scale(.98)}
-.form-note{font-size:12px;color:#999;text-align:center;margin-top:12px}
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(26,58,110,0.97);
+    backdrop-filter: blur(12px);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.35rem; color: #fff;
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--oro-claro); }
+  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+  .nav-links a {
+    color: rgba(255,255,255,0.8); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--oro-claro); }
+  .btn-nav {
+    background: var(--oro); color: var(--azul);
+    border: none; padding: 8px 20px;
+    border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-weight: 700; font-size: 0.85rem; cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-nav:hover { background: var(--oro-claro); }
 
-/* SUCCESS */
-.success-msg{
-  display:none;
-  text-align:center;
-  padding:32px 16px;
-}
-.success-icon{font-size:48px;margin-bottom:12px}
-.success-title{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--verde);letter-spacing:1px;margin-bottom:8px}
-.success-text{font-size:14px;color:#666;line-height:1.6}
-.success-share{margin-top:20px}
-.share-btn{
-  display:inline-block;padding:10px 24px;
-  background:var(--azul);color:#fff;
-  border-radius:10px;font-size:13px;font-weight:600;
-  text-decoration:none;cursor:pointer;border:none;font-family:'Manrope',sans-serif;
-}
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0d2a52 0%, #1a3a6e 40%, #0f5c32 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 100px 2rem 4rem;
+    position: relative; overflow: hidden;
+    text-align: center;
+  }
 
-/* TRUST BADGES */
-.trust-row{
-  display:flex;align-items:center;justify-content:center;gap:24px;
-  flex-wrap:wrap;
-  margin-top:48px;
-  animation:fadeUp .7s .4s ease both;
-}
-.trust-item{display:flex;align-items:center;gap:7px;font-size:13px;color:#777}
-.trust-dot{width:6px;height:6px;border-radius:50%;background:var(--verde-claro);flex-shrink:0}
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
 
-/* COUNTER */
-.counter-wrap{
-  margin-top:64px;
-  padding:24px 32px;
-  background:var(--gris);
-  border-radius:16px;
-  display:inline-flex;align-items:center;gap:20px;
-  animation:fadeUp .7s .5s ease both;
-}
-.counter-num{font-family:'Bebas Neue',sans-serif;font-size:48px;line-height:1;color:var(--azul)}
-.counter-label{font-size:13px;color:#777;line-height:1.5;text-align:left;max-width:160px}
-.counter-label strong{display:block;font-size:14px;color:var(--texto)}
+  .hero-badge {
+    background: rgba(232,160,32,0.15);
+    border: 1px solid rgba(232,160,32,0.4);
+    color: var(--oro-claro);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 1.5rem; display: inline-block;
+  }
 
-/* BENEFITS */
-.benefits{
-  padding:80px 24px;
-  background:var(--gris);
-}
-.benefits-inner{max-width:1000px;margin:0 auto}
-.section-tag{
-  font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;
-  color:var(--verde);margin-bottom:12px;
-}
-.section-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(36px,6vw,64px);
-  line-height:1;letter-spacing:1px;
-  color:var(--azul);margin-bottom:48px;
-}
-.section-title span{color:var(--verde)}
-.benefits-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
-}
-.benefit-card{
-  background:#fff;
-  border:0.5px solid var(--borde);
-  border-radius:16px;
-  padding:28px 24px;
-  transition:transform .2s,box-shadow .2s;
-}
-.benefit-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.07)}
-.benefit-icon{
-  width:44px;height:44px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;margin-bottom:16px;
-}
-.bi-green{background:var(--verde-bg);color:var(--verde)}
-.bi-blue{background:#e6f1fb;color:#0c447c}
-.bi-amber{background:#faeeda;color:#633806}
-.bi-red{background:#fcebeb;color:#791f1f}
-.benefit-title{font-size:15px;font-weight:600;color:var(--texto);margin-bottom:8px}
-.benefit-desc{font-size:13px;color:#777;line-height:1.6}
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.05; color: #fff;
+    margin-bottom: 1.2rem; max-width: 800px;
+  }
+  .hero h1 em { color: var(--oro-claro); font-style: normal; }
 
-/* FOR WHO */
-.forwho{padding:80px 24px;background:#fff}
-.forwho-inner{max-width:900px;margin:0 auto}
-.audience-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;
-  margin-top:40px;
-}
-.audience-card{
-  border:0.5px solid var(--borde);border-radius:16px;
-  padding:24px;display:flex;gap:14px;align-items:flex-start;
-}
-.aud-flag{font-size:28px;flex-shrink:0}
-.aud-title{font-size:14px;font-weight:600;color:var(--texto);margin-bottom:4px}
-.aud-desc{font-size:13px;color:#777;line-height:1.5}
+  .hero p {
+    font-size: 1.15rem; color: rgba(255,255,255,0.75);
+    max-width: 560px; line-height: 1.7; margin-bottom: 2.5rem;
+  }
 
-/* FINAL CTA */
-.final-cta{
-  background:var(--azul);
-  padding:80px 24px;
-  text-align:center;
-  color:#fff;
-}
-.final-cta h2{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(40px,7vw,72px);
-  letter-spacing:2px;margin-bottom:16px;
-  line-height:1;
-}
-.final-cta h2 span{color:var(--verde-claro)}
-.final-cta p{font-size:15px;color:rgba(255,255,255,.65);margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto}
-.final-btn{
-  display:inline-block;
-  padding:16px 40px;
-  background:var(--verde);color:#fff;
-  border-radius:12px;font-size:15px;font-weight:600;
-  text-decoration:none;cursor:pointer;border:none;font-family:'Manrope',sans-serif;
-  transition:background .2s;
-}
-.final-btn:hover{background:#235223}
+  /* ── FORM ── */
+  .form-card {
+    background: var(--blanco);
+    border-radius: var(--radio-xl);
+    padding: 2.5rem 2rem;
+    max-width: 460px; width: 100%;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+    position: relative;
+  }
 
-/* FOOTER */
-footer{
-  padding:24px;text-align:center;
-  font-size:12px;color:#aaa;
-  border-top:0.5px solid var(--borde);
-}
-footer strong{color:var(--texto)}
+  .form-card h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 700;
+    color: var(--azul); margin-bottom: 0.3rem;
+  }
+  .form-card p { font-size: 0.85rem; color: var(--texto-gris); margin-bottom: 1.5rem; }
 
-/* ANIMATIONS */
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:translateY(0)}
-}
-.fade-in{animation:fadeUp .6s ease both}
+  .form-group { margin-bottom: 1rem; }
+  .form-group label {
+    display: block; font-size: 0.8rem; font-weight: 600;
+    color: var(--texto-gris); margin-bottom: 5px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .form-group input,
+  .form-group select {
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid var(--borde);
+    border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; color: var(--texto);
+    background: #fafafa;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none; appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--verde);
+    box-shadow: 0 0 0 3px rgba(26,122,74,0.12);
+    background: #fff;
+  }
+  .form-group input::placeholder { color: #bbb; }
 
-/* MOBILE */
-@media(max-width:600px){
-  nav{padding:14px 20px}
-  .hero{padding:100px 16px 60px}
-  .form-card{padding:24px 20px}
-  .counter-wrap{flex-direction:column;text-align:center;gap:8px}
-  .counter-label{text-align:center}
-  .trust-row{gap:14px}
-}
+  .btn-submit {
+    width: 100%; padding: 14px;
+    background: var(--verde);
+    color: #fff; border: none;
+    border-radius: 10px; font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    transition: background .2s, transform .15s;
+    margin-top: 0.5rem;
+  }
+  .btn-submit:hover { background: var(--verde-hover); transform: translateY(-1px); }
+  .btn-submit:active { transform: translateY(0); }
+
+  .form-note {
+    text-align: center; font-size: 0.75rem;
+    color: var(--texto-gris); margin-top: 0.8rem;
+  }
+
+  /* Success state */
+  .form-success {
+    display: none; text-align: center;
+    padding: 1rem 0;
+  }
+  .success-icon {
+    width: 72px; height: 72px;
+    background: var(--verde); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.2rem; font-size: 2rem;
+  }
+  .form-success h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem; color: var(--azul); margin-bottom: 0.5rem;
+  }
+  .form-success p { color: var(--texto-gris); font-size: 0.9rem; line-height: 1.6; }
+
+  .share-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 1rem; padding: 10px 20px;
+    background: #25D366; color: #fff; border: none;
+    border-radius: 8px; font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; transition: background .2s;
+  }
+  .share-btn:hover { background: #1ebe5d; }
+
+  /* ── COUNTER ── */
+  .counter-strip {
+    background: rgba(255,255,255,0.07);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 1.5rem 2rem;
+    display: flex; justify-content: center; gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .counter-item { text-align: center; }
+  .counter-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800;
+    color: var(--oro-claro);
+    display: block;
+  }
+  .counter-label { font-size: 0.78rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── FEATURES ── */
+  section { padding: 5rem 2rem; }
+
+  .section-title {
+    text-align: center; margin-bottom: 3rem;
+  }
+  .section-title h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800; color: var(--azul);
+    line-height: 1.15; margin-bottom: 0.7rem;
+  }
+  .section-title p { color: var(--texto-gris); font-size: 1rem; max-width: 500px; margin: 0 auto; }
+
+  .features-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-xl);
+    padding: 2rem;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.09);
+  }
+  .feature-icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, #e8f5ee, #c8ebd8);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 1.2rem;
+  }
+  .feature-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--azul); margin-bottom: 0.5rem;
+  }
+  .feature-card p { font-size: 0.9rem; color: var(--texto-gris); line-height: 1.65; }
+
+  /* ── CALCULATOR ── */
+  .calc-section {
+    background: var(--azul);
+    color: #fff;
+  }
+  .calc-section .section-title h2 { color: #fff; }
+  .calc-section .section-title p { color: rgba(255,255,255,0.7); }
+
+  .calc-card {
+    max-width: 720px; margin: 0 auto;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radio-xl);
+    padding: 2.5rem;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .calc-field { display: flex; flex-direction: column; gap: 6px; }
+  .calc-field label { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; }
+  .calc-field input,
+  .calc-field select {
+    padding: 11px 13px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px; color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; outline: none; appearance: none;
+    transition: border-color .2s;
+  }
+  .calc-field input:focus,
+  .calc-field select:focus { border-color: var(--oro-claro); }
+  .calc-field input::placeholder { color: rgba(255,255,255,0.4); }
+  .calc-field select option { background: var(--azul); color: #fff; }
+
+  .btn-calc {
+    width: 100%; padding: 14px;
+    background: var(--oro); color: var(--azul);
+    border: none; border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 800; cursor: pointer;
+    transition: background .2s;
+    margin-bottom: 1.5rem;
+  }
+  .btn-calc:hover { background: var(--oro-claro); }
+
+  .calc-results {
+    display: none;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 1.5rem;
+  }
+  .calc-results.visible { display: block; }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem; margin-bottom: 1rem;
+  }
+  .result-box {
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 1rem;
+    text-align: center;
+  }
+  .result-box span {
+    display: block; font-size: 0.75rem;
+    color: rgba(255,255,255,0.6); text-transform: uppercase;
+    letter-spacing: 0.5px; margin-bottom: 4px;
+  }
+  .result-box strong {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem; color: var(--oro-claro);
+  }
+  .result-total {
+    background: rgba(232,160,32,0.15);
+    border: 1px solid rgba(232,160,32,0.3);
+    border-radius: 10px; padding: 1rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .result-total span { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+  .result-total strong { font-family: 'Syne', sans-serif; font-size: 1.5rem; color: var(--oro-claro); }
+
+  /* ── FOR WHOM ── */
+  .audience-grid {
+    max-width: 960px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+  }
+  .audience-card {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-xl); padding: 1.8rem;
+    text-align: center;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .audience-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+  .audience-flag { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+  .audience-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700; color: var(--azul); margin-bottom: 0.5rem;
+  }
+  .audience-card p { font-size: 0.85rem; color: var(--texto-gris); line-height: 1.6; }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: linear-gradient(135deg, var(--verde) 0%, #0d4a28 100%);
+    text-align: center; padding: 5rem 2rem;
+  }
+  .cta-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800; color: #fff;
+    margin-bottom: 0.8rem;
+  }
+  .cta-section p { color: rgba(255,255,255,0.8); font-size: 1.05rem; margin-bottom: 2rem; }
+  .btn-cta {
+    display: inline-block; padding: 16px 40px;
+    background: var(--oro); color: var(--azul);
+    border: none; border-radius: 12px;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 800; cursor: pointer;
+    transition: background .2s, transform .15s; text-decoration: none;
+  }
+  .btn-cta:hover { background: var(--oro-claro); transform: scale(1.03); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0a1a30; color: rgba(255,255,255,0.5);
+    padding: 2rem; text-align: center; font-size: 0.82rem;
+  }
+  footer a { color: var(--oro); text-decoration: none; }
+
+  /* ── CHAT WIDGET ── */
+  #chat-toggle {
+    position: fixed; bottom: 28px; right: 28px; z-index: 999;
+    width: 62px; height: 62px;
+    background: var(--verde);
+    border-radius: 50%; border: none; cursor: pointer;
+    box-shadow: 0 4px 24px rgba(26,122,74,0.45);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .2s, background .2s;
+    font-size: 1.6rem;
+  }
+  #chat-toggle:hover { transform: scale(1.08); background: var(--verde-hover); }
+  #chat-toggle .badge {
+    position: absolute; top: -3px; right: -3px;
+    width: 20px; height: 20px;
+    background: var(--oro); border-radius: 50%;
+    font-size: 0.7rem; font-weight: 700; color: var(--azul);
+    display: flex; align-items: center; justify-content: center;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  #chat-window {
+    position: fixed; bottom: 104px; right: 28px; z-index: 998;
+    width: min(380px, calc(100vw - 40px));
+    height: 540px;
+    background: var(--blanco);
+    border-radius: 20px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.8) translateY(30px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1), opacity .2s;
+    transform-origin: bottom right;
+  }
+  #chat-window.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .chat-header {
+    background: linear-gradient(135deg, var(--azul) 0%, #1a3a6e 100%);
+    padding: 1rem 1.2rem;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .chat-avatar {
+    width: 42px; height: 42px;
+    background: var(--oro); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .chat-header-info h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem; font-weight: 700; color: #fff;
+  }
+  .chat-header-info p { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+  .chat-status {
+    display: flex; align-items: center; gap: 5px;
+  }
+  .chat-dot {
+    width: 8px; height: 8px;
+    background: #4ade80; border-radius: 50%;
+    animation: blink 2s infinite;
+  }
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .chat-close {
+    margin-left: auto; background: none; border: none;
+    color: rgba(255,255,255,0.6); cursor: pointer;
+    font-size: 1.3rem; line-height: 1; padding: 4px;
+  }
+  .chat-close:hover { color: #fff; }
+
+  .chat-quick-buttons {
+    padding: 0.7rem 1rem;
+    display: flex; gap: 6px; flex-wrap: wrap;
+    background: var(--chat-bg);
+    border-bottom: 1px solid var(--borde);
+  }
+  .quick-btn {
+    padding: 5px 11px; font-size: 0.75rem; font-weight: 600;
+    background: var(--blanco); border: 1px solid var(--borde);
+    border-radius: 100px; cursor: pointer; color: var(--azul);
+    transition: all .15s; white-space: nowrap;
+  }
+  .quick-btn:hover { background: var(--azul); color: #fff; border-color: var(--azul); }
+
+  .chat-messages {
+    flex: 1; overflow-y: auto; padding: 1rem;
+    display: flex; flex-direction: column; gap: 10px;
+    background: var(--chat-bg);
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--borde); border-radius: 4px; }
+
+  .msg {
+    max-width: 86%; animation: fadeUp .25s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .msg.bot { align-self: flex-start; }
+  .msg.user { align-self: flex-end; }
+  .msg-bubble {
+    padding: 10px 14px; border-radius: 14px;
+    font-size: 0.88rem; line-height: 1.55;
+  }
+  .msg.bot .msg-bubble {
+    background: var(--blanco); color: var(--texto);
+    border-radius: 4px 14px 14px 14px;
+    border: 1px solid var(--borde);
+  }
+  .msg.user .msg-bubble {
+    background: var(--verde); color: #fff;
+    border-radius: 14px 14px 4px 14px;
+  }
+  .msg-time {
+    font-size: 0.68rem; color: var(--texto-gris);
+    margin-top: 3px; padding: 0 4px;
+  }
+  .msg.user .msg-time { text-align: right; }
+
+  .typing-indicator {
+    display: flex; align-items: center; gap: 5px;
+    padding: 10px 14px;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 4px 14px 14px 14px;
+    max-width: 80px;
+    display: none;
+  }
+  .typing-indicator.show { display: flex; }
+  .dot {
+    width: 7px; height: 7px;
+    background: var(--texto-gris); border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+  .dot:nth-child(2) { animation-delay: .2s; }
+  .dot:nth-child(3) { animation-delay: .4s; }
+  @keyframes bounce {
+    0%,80%,100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+  }
+
+  .chat-input-area {
+    display: flex; gap: 8px; padding: 0.8rem 1rem;
+    background: var(--blanco);
+    border-top: 1px solid var(--borde);
+    align-items: flex-end;
+  }
+  #chat-input {
+    flex: 1; padding: 10px 13px;
+    border: 1.5px solid var(--borde); border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+    resize: none; height: 40px; max-height: 100px;
+    outline: none; background: var(--chat-bg);
+    transition: border-color .2s;
+    overflow-y: hidden;
+  }
+  #chat-input:focus { border-color: var(--verde); background: #fff; }
+  #send-btn {
+    width: 40px; height: 40px;
+    background: var(--verde); color: #fff; border: none;
+    border-radius: 10px; cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+    flex-shrink: 0;
+  }
+  #send-btn:hover { background: var(--verde-hover); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .hero { padding: 90px 1.2rem 3rem; }
+    .calc-grid { grid-template-columns: 1fr; }
+    .results-grid { grid-template-columns: 1fr 1fr; }
+    .counter-strip { gap: 1.5rem; }
+  }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <div class="logo-nav">Construye<span>RD</span></div>
-  <div class="nav-badge">Lanzamiento próximo</div>
+  <div class="nav-logo">Construye<span>RD</span></div>
+  <div class="nav-links">
+    <a href="#funciones">Funciones</a>
+    <a href="#calculadora">Calculadora</a>
+    <a href="#para-quien">Para quién</a>
+    <button class="btn-nav" onclick="document.getElementById('nombre').focus(); window.scrollTo({top:0,behavior:'smooth'})">Registrarme gratis</button>
+  </div>
 </nav>
 
-<section class="hero">
-  <div class="flag-pill">
-    <span class="flag-icon"><span class="f1"></span><span class="f2"></span><span class="f3"></span></span>
-    República Dominicana
-  </div>
-  <h1>Construye<br><span class="accent">sin</span> <span class="accent-red">sorpresas</span></h1>
-  <p class="hero-sub">
-    La primera plataforma dominicana para <strong>presupuestar, contratar y supervisar</strong> tu construcción — desde RD o desde el extranjero.
-  </p>
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-badge">🇩🇴 Lanzamiento próximo · República Dominicana</div>
+  <h1>Construye <em>sin sorpresas</em></h1>
+  <p>La primera plataforma dominicana para presupuestar, contratar y supervisar tu construcción — desde RD o desde el extranjero.</p>
 
-  <div class="form-wrap">
-    <div class="form-card">
-      <div id="formSection">
-        <div class="form-title">Regístrate gratis — sé de los <span>primeros</span></div>
-        <div class="input-group">
-          <label>Tu nombre</label>
-          <input type="text" id="nombre" placeholder="Ej: María González" required>
-        </div>
-        <div class="input-group">
-          <label>WhatsApp (con código de país)</label>
-          <input type="tel" id="whatsapp" placeholder="Ej: +1 809 555 0000" required>
-        </div>
-        <div class="input-group">
-          <label>¿Desde dónde nos escribes?</label>
-          <select id="pais">
-            <option value="">Selecciona...</option>
-            <option>República Dominicana</option>
-            <option>Estados Unidos</option>
-            <option>España</option>
-            <option>Italia</option>
-            <option>Puerto Rico</option>
-            <option>Otro país</option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label>¿Qué quieres hacer?</label>
-          <select id="interes">
-            <option value="">Selecciona...</option>
-            <option>Construir una casa en RD</option>
-            <option>Encontrar un maestro confiable</option>
-            <option>Supervisar mi obra desde el extranjero</option>
-            <option>Registrarme como trabajador / maestro</option>
-            <option>Solo quiero ver cómo funciona</option>
-          </select>
-        </div>
-        <button class="submit-btn" onclick="registrar()">Quiero ser de los primeros →</button>
-        <div class="form-note">Gratis para siempre · Sin spam · Solo te avisamos cuando lancemos</div>
+  <!-- FORM CARD -->
+  <div class="form-card" id="form-card">
+    <div id="form-content">
+      <h2>Regístrate gratis</h2>
+      <p>Sé de los primeros — acceso premium gratuito para los primeros 200.</p>
+
+      <div class="form-group">
+        <label>Tu nombre completo</label>
+        <input type="text" id="nombre" placeholder="Ej. Juan Pérez" required>
       </div>
-      <div class="success-msg" id="successSection">
-        <div class="success-icon">✅</div>
-        <div class="success-title">¡Ya estás dentro!</div>
-        <div class="success-text">Te avisamos por WhatsApp cuando ConstruyeRD abra sus puertas.<br>Eres parte de los fundadores.</div>
-        <div class="success-share">
-          <button class="share-btn" onclick="compartir()">Comparte con alguien que construye en RD</button>
-        </div>
+      <div class="form-group">
+        <label>WhatsApp (con código de país)</label>
+        <input type="tel" id="whatsapp" placeholder="+1 809 000 0000" required>
       </div>
+      <div class="form-group">
+        <label>¿Desde dónde nos escribes?</label>
+        <select id="pais" required>
+          <option value="">Selecciona...</option>
+          <option value="RD">República Dominicana</option>
+          <option value="USA">Estados Unidos</option>
+          <option value="ES">España</option>
+          <option value="IT">Italia</option>
+          <option value="PR">Puerto Rico</option>
+          <option value="otro">Otro país</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>¿Qué quieres hacer?</label>
+        <select id="objetivo" required>
+          <option value="">Selecciona...</option>
+          <option value="construir">Construir una casa en RD</option>
+          <option value="maestro">Encontrar un maestro confiable</option>
+          <option value="supervisar">Supervisar mi obra desde el extranjero</option>
+          <option value="trabajador">Registrarme como trabajador / maestro</option>
+          <option value="ver">Solo quiero ver cómo funciona</option>
+        </select>
+      </div>
+      <button class="btn-submit" onclick="submitForm()">Quiero ser de los primeros →</button>
+      <p class="form-note">✅ Gratis para siempre · 🔒 Sin spam · Solo te avisamos cuando lancemos</p>
+    </div>
+
+    <div class="form-success" id="form-success">
+      <div class="success-icon">✅</div>
+      <h3>¡Ya estás dentro!</h3>
+      <p>Te avisamos por WhatsApp cuando ConstruyeRD abra sus puertas.<br>Eres parte de los fundadores.</p>
+      <button class="share-btn" onclick="shareWhatsApp()">
+        📱 Compartir por WhatsApp
+      </button>
     </div>
   </div>
 
-  <div class="trust-row">
-    <div class="trust-item"><div class="trust-dot"></div>100% gratis registrarse</div>
-    <div class="trust-item"><div class="trust-dot"></div>Precios reales del mercado</div>
-    <div class="trust-item"><div class="trust-dot"></div>Trabajadores verificados</div>
-    <div class="trust-item"><div class="trust-dot"></div>Supervisión desde el extranjero</div>
-  </div>
-
-  <div class="counter-wrap">
-    <div class="counter-num" id="counterNum">47</div>
-    <div class="counter-label"><strong>personas registradas</strong>esperando el lanzamiento</div>
-  </div>
-</section>
-
-<section class="benefits">
-  <div class="benefits-inner">
-    <div class="section-tag">Por qué ConstruyeRD</div>
-    <div class="section-title">Todo lo que<br>necesitas para <span>construir bien</span></div>
-    <div class="benefits-grid">
-      <div class="benefit-card">
-        <div class="benefit-icon bi-green">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        </div>
-        <div class="benefit-title">Presupuesto inteligente</div>
-        <div class="benefit-desc">Calcula cemento, blocks, varillas, mano de obra y acabados con precios reales y actualizados del mercado dominicano.</div>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon bi-blue">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <div class="benefit-title">Maestros verificados</div>
-        <div class="benefit-desc">Directorio de trabajadores con historial real, fotos de proyectos anteriores, valoraciones de clientes y precio por día.</div>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon bi-amber">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.845v6.31a1 1 0 0 1-1.447.894L15 14"/><rect x="1" y="6" width="15" height="13" rx="2"/></svg>
-        </div>
-        <div class="benefit-title">Supervisión remota</div>
-        <div class="benefit-desc">Fotos y videos diarios del avance, aprueba gastos desde tu teléfono y habla directo con el maestro — desde donde estés.</div>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon bi-red">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div class="benefit-title">Control total de gastos</div>
-        <div class="benefit-desc">Todos los comprobantes organizados, historial de materiales y alertas cuando algo se sale del presupuesto.</div>
-      </div>
+  <!-- COUNTER -->
+  <div class="counter-strip" style="width:100%; max-width:460px; margin-top:1.5rem; border-radius: 14px;">
+    <div class="counter-item">
+      <span class="counter-number" id="counter">127</span>
+      <span class="counter-label">registrados</span>
+    </div>
+    <div class="counter-item">
+      <span class="counter-number">200</span>
+      <span class="counter-label">cupos premium</span>
+    </div>
+    <div class="counter-item">
+      <span class="counter-number">73</span>
+      <span class="counter-label">cupos restantes</span>
     </div>
   </div>
 </section>
 
-<section class="forwho">
-  <div class="forwho-inner">
-    <div class="section-tag">Para quién es</div>
-    <div class="section-title">Hecho para <span>ti</span></div>
-    <div class="audience-grid">
-      <div class="audience-card">
-        <div class="aud-flag">🇩🇴</div>
-        <div>
-          <div class="aud-title">Dominicanos en RD</div>
-          <div class="aud-desc">Que quieren construir sin que les cobren de más y con maestros de confianza verificados.</div>
-        </div>
-      </div>
-      <div class="audience-card">
-        <div class="aud-flag">🇺🇸</div>
-        <div>
-          <div class="aud-title">Dominicanos en USA</div>
-          <div class="aud-desc">Que sueñan con construir en RD pero no pueden supervisar su obra en persona.</div>
-        </div>
-      </div>
-      <div class="audience-card">
-        <div class="aud-flag">🌍</div>
-        <div>
-          <div class="aud-title">Diáspora en Europa</div>
-          <div class="aud-desc">España, Italia, Francia — dominicanos que quieren invertir en su tierra sin perder el dinero.</div>
-        </div>
-      </div>
-      <div class="audience-card">
-        <div class="aud-flag">🔨</div>
-        <div>
-          <div class="aud-title">Maestros y trabajadores</div>
-          <div class="aud-desc">Que quieren más clientes, mejor reputación y proyectos organizados con comprobantes digitales.</div>
-        </div>
-      </div>
+<!-- FEATURES -->
+<section id="funciones" style="background: var(--bg);">
+  <div class="section-title">
+    <h2>Todo lo que necesitas<br>para construir bien</h2>
+    <p>Herramientas reales para el mercado dominicano</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>Presupuesto inteligente</h3>
+      <p>Calcula cemento, blocks, varillas, mano de obra y acabados con precios reales y actualizados del mercado dominicano.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👷</div>
+      <h3>Maestros verificados</h3>
+      <p>Directorio de trabajadores con historial real, fotos de proyectos anteriores, valoraciones de clientes y precio por día.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📡</div>
+      <h3>Supervisión remota</h3>
+      <p>Fotos y videos diarios del avance, aprueba gastos desde tu teléfono y habla directo con el maestro — desde donde estés.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>Control total de gastos</h3>
+      <p>Todos los comprobantes organizados, historial de materiales y alertas cuando algo se sale del presupuesto.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <h3>App móvil completa</h3>
+      <p>Gestiona tu proyecto completo desde el teléfono. Notificaciones en tiempo real y chat directo con tu equipo de construcción.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤝</div>
+      <h3>Contratos digitales</h3>
+      <p>Genera contratos con términos claros, pagos programados y garantías. Todo firmado digitalmente y protegido por ley.</p>
     </div>
   </div>
 </section>
 
-<section class="final-cta">
-  <h2>Sé de los<br><span>primeros</span></h2>
-  <p>Los primeros 200 registrados tendrán acceso gratuito de por vida a las funciones premium de ConstruyeRD.</p>
-  <button class="final-btn" onclick="document.getElementById('nombre').focus();window.scrollTo({top:0,behavior:'smooth'})">Registrarme gratis ahora →</button>
+<!-- CALCULATOR -->
+<section id="calculadora" class="calc-section">
+  <div class="section-title">
+    <h2>Calculadora de presupuesto</h2>
+    <p>Estima el costo de tu construcción con precios del mercado dominicano</p>
+  </div>
+  <div class="calc-card">
+    <div class="calc-grid">
+      <div class="calc-field">
+        <label>Metros cuadrados (m²)</label>
+        <input type="number" id="metros" placeholder="Ej. 80" min="20" max="5000">
+      </div>
+      <div class="calc-field">
+        <label>Tipo de construcción</label>
+        <select id="tipo-construccion">
+          <option value="economica">Económica / básica</option>
+          <option value="media" selected>Nivel medio</option>
+          <option value="alta">Alto nivel / premium</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label>Número de plantas</label>
+        <select id="plantas">
+          <option value="1">1 planta</option>
+          <option value="2">2 plantas</option>
+          <option value="3">3 plantas</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label>Zona / provincia</label>
+        <select id="zona">
+          <option value="sd">Santo Domingo</option>
+          <option value="stgo">Santiago</option>
+          <option value="interior">Interior del país</option>
+          <option value="turistica">Zona turística</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-calc" onclick="calcular()">Calcular presupuesto estimado →</button>
+
+    <div class="calc-results" id="calc-results">
+      <div class="results-grid">
+        <div class="result-box">
+          <span>Materiales</span>
+          <strong id="r-materiales">—</strong>
+        </div>
+        <div class="result-box">
+          <span>Mano de obra</span>
+          <strong id="r-mano">—</strong>
+        </div>
+        <div class="result-box">
+          <span>Acabados</span>
+          <strong id="r-acabados">—</strong>
+        </div>
+      </div>
+      <div class="result-total">
+        <span>💰 Presupuesto total estimado</span>
+        <strong id="r-total">—</strong>
+      </div>
+      <p style="margin-top:1rem; font-size:0.78rem; color:rgba(255,255,255,0.5); text-align:center;">
+        * Estimación referencial. El precio final puede variar según especificaciones y condiciones del terreno.
+      </p>
+    </div>
+  </div>
 </section>
 
+<!-- FOR WHOM -->
+<section id="para-quien" style="background: var(--bg);">
+  <div class="section-title">
+    <h2>Hecho para ti</h2>
+    <p>ConstruyeRD entiende tus necesidades específicas</p>
+  </div>
+  <div class="audience-grid">
+    <div class="audience-card">
+      <span class="audience-flag">🇩🇴</span>
+      <h3>Dominicanos en RD</h3>
+      <p>Construye sin que te cobren de más y con maestros verificados de confianza.</p>
+    </div>
+    <div class="audience-card">
+      <span class="audience-flag">🇺🇸</span>
+      <h3>Dominicanos en USA</h3>
+      <p>Supervisa tu obra en RD en tiempo real desde cualquier ciudad de los Estados Unidos.</p>
+    </div>
+    <div class="audience-card">
+      <span class="audience-flag">🌍</span>
+      <h3>Diáspora en Europa</h3>
+      <p>España, Italia, Francia — invierte en tu tierra sin perder dinero ni confianza.</p>
+    </div>
+    <div class="audience-card">
+      <span class="audience-flag">🔨</span>
+      <h3>Maestros y trabajadores</h3>
+      <p>Consigue más clientes, mejor reputación y proyectos organizados con comprobantes digitales.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Sé de los primeros en acceder</h2>
+  <p>Los primeros 200 registrados tendrán acceso gratuito de por vida a las funciones premium.</p>
+  <a href="#inicio" class="btn-cta" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">
+    Registrarme gratis ahora →
+  </a>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <strong>ConstruyeRD</strong> · La plataforma de construcción de República Dominicana · 2025
+  <p><strong style="color:#fff;">ConstruyeRD</strong> · La plataforma de construcción de República Dominicana · 2025</p>
+  <p style="margin-top:6px;"><a href="mailto:hola@construyerd.com">hola@construyerd.com</a> · <a href="#">WhatsApp</a></p>
 </footer>
 
-<script>
-let count = 47;
+<!-- CHAT TOGGLE -->
+<button id="chat-toggle" onclick="toggleChat()" title="Habla con un asesor">
+  💬
+  <div class="badge">1</div>
+</button>
 
-function registrar(){
+<!-- CHAT WINDOW -->
+<div id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">🏗️</div>
+    <div class="chat-header-info">
+      <h3>RD Asistente</h3>
+      <div class="chat-status">
+        <div class="chat-dot"></div>
+        <p>En línea ahora · ConstruyeRD</p>
+      </div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+
+  <div class="chat-quick-buttons">
+    <button class="quick-btn" onclick="quickSend('¿Cómo funciona ConstruyeRD?')">¿Cómo funciona?</button>
+    <button class="quick-btn" onclick="quickSend('¿Cuánto cuesta construir una casa en RD?')">Precios</button>
+    <button class="quick-btn" onclick="quickSend('Quiero supervisar mi obra desde el extranjero')">Desde el exterior</button>
+    <button class="quick-btn" onclick="quickSend('¿Cómo encuentro un maestro confiable?')">Maestros</button>
+  </div>
+
+  <div class="chat-messages" id="chat-messages">
+    <div class="msg bot">
+      <div class="msg-bubble">¡Hola! 👋 Soy el asistente de <strong>ConstruyeRD</strong>. Estoy aquí para ayudarte a planificar tu proyecto de construcción en República Dominicana.<br><br>¿Qué deseas hacer — construir, supervisar una obra o encontrar maestros confiables?</div>
+      <div class="msg-time">Ahora</div>
+    </div>
+  </div>
+
+  <div class="chat-input-area">
+    <textarea id="chat-input" placeholder="Escribe tu mensaje..." rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
+      oninput="autoResize(this)"></textarea>
+    <button id="send-btn" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+// ── FORM ──
+let registered = 0;
+let registros = JSON.parse(localStorage.getItem('crd_registros') || '[]');
+let counter = parseInt(localStorage.getItem('crd_counter') || '127');
+
+document.getElementById('counter').textContent = counter;
+updateCupos();
+
+function updateCupos() {
+  const cupos = Math.max(0, 200 - counter);
+  const els = document.querySelectorAll('.counter-number');
+  if (els[0]) els[0].textContent = counter;
+  if (els[2]) els[2].textContent = cupos;
+}
+
+function submitForm() {
   const nombre = document.getElementById('nombre').value.trim();
   const wa = document.getElementById('whatsapp').value.trim();
   const pais = document.getElementById('pais').value;
-  const interes = document.getElementById('interes').value;
-  if(!nombre || !wa || !pais || !interes){
-    alert('Por favor completa todos los campos para registrarte.');
-    return;
-  }
-  count++;
-  document.getElementById('counterNum').textContent = count;
-  document.getElementById('formSection').style.display = 'none';
-  document.getElementById('successSection').style.display = 'block';
+  const obj = document.getElementById('objetivo').value;
+
+  if (!nombre) { alert('Por favor ingresa tu nombre.'); document.getElementById('nombre').focus(); return; }
+  if (!wa || wa.length < 8) { alert('Por favor ingresa tu WhatsApp con código de país.'); document.getElementById('whatsapp').focus(); return; }
+  if (!pais) { alert('Selecciona tu país de origen.'); return; }
+  if (!obj) { alert('Selecciona lo que quieres hacer.'); return; }
+
+  const entry = { nombre, wa, pais, obj, fecha: new Date().toISOString() };
+  registros.push(entry);
+  localStorage.setItem('crd_registros', JSON.stringify(registros));
+
+  counter++;
+  localStorage.setItem('crd_counter', counter);
+  updateCupos();
+
+  document.getElementById('form-content').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+
+  // Remove badge from chat after register
+  const badge = document.querySelector('#chat-toggle .badge');
+  if (badge) badge.style.display = 'none';
+
+  // Auto-open chat with personalized message
+  setTimeout(() => {
+    if (!chatOpen) toggleChat();
+    addBotMessage(`¡Bienvenido/a ${nombre}! 🎉 Ya estás registrado/a como fundador/a de ConstruyeRD. ¿Te puedo ayudar a planificar algo mientras esperamos el lanzamiento?`);
+  }, 1500);
 }
 
-function compartir(){
-  const texto = '¡Me registré en ConstruyeRD! La plataforma para construir en República Dominicana sin sorpresas. Presupuestos reales, maestros verificados y supervisión remota. Regístrate gratis antes del lanzamiento 👇';
-  if(navigator.share){
-    navigator.share({title:'ConstruyeRD',text:texto,url:window.location.href});
-  } else {
-    navigator.clipboard.writeText(texto + '\n' + window.location.href).then(()=>{
-      alert('Texto copiado. Pégalo en WhatsApp o Instagram.');
-    });
+function shareWhatsApp() {
+  const text = encodeURIComponent('¡Regístrate gratis en ConstruyeRD antes del lanzamiento! La plataforma dominicana para construir sin sorpresas 🏗️🇩🇴 https://heredialeuri95-art.github.io/ConstruyeRD/construyerd_waitlist.html');
+  window.open('https://wa.me/?text=' + text, '_blank');
+}
+
+// ── CALCULATOR ──
+const PRECIOS = {
+  economica: { mat: 18000, mano: 8000, acabados: 4000 },
+  media:     { mat: 28000, mano: 12000, acabados: 9000 },
+  alta:      { mat: 45000, mano: 18000, acabados: 22000 },
+};
+const ZONA_MULT = { sd: 1.0, stgo: 0.92, interior: 0.82, turistica: 1.18 };
+const PLANTA_MULT = { 1: 1, 2: 1.85, 3: 2.6 };
+
+function calcular() {
+  const m2 = parseFloat(document.getElementById('metros').value);
+  if (!m2 || m2 < 10) { alert('Ingresa los metros cuadrados del proyecto.'); return; }
+
+  const tipo = document.getElementById('tipo-construccion').value;
+  const plantas = document.getElementById('plantas').value;
+  const zona = document.getElementById('zona').value;
+
+  const base = PRECIOS[tipo];
+  const zm = ZONA_MULT[zona];
+  const pm = PLANTA_MULT[plantas];
+
+  const materiales = Math.round(m2 * base.mat * zm * pm);
+  const mano = Math.round(m2 * base.mano * zm * pm);
+  const acabados = Math.round(m2 * base.acabados * zm * pm);
+  const total = materiales + mano + acabados;
+
+  const fmt = n => 'RD$' + n.toLocaleString('es-DO');
+
+  document.getElementById('r-materiales').textContent = fmt(materiales);
+  document.getElementById('r-mano').textContent = fmt(mano);
+  document.getElementById('r-acabados').textContent = fmt(acabados);
+  document.getElementById('r-total').textContent = fmt(total);
+
+  document.getElementById('calc-results').classList.add('visible');
+  document.getElementById('calc-results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Offer chat follow-up
+  setTimeout(() => {
+    if (!chatOpen) toggleChat();
+    addBotMessage(`Vi que calculaste un proyecto de ${m2}m² — ¡buena elección! El estimado de RD$${total.toLocaleString('es-DO')} puede variar según el terreno y especificaciones. ¿Quieres que te explique cómo ahorrar en algún área específica?`);
+  }, 800);
+}
+
+// ── CHAT ──
+let chatOpen = false;
+let isTyping = false;
+
+const SYSTEM_PROMPT = `Eres el asistente virtual de ConstruyeRD, la primera plataforma dominicana para presupuestar, contratar y supervisar construcciones. Tu objetivo es:
+
+1. Responder preguntas sobre construcción en República Dominicana con conocimiento local
+2. Atraer y convencer a clientes potenciales de registrarse
+3. Ayudar a dominicanos en el exterior que quieren construir en RD
+4. Dar información de precios reales del mercado dominicano (cemento, blocks, varillas, mano de obra)
+5. Explicar cómo funciona la plataforma
+
+CONTEXTO DE LA PLATAFORMA:
+- Presupuesto inteligente con precios actuales del mercado RD
+- Directorio de maestros verificados con historial y valoraciones
+- Supervisión remota con fotos/videos diarios para la diáspora
+- Control de gastos y comprobantes digitales
+- Contratos digitales con garantías
+
+PRECIOS APROXIMADOS EN RD (para referencia):
+- Block estándar: RD$35-45 cada uno
+- Saco de cemento: RD$550-650
+- Varilla #3: RD$180-220 cada una
+- Mano de obra maestro: RD$3,000-5,000/día
+- Ayudante: RD$1,200-1,800/día
+- Costo construcción básica: RD$18,000-22,000/m²
+- Costo construcción media: RD$28,000-38,000/m²
+- Costo construcción premium: RD$50,000-80,000/m²
+
+TONO: Amigable, profesional, dominicano. Usa términos locales. Menciona la plataforma cuando sea relevante. Sé conciso (máximo 3 párrafos por respuesta). Si preguntan sobre registro, diles que es GRATIS y que los primeros 200 tienen acceso premium de por vida.`;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chat-window').classList.toggle('open', chatOpen);
+  if (chatOpen) {
+    document.querySelector('#chat-toggle .badge').style.display = 'none';
+    document.getElementById('chat-input').focus();
   }
 }
 
-const observer = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting) e.target.classList.add('fade-in');
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+}
+
+function getCurrentTime() {
+  return new Date().toLocaleTimeString('es-DO', { hour: '2-digit', minute: '2-digit' });
+}
+
+function addUserMessage(text) {
+  const msgs = document.getElementById('chat-messages');
+  msgs.innerHTML += `
+    <div class="msg user">
+      <div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>
+      <div class="msg-time">${getCurrentTime()}</div>
+    </div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addBotMessage(text) {
+  const msgs = document.getElementById('chat-messages');
+  msgs.innerHTML += `
+    <div class="msg bot">
+      <div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>
+      <div class="msg-time">${getCurrentTime()}</div>
+    </div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg bot';
+  div.id = 'typing-row';
+  div.innerHTML = `<div class="typing-indicator show"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('typing-row');
+  if (t) t.remove();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text || isTyping) return;
+
+  input.value = '';
+  input.style.height = '40px';
+  addUserMessage(text);
+  isTyping = true;
+  showTyping();
+
+  // Build conversation history
+  const msgs = document.querySelectorAll('.msg');
+  const history = [];
+  msgs.forEach(m => {
+    const bubble = m.querySelector('.msg-bubble');
+    if (!bubble) return;
+    const content = bubble.innerText;
+    if (m.classList.contains('user')) {
+      history.push({ role: 'user', content });
+    } else if (m.classList.contains('bot') && content !== text) {
+      history.push({ role: 'assistant', content });
+    }
   });
-},{threshold:0.1});
-document.querySelectorAll('.benefit-card,.audience-card').forEach(el=>observer.observe(el));
+  history.push({ role: 'user', content: text });
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: history.slice(-12)
+      })
+    });
+
+    const data = await res.json();
+    hideTyping();
+
+    const reply = data?.content?.[0]?.text || 'Lo siento, hubo un problema. Intenta de nuevo.';
+    addBotMessage(reply);
+  } catch (e) {
+    hideTyping();
+    addBotMessage('Hubo un problema de conexión. Puedes escribirnos directo a WhatsApp o intentar de nuevo en unos segundos. 🙏');
+  }
+
+  isTyping = false;
+}
+
+function quickSend(text) {
+  document.getElementById('chat-input').value = text;
+  sendMessage();
+}
+
+// ── COUNTER ANIMATION ──
+function animateCounter(el, target, duration = 1500) {
+  const start = parseInt(el.textContent);
+  const diff = target - start;
+  const startTime = performance.now();
+  function update(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    el.textContent = Math.round(start + diff * progress);
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// Observe counter to animate
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCounter(document.getElementById('counter'), counter);
+      obs.disconnect();
+    }
+  });
+});
+obs.observe(document.getElementById('counter'));
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
 </script>
 </body>
 </html>
