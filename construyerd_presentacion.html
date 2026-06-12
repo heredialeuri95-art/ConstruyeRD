@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ConstruyeRD — Construye sin sorpresas</title>
+<title>ConstruyeRD — Construye sin sorpresas 🇩🇴</title>
+<meta name="description" content="La primera plataforma dominicana para presupuestar, contratar maestros verificados y supervisar tu obra. 100% gratis.">
 <meta property="og:title" content="ConstruyeRD — Construye sin sorpresas 🇩🇴">
 <meta property="og:description" content="Presupuesta, contrata maestros verificados y supervisa tu obra desde donde estés. 100% gratis.">
 <meta property="og:url" content="https://heredialeuri95-art.github.io/ConstruyeRD/construyerd_presentacion.html">
@@ -11,211 +12,236 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:#0B1D35;color:#fff;overflow-x:hidden;min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:#0B1D35;color:#fff;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
 
-/* FONDO ANIMADO */
-body::before{
-  content:'';position:fixed;inset:0;
-  background:radial-gradient(ellipse 60% 40% at 80% 20%,rgba(201,168,76,0.07) 0%,transparent 60%),
-             radial-gradient(ellipse 50% 60% at 10% 80%,rgba(28,53,88,0.8) 0%,transparent 50%);
-  pointer-events:none;z-index:0;
-}
+/* FONDO */
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 70% 50% at 85% 10%,rgba(201,168,76,0.07) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 70% at 5% 90%,rgba(15,37,64,0.9) 0%,transparent 60%)}
 
-.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 20px 60px}
+.wrap{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:0 22px 72px}
 
-/* HERO */
-.hero{text-align:center;padding:60px 0 40px}
-.flag-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:99px;padding:6px 18px;font-size:12px;font-weight:600;color:#E4C06E;letter-spacing:1px;text-transform:uppercase;margin-bottom:28px}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(38px,8vw,64px);font-weight:900;line-height:1.08;margin-bottom:16px}
-.hero h1 em{color:#C9A84C;font-style:italic}
-.hero p{font-size:clamp(14px,3vw,17px);color:rgba(255,255,255,0.65);line-height:1.7;max-width:480px;margin:0 auto 36px}
+/* ─── HERO ─── */
+.hero{text-align:center;padding:56px 0 44px}
 
-/* BOTÓN PRINCIPAL */
-.btn-enter{
-  display:inline-flex;align-items:center;gap:10px;
-  background:#C9A84C;color:#0B1D35;
-  text-decoration:none;
-  padding:18px 40px;border-radius:14px;
+.top-flag{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,0.10);border:1px solid rgba(201,168,76,0.28);
+  border-radius:99px;padding:6px 20px;font-size:11px;font-weight:600;
+  color:#C9A84C;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:30px}
+
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(42px,9vw,72px);
+  font-weight:900;line-height:1.06;margin-bottom:18px;
+  background:linear-gradient(135deg,#fff 40%,#C9A84C 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.hero p.lead{font-size:clamp(14px,3vw,17px);color:rgba(255,255,255,0.62);
+  line-height:1.72;max-width:500px;margin:0 auto 38px}
+
+/* BTN ENTRAR */
+.btn-enter{display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#C9A84C,#E4C06E);
+  color:#0B1D35;padding:18px 42px;border-radius:14px;
   font-family:'Playfair Display',serif;font-size:18px;font-weight:700;
-  transition:all 0.25s;
-  box-shadow:0 8px 32px rgba(201,168,76,0.30);
-  animation:pulse-btn 2.5s ease-in-out infinite;
-}
-@keyframes pulse-btn{
-  0%,100%{box-shadow:0 8px 32px rgba(201,168,76,0.30)}
-  50%{box-shadow:0 8px 48px rgba(201,168,76,0.55)}
-}
-.btn-enter:hover{background:#E4C06E;transform:translateY(-3px)}
+  box-shadow:0 8px 40px rgba(201,168,76,0.35);
+  transition:all .25s;cursor:pointer;border:none}
+.btn-enter:hover{transform:translateY(-3px);box-shadow:0 14px 50px rgba(201,168,76,0.50)}
 .btn-enter:active{transform:translateY(0)}
-.btn-arrow{font-size:22px;transition:transform 0.2s}
-.btn-enter:hover .btn-arrow{transform:translateX(4px)}
+.arr{transition:transform .2s}
+.btn-enter:hover .arr{transform:translateX(5px)}
 
-.trust-row{display:flex;justify-content:center;gap:20px;margin-top:16px;flex-wrap:wrap}
-.trust-item{font-size:12px;color:rgba(255,255,255,0.40);display:flex;align-items:center;gap:5px}
-.trust-dot{width:5px;height:5px;background:#68D391;border-radius:50%}
+.trust{display:flex;justify-content:center;gap:22px;margin-top:18px;flex-wrap:wrap}
+.trust span{font-size:12px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:5px}
+.dot{width:5px;height:5px;background:#68D391;border-radius:50%;display:inline-block}
 
 /* DIVIDER */
-.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.25),transparent);margin:36px 0}
+.div{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.22),transparent);margin:40px 0}
 
-/* LABEL */
-.section-lbl{font-size:11px;font-weight:700;color:#C9A84C;text-transform:uppercase;letter-spacing:2px;text-align:center;margin-bottom:20px}
+/* LABELS */
+.slbl{font-size:11px;font-weight:700;color:#C9A84C;text-transform:uppercase;
+  letter-spacing:2.5px;text-align:center;margin-bottom:22px}
 
-/* CARDS BENEFICIOS */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:36px}
-.card{background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.18);border-radius:14px;padding:22px 18px;text-align:center;transition:all 0.25s}
-.card:hover{border-color:rgba(201,168,76,0.45);transform:translateY(-3px)}
-.card-ic{font-size:28px;margin-bottom:12px}
-.card h3{font-family:'Playfair Display',serif;font-size:15px;color:#C9A84C;margin-bottom:7px}
-.card p{font-size:13px;color:rgba(255,255,255,0.50);line-height:1.55}
+/* ─── BENEFICIOS ─── */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:10px}
+@media(min-width:540px){.cards{grid-template-columns:repeat(4,1fr)}}
+.card{background:rgba(19,38,66,0.8);border:1px solid rgba(201,168,76,0.14);
+  border-radius:14px;padding:22px 16px;text-align:center;
+  transition:all .25s;cursor:default}
+.card:hover{border-color:rgba(201,168,76,0.40);transform:translateY(-4px);
+  box-shadow:0 12px 36px rgba(0,0,0,0.3)}
+.card .ic{font-size:28px;margin-bottom:12px}
+.card h3{font-family:'Playfair Display',serif;font-size:14px;color:#C9A84C;margin-bottom:7px}
+.card p{font-size:12px;color:rgba(255,255,255,0.48);line-height:1.58}
 
-/* PASOS */
-.steps{display:flex;gap:0;align-items:flex-start;justify-content:center;margin-bottom:36px;flex-wrap:wrap}
-.step{text-align:center;flex:1;min-width:120px;padding:0 8px}
-.step-num{width:40px;height:40px;background:rgba(201,168,76,0.15);border:1.5px solid rgba(201,168,76,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#C9A84C;margin:0 auto 10px}
+/* ─── PASOS ─── */
+.steps{display:flex;align-items:flex-start;justify-content:center;gap:0;flex-wrap:wrap;margin-bottom:10px}
+.step{flex:1;min-width:120px;text-align:center;padding:0 6px}
+.step-num{width:44px;height:44px;
+  background:rgba(201,168,76,0.10);border:1.5px solid rgba(201,168,76,0.35);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:20px;font-weight:700;
+  color:#C9A84C;margin:0 auto 12px}
 .step h4{font-size:13px;font-weight:600;color:#fff;margin-bottom:4px}
-.step p{font-size:11px;color:rgba(255,255,255,0.40)}
-.step-arrow{font-size:18px;color:rgba(201,168,76,0.35);padding-top:10px;flex-shrink:0}
+.step p{font-size:11px;color:rgba(255,255,255,0.38)}
+.step-arr{font-size:20px;color:rgba(201,168,76,0.30);padding-top:12px;flex-shrink:0}
+@media(max-width:480px){.step-arr{display:none}.step{min-width:50%}}
 
-/* MAESTROS */
-.maestros{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:36px}
-.maestro{background:rgba(19,38,66,0.8);border:1px solid rgba(47,133,90,0.25);border-radius:12px;padding:16px 14px;text-align:center}
-.mae-ic{font-size:24px;margin-bottom:8px}
-.mae-name{font-family:'Playfair Display',serif;font-size:15px;color:#fff;margin-bottom:4px}
-.mae-esp{font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:8px}
-.verified{display:inline-flex;align-items:center;gap:4px;background:rgba(47,133,90,0.15);border:1px solid rgba(72,187,120,0.3);border-radius:99px;padding:2px 10px;font-size:10px;font-weight:700;color:#68D391}
+/* ─── MAESTROS ─── */
+.maestros{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:10px}
+@media(max-width:420px){.maestros{grid-template-columns:1fr}}
+.mae{background:rgba(19,38,66,0.85);border:1px solid rgba(47,133,90,0.22);
+  border-radius:14px;padding:20px 14px;text-align:center;
+  transition:all .25s}
+.mae:hover{border-color:rgba(72,187,120,0.45);transform:translateY(-3px)}
+.mae-ic{font-size:26px;margin-bottom:10px}
+.mae-name{font-family:'Playfair Display',serif;font-size:16px;color:#fff;margin-bottom:5px}
+.mae-esp{font-size:11px;color:rgba(255,255,255,0.42);margin-bottom:10px}
+.verified{display:inline-flex;align-items:center;gap:4px;
+  background:rgba(47,133,90,0.14);border:1px solid rgba(72,187,120,0.28);
+  border-radius:99px;padding:3px 12px;font-size:10px;font-weight:700;color:#68D391}
+.mae-wa{display:block;margin-top:10px;
+  background:#25D366;color:#fff;border-radius:8px;
+  padding:8px 0;font-size:12px;font-weight:600;
+  transition:background .2s}
+.mae-wa:hover{background:#1ebe5c}
 
-/* CTA FINAL */
-.cta-box{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.30);border-radius:18px;padding:36px 24px;text-align:center}
-.cta-box h2{font-family:'Playfair Display',serif;font-size:clamp(20px,4vw,28px);margin-bottom:10px}
-.cta-box p{font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:24px;line-height:1.6}
-.link-pill{display:inline-block;background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.25);border-radius:99px;padding:8px 20px;font-size:11px;color:rgba(255,255,255,0.45);margin-top:14px;word-break:break-all}
+/* ─── NÚMEROS ─── */
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:10px}
+.num-card{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);
+  border-radius:14px;padding:20px 14px;text-align:center}
+.num-card strong{display:block;font-family:'Playfair Display',serif;
+  font-size:28px;font-weight:900;color:#C9A84C;margin-bottom:5px}
+.num-card span{font-size:12px;color:rgba(255,255,255,0.42)}
+
+/* ─── PROBLEMAS ─── */
+.probs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:10px}
+@media(min-width:540px){.probs{grid-template-columns:repeat(4,1fr)}}
+.prob{background:rgba(180,20,40,0.07);border:1px solid rgba(200,16,46,0.18);
+  border-radius:12px;padding:16px 14px;font-size:13px;
+  color:rgba(255,255,255,0.65);line-height:1.55}
+.prob .pic{font-size:22px;margin-bottom:8px}
+
+/* ─── CTA FINAL ─── */
+.cta-box{background:rgba(201,168,76,0.07);border:1.5px solid rgba(201,168,76,0.28);
+  border-radius:20px;padding:42px 28px;text-align:center}
+.cta-box h2{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,32px);
+  margin-bottom:12px;line-height:1.2}
+.cta-box p{font-size:14px;color:rgba(255,255,255,0.52);margin-bottom:28px;line-height:1.65}
+.url-pill{display:inline-block;background:rgba(0,0,0,0.3);
+  border:1px solid rgba(201,168,76,0.22);border-radius:99px;
+  padding:8px 22px;font-size:11px;color:rgba(255,255,255,0.38);
+  margin-top:16px;word-break:break-all}
 
 /* FOOTER */
-.footer{text-align:center;padding-top:28px;font-size:12px;color:rgba(255,255,255,0.22)}
-
-@media(max-width:480px){
-  .maestros{grid-template-columns:1fr}
-  .steps{flex-direction:column;align-items:center}
-  .step-arrow{display:none}
-}
+.footer{text-align:center;padding-top:32px;font-size:12px;color:rgba(255,255,255,0.20)}
 </style>
 </head>
 <body>
+<div class="bg-glow"></div>
 <div class="wrap">
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="flag-badge">🇩🇴 Plataforma activa · República Dominicana</div>
-    <h1>Construye <em>sin sorpresas</em></h1>
-    <p>La primera plataforma dominicana para presupuestar, contratar maestros verificados y supervisar tu obra — desde RD o desde el extranjero.</p>
-
-    <a href="https://heredialeuri95-art.github.io/ConstruyeRD/construyerd_waitlist.html" class="btn-enter">
-      🏗️ Entrar a ConstruyeRD <span class="btn-arrow">→</span>
-    </a>
-
-    <div class="trust-row">
-      <span class="trust-item"><span class="trust-dot"></span>100% gratis</span>
-      <span class="trust-item"><span class="trust-dot"></span>Sin tarjeta de crédito</span>
-      <span class="trust-item"><span class="trust-dot"></span>Sin spam</span>
-    </div>
+<!-- HERO -->
+<div class="hero">
+  <div class="top-flag">🇩🇴 Plataforma activa · República Dominicana</div>
+  <h1>Construye<br><em style="-webkit-text-fill-color:#C9A84C;color:#C9A84C">sin sorpresas</em></h1>
+  <p class="lead">La primera plataforma dominicana para presupuestar, contratar maestros verificados y supervisar tu obra — desde RD o desde el extranjero.</p>
+  <a href="https://heredialeuri95-art.github.io/ConstruyeRD/construyerd_waitlist.html" class="btn-enter">
+    🏗️ Entrar a ConstruyeRD <span class="arr">→</span>
+  </a>
+  <div class="trust">
+    <span><span class="dot"></span>100% gratis</span>
+    <span><span class="dot"></span>Sin tarjeta de crédito</span>
+    <span><span class="dot"></span>Sin spam</span>
   </div>
+</div>
 
-  <div class="divider"></div>
+<div class="div"></div>
 
-  <!-- BENEFICIOS -->
-  <div class="section-lbl">¿Qué puedes hacer?</div>
-  <div class="cards">
-    <div class="card">
-      <div class="card-ic">🧮</div>
-      <h3>Presupuesto real</h3>
-      <p>Calcula el costo de tu obra con precios reales del mercado dominicano</p>
-    </div>
-    <div class="card">
-      <div class="card-ic">🔨</div>
-      <h3>Maestros verificados</h3>
-      <p>Historial real, fotos de proyectos y contacto directo por WhatsApp</p>
-    </div>
-    <div class="card">
-      <div class="card-ic">📱</div>
-      <h3>Supervisión remota</h3>
-      <p>Supervisa tu obra con fotos y videos diarios desde donde estés</p>
-    </div>
-    <div class="card">
-      <div class="card-ic">📊</div>
-      <h3>Control de gastos</h3>
-      <p>Aprueba cada gasto y recibe alertas si algo se sale del presupuesto</p>
-    </div>
+<!-- NÚMEROS -->
+<div class="slbl">En números</div>
+<div class="nums">
+  <div class="num-card"><strong>47+</strong><span>Personas ya registradas</span></div>
+  <div class="num-card"><strong>3</strong><span>Maestros verificados</span></div>
+  <div class="num-card"><strong>4</strong><span>Países conectados</span></div>
+</div>
+
+<div class="div"></div>
+
+<!-- PROBLEMAS -->
+<div class="slbl">¿Te ha pasado esto?</div>
+<div class="probs">
+  <div class="prob"><div class="pic">😤</div>El maestro te cobró el doble porque no sabías el precio real de los materiales.</div>
+  <div class="prob"><div class="pic">😰</div>Vivías en USA y no podías supervisar. El dinero se fue y la obra no avanzó.</div>
+  <div class="prob"><div class="pic">🤷</div>No sabías si el maestro era confiable. Sin referencias ni historial real.</div>
+  <div class="prob"><div class="pic">💸</div>El presupuesto se salió de control y no podías rastrear cada gasto.</div>
+</div>
+
+<div class="div"></div>
+
+<!-- BENEFICIOS -->
+<div class="slbl">¿Qué puedes hacer?</div>
+<div class="cards">
+  <div class="card"><div class="ic">🧮</div><h3>Presupuesto real</h3><p>Calcula el costo con precios reales del mercado dominicano actualizados</p></div>
+  <div class="card"><div class="ic">🔨</div><h3>Maestros verificados</h3><p>Historial real, fotos de proyectos y contacto directo por WhatsApp</p></div>
+  <div class="card"><div class="ic">📱</div><h3>Supervisión remota</h3><p>Supervisa tu obra con fotos y videos diarios desde donde estés</p></div>
+  <div class="card"><div class="ic">📊</div><h3>Control de gastos</h3><p>Aprueba cada gasto y recibe alertas si algo se sale del presupuesto</p></div>
+</div>
+
+<div class="div"></div>
+
+<!-- PASOS -->
+<div class="slbl">Cómo funciona</div>
+<div class="steps">
+  <div class="step"><div class="step-num">1</div><h4>Regístrate gratis</h4><p>Solo nombre y WhatsApp</p></div>
+  <div class="step-arr">→</div>
+  <div class="step"><div class="step-num">2</div><h4>Calcula tu presupuesto</h4><p>Precios reales actualizados</p></div>
+  <div class="step-arr">→</div>
+  <div class="step"><div class="step-num">3</div><h4>Elige un maestro</h4><p>Verificados con historial</p></div>
+  <div class="step-arr">→</div>
+  <div class="step"><div class="step-num">4</div><h4>Supervisa tu obra</h4><p>Fotos y videos cada día</p></div>
+</div>
+
+<div class="div"></div>
+
+<!-- MAESTROS -->
+<div class="slbl">Maestros verificados en Baní</div>
+<div class="maestros">
+  <div class="mae">
+    <div class="mae-ic">🔨</div>
+    <div class="mae-name">Cuba</div>
+    <div class="mae-esp">Construcción · Blocks · Columnas</div>
+    <span class="verified">✓ Verificado</span>
+    <a href="https://wa.me/18095550001?text=Hola%20Cuba!%20Vi%20tu%20perfil%20en%20ConstruyeRD%20y%20quiero%20una%20cotización." target="_blank" class="mae-wa">📱 WhatsApp</a>
   </div>
-
-  <div class="divider"></div>
-
-  <!-- PASOS -->
-  <div class="section-lbl">Cómo funciona</div>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <h4>Regístrate gratis</h4>
-      <p>Solo tu nombre y WhatsApp</p>
-    </div>
-    <div class="step-arrow">→</div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <h4>Calcula tu presupuesto</h4>
-      <p>Precios reales actualizados</p>
-    </div>
-    <div class="step-arrow">→</div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <h4>Elige un maestro</h4>
-      <p>Verificados con historial</p>
-    </div>
-    <div class="step-arrow">→</div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <h4>Supervisa tu obra</h4>
-      <p>Fotos y videos cada día</p>
-    </div>
+  <div class="mae">
+    <div class="mae-ic">🏗️</div>
+    <div class="mae-name">Paulino</div>
+    <div class="mae-esp">Plomería · Construcción · Acabados</div>
+    <span class="verified">✓ Verificado</span>
+    <a href="https://wa.me/18095550002?text=Hola%20Paulino!%20Vi%20tu%20perfil%20en%20ConstruyeRD%20y%20quiero%20una%20cotización." target="_blank" class="mae-wa">📱 WhatsApp</a>
   </div>
-
-  <div class="divider"></div>
-
-  <!-- MAESTROS -->
-  <div class="section-lbl">Maestros verificados en Baní</div>
-  <div class="maestros">
-    <div class="maestro">
-      <div class="mae-ic">🔨</div>
-      <div class="mae-name">Cuba</div>
-      <div class="mae-esp">Construcción · Blocks</div>
-      <span class="verified">✓ Verificado</span>
-    </div>
-    <div class="maestro">
-      <div class="mae-ic">🏗️</div>
-      <div class="mae-name">Paulino</div>
-      <div class="mae-esp">Plomería · Acabados</div>
-      <span class="verified">✓ Verificado</span>
-    </div>
-    <div class="maestro">
-      <div class="mae-ic">🏠</div>
-      <div class="mae-name">Mello</div>
-      <div class="mae-esp">Construcción · Blocks</div>
-      <span class="verified">✓ Verificado</span>
-    </div>
+  <div class="mae">
+    <div class="mae-ic">🏠</div>
+    <div class="mae-name">Mello</div>
+    <div class="mae-esp">Construcción · Blocks · Acabados</div>
+    <span class="verified">✓ Verificado</span>
+    <a href="https://wa.me/18296744821?text=Hola%20Mello!%20Vi%20tu%20perfil%20en%20ConstruyeRD%20y%20quiero%20una%20cotización." target="_blank" class="mae-wa">📱 WhatsApp</a>
   </div>
+</div>
 
-  <div class="divider"></div>
+<div class="div"></div>
 
-  <!-- CTA FINAL -->
-  <div class="cta-box">
-    <h2>¿Listo para construir sin sorpresas?</h2>
-    <p>Entra gratis ahora mismo. Sin tarjeta, sin compromiso.<br>Los primeros 200 obtienen acceso premium gratis de por vida.</p>
-    <a href="https://heredialeuri95-art.github.io/ConstruyeRD/construyerd_waitlist.html" class="btn-enter">
-      🏗️ Entrar a ConstruyeRD ahora <span class="btn-arrow">→</span>
-    </a>
-    <div class="link-pill">heredialeuri95-art.github.io/ConstruyeRD/construyerd_waitlist.html</div>
-  </div>
+<!-- CTA FINAL -->
+<div class="cta-box">
+  <h2>¿Listo para construir sin sorpresas?</h2>
+  <p>Entra gratis ahora mismo. Sin tarjeta, sin compromiso.<br>Los primeros 200 obtienen acceso premium gratis de por vida.</p>
+  <a href="https://heredialeuri95-art.github.io/ConstruyeRD/construyerd_waitlist.html" class="btn-enter">
+    🏗️ Entrar a ConstruyeRD ahora <span class="arr">→</span>
+  </a>
+  <div class="url-pill">heredialeuri95-art.github.io/ConstruyeRD/construyerd_waitlist.html</div>
+</div>
 
-  <div class="footer">ConstruyeRD · La plataforma de construcción de República Dominicana 🇩🇴</div>
-
+<div class="footer">ConstruyeRD · La plataforma de construcción de República Dominicana 🇩🇴</div>
 </div>
 </body>
 </html>
