@@ -1552,7 +1552,7 @@
 <section style="padding:0;">
   <div class="hero">
     <div class="hero-content">
-      <div class="hero-badge"><span>🇩🇴</span> Lanzamiento próximo · República Dominicana</div>
+      <div class="hero-badge"><span>🇩🇴</span> Plataforma activa · República Dominicana</div>
       <h1>Construye <em>sin sorpresas</em></h1>
       <p class="hero-sub">La primera plataforma dominicana para presupuestar, contratar y supervisar tu construcción — desde RD o desde el extranjero.</p>
       <div class="hero-stats">
@@ -1602,26 +1602,89 @@
         </div>
         <div class="form-group">
           <label>¿Qué quieres hacer?</label>
-          <select id="regGoal">
+          <select id="regGoal" onchange="onGoalChange()">
             <option value="">Selecciona...</option>
-            <option>Construir una casa en RD</option>
-            <option>Encontrar un maestro confiable</option>
-            <option>Supervisar mi obra desde el extranjero</option>
-            <option>Registrarme como trabajador / maestro</option>
-            <option>Solo quiero ver cómo funciona</option>
+            <option value="cliente">Construir una casa en RD</option>
+            <option value="cliente">Encontrar un maestro confiable</option>
+            <option value="cliente">Supervisar mi obra desde el extranjero</option>
+            <option value="maestro">Registrarme como trabajador / maestro</option>
+            <option value="cliente">Solo quiero ver cómo funciona</option>
           </select>
         </div>
-        <button class="btn-submit" onclick="submitRegistration()">
-          Quiero ser de los primeros →
+
+        <!-- CAMPOS EXTRA PARA MAESTROS (ocultos por defecto) -->
+        <div id="maestroFields" style="display:none;">
+          <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:0.82rem;color:rgba(255,255,255,0.6);">
+            🔨 Completa estos datos para aparecer en el directorio verificado
+          </div>
+          <div class="form-group">
+            <label>¿En qué especialidad trabajas?</label>
+            <select id="regEspecialidad">
+              <option value="">Selecciona...</option>
+              <option>Construcción general</option>
+              <option>Plomería</option>
+              <option>Electricidad</option>
+              <option>Carpintería</option>
+              <option>Pintura y acabados</option>
+              <option>Cerámica y pisos</option>
+              <option>Herrería</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>¿En qué zona trabajas?</label>
+            <select id="regZona">
+              <option value="">Selecciona...</option>
+              <option>Baní</option>
+              <option>Santo Domingo</option>
+              <option>Santiago</option>
+              <option>San Pedro de Macorís</option>
+              <option>La Romana</option>
+              <option>Puerto Plata</option>
+              <option>Otra zona</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Precio por día (RD$)</label>
+            <input type="number" id="regPrecio" placeholder="Ej: 2500">
+          </div>
+          <div class="form-group">
+            <label>Años de experiencia</label>
+            <select id="regExperiencia">
+              <option value="">Selecciona...</option>
+              <option>1 - 3 años</option>
+              <option>4 - 7 años</option>
+              <option>8 - 15 años</option>
+              <option>Más de 15 años</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-submit" id="btnSubmit" onclick="submitRegistration()">
+          Entrar a ConstruyeRD →
         </button>
         <div class="form-trust">✅ Gratis para siempre &nbsp;·&nbsp; 🔒 Sin spam</div>
       </div>
-      <div class="success-state" id="successState">
+
+      <!-- ÉXITO CLIENTE -->
+      <div class="success-state" id="successCliente" style="display:none;">
         <div class="success-icon">✅</div>
-        <div class="success-title">¡Ya estás dentro!</div>
-        <p class="success-sub">Te avisamos por WhatsApp cuando ConstruyeRD abra sus puertas. Eres parte de los fundadores.</p>
-        <a href="https://wa.me/?text=Acabo%20de%20registrarme%20en%20ConstruyeRD%2C%20la%20primera%20plataforma%20dominicana%20para%20construir%20sin%20sorpresas%20%F0%9F%87%A9%F0%9F%87%B4%20https%3A%2F%2Fheredialeuri95-art.github.io%2FConstruyeRD%2Fconstruyerd_waitlist.html" target="_blank" class="btn-whatsapp">
-          📱 Compartir por WhatsApp
+        <div class="success-title">¡Bienvenido a ConstruyeRD!</div>
+        <p class="success-sub" style="margin-bottom:16px;">Ya puedes usar la plataforma. Usa la calculadora para estimar tu presupuesto y contacta directamente con los maestros verificados.</p>
+        <a href="#calculadora" class="btn-submit" style="text-decoration:none;display:flex;justify-content:center;margin-bottom:10px;" onclick="document.getElementById('successCliente').style.display='none'">
+          🧮 Ir a la calculadora →
+        </a>
+        <a href="#modulos" class="btn-secondary" style="text-decoration:none;display:flex;justify-content:center;font-size:0.85rem;" onclick="document.getElementById('successCliente').style.display='none'">
+          👷 Ver maestros verificados →
+        </a>
+      </div>
+
+      <!-- ÉXITO MAESTRO -->
+      <div class="success-state" id="successMaestro" style="display:none;">
+        <div class="success-icon" style="font-size:2rem;">🔨</div>
+        <div class="success-title">¡Registro recibido!</div>
+        <p class="success-sub" style="margin-bottom:16px;">Tu perfil está en revisión. Te contactamos por WhatsApp en menos de 24 horas para verificar tu cuenta y activar tu perfil en el directorio.</p>
+        <a href="https://wa.me/?text=Acabo%20de%20registrarme%20como%20maestro%20en%20ConstruyeRD%20%F0%9F%87%A9%F0%9F%87%B4%20La%20plataforma%20de%20construccion%20dominicana.%20https%3A%2F%2Fheredialeuri95-art.github.io%2FConstruyeRD%2Fconstruyerd_waitlist.html" target="_blank" class="btn-whatsapp">
+          📱 Compartir con colegas
         </a>
       </div>
     </div>
@@ -2119,15 +2182,40 @@
               <div class="calc-item-val" id="calcAcab">—</div>
             </div>
           </div>
-          <div class="maestro-cta-box" id="calcMaestroCTA">
-            <div class="maestro-cta-ava">🔨</div>
-            <div class="maestro-cta-text">
-              <div class="maestro-cta-name">Cuba — Maestro Verificado</div>
-              <div class="maestro-cta-sub">Disponible para visitar tu terreno y ajustar el presupuesto</div>
+          <div id="calcMaestroCTA" style="margin-top:16px;">
+            <div style="font-size:0.78rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">
+              👷 Contacta un maestro verificado en Baní
             </div>
-            <a href="https://wa.me/18095550001?text=Hola%20Cuba!%20Vi%20tu%20perfil%20en%20ConstruyeRD%20y%20quiero%20una%20cotización." target="_blank" class="btn-wa-sm">
-              <span>📱</span> WhatsApp
-            </a>
+            <div class="maestro-cta-box" style="margin-bottom:8px;">
+              <div class="maestro-cta-ava">🔨</div>
+              <div class="maestro-cta-text">
+                <div class="maestro-cta-name">Cuba — Maestro Verificado</div>
+                <div class="maestro-cta-sub">Construcción general · Blocks · Columnas · RD$2,800/día</div>
+              </div>
+              <a href="https://wa.me/18095550001?text=Hola%20Cuba!%20Vi%20tu%20perfil%20en%20ConstruyeRD%20y%20quiero%20una%20cotización%20para%20mi%20proyecto." target="_blank" class="btn-wa-sm">
+                <span>📱</span> WhatsApp
+              </a>
+            </div>
+            <div class="maestro-cta-box" style="margin-bottom:8px;">
+              <div class="maestro-cta-ava">🏗️</div>
+              <div class="maestro-cta-text">
+                <div class="maestro-cta-name">Paulino — Maestro Verificado</div>
+                <div class="maestro-cta-sub">Plomería · Construcción general · Acabados · RD$2,500/día</div>
+              </div>
+              <a href="https://wa.me/18095550002?text=Hola%20Paulino!%20Vi%20tu%20perfil%20en%20ConstruyeRD%20y%20quiero%20una%20cotización%20para%20mi%20proyecto." target="_blank" class="btn-wa-sm">
+                <span>📱</span> WhatsApp
+              </a>
+            </div>
+            <div class="maestro-cta-box">
+              <div class="maestro-cta-ava">🏠</div>
+              <div class="maestro-cta-text">
+                <div class="maestro-cta-name">Mello — Maestro Verificado</div>
+                <div class="maestro-cta-sub">Construcción general · Blocks · Acabados · RD$2,600/día</div>
+              </div>
+              <a href="https://wa.me/18296744821?text=Hola%20Mello!%20Vi%20tu%20perfil%20en%20ConstruyeRD%20y%20quiero%20una%20cotización%20para%20mi%20proyecto." target="_blank" class="btn-wa-sm">
+                <span>📱</span> WhatsApp
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -2274,6 +2362,19 @@ function switchTab(id) {
 }
 
 // ===================== REGISTRATION =====================
+function onGoalChange() {
+  const goal = document.getElementById('regGoal').value;
+  const maestroFields = document.getElementById('maestroFields');
+  const btn = document.getElementById('btnSubmit');
+  if (goal === 'maestro') {
+    maestroFields.style.display = 'block';
+    btn.textContent = 'Registrarme como maestro →';
+  } else {
+    maestroFields.style.display = 'none';
+    btn.textContent = 'Entrar a ConstruyeRD →';
+  }
+}
+
 function submitRegistration() {
   const name = document.getElementById('regName').value.trim();
   const phone = document.getElementById('regPhone').value.trim();
@@ -2283,9 +2384,15 @@ function submitRegistration() {
     showToast('⚠️','Campos incompletos','Por favor completa todos los campos.');
     return;
   }
-  // Simulate registration
+  if (goal === 'maestro') {
+    const esp = document.getElementById('regEspecialidad').value;
+    const zona = document.getElementById('regZona').value;
+    if (!esp || !zona) {
+      showToast('⚠️','Campos incompletos','Completa especialidad y zona de trabajo.');
+      return;
+    }
+  }
   document.getElementById('formContent').style.display = 'none';
-  document.getElementById('successState').style.display = 'block';
   // Update count
   const current = parseInt(document.getElementById('heroCount').textContent);
   const newCount = current + 1;
@@ -2294,7 +2401,13 @@ function submitRegistration() {
   document.getElementById('heroSlots').textContent = newSlots;
   document.getElementById('slotsCount').textContent = newSlots;
   updateSlotsBar();
-  showToast('🎉','¡Registro exitoso!','Bienvenido a los fundadores de ConstruyeRD.');
+  if (goal === 'maestro') {
+    document.getElementById('successMaestro').style.display = 'block';
+    showToast('🔨','¡Registro de maestro recibido!','Te contactamos en 24 horas para verificar tu perfil.');
+  } else {
+    document.getElementById('successCliente').style.display = 'block';
+    showToast('🎉','¡Bienvenido!','Ya puedes usar ConstruyeRD. Empieza con la calculadora.');
+  }
 }
 
 // ===================== MAESTROS =====================
