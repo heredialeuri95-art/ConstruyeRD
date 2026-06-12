@@ -4,1239 +4,2593 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ConstruyeRD — La plataforma de construcción de República Dominicana</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --verde: #1a7a4a;
-    --verde-claro: #23a663;
-    --verde-hover: #15603b;
-    --azul: #1a3a6e;
-    --oro: #e8a020;
-    --oro-claro: #f5c842;
-    --bg: #f5f2eb;
-    --blanco: #ffffff;
-    --texto: #1a1a1a;
-    --texto-gris: #5a5a5a;
-    --borde: #ddd8ce;
-    --chat-bg: #f9f7f3;
-    --radio: 12px;
-    --radio-xl: 20px;
+    --navy: #0B1D35;
+    --navy-mid: #132642;
+    --navy-light: #1C3558;
+    --gold: #C9A84C;
+    --gold-light: #E4C06E;
+    --gold-pale: #F5E6C0;
+    --cream: #FAF6EE;
+    --white: #FFFFFF;
+    --text-dark: #0B1D35;
+    --text-mid: #4A5568;
+    --text-light: #718096;
+    --success: #2F855A;
+    --success-bg: #F0FFF4;
+    --error: #C53030;
+    --border: rgba(201,168,76,0.25);
+    --shadow: 0 8px 40px rgba(11,29,53,0.12);
+    --shadow-gold: 0 4px 20px rgba(201,168,76,0.25);
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--texto);
-    min-height: 100vh;
+    background: var(--navy);
+    color: var(--white);
     overflow-x: hidden;
+    line-height: 1.6;
   }
 
-  /* ── NAVBAR ── */
+  /* ========== NAV ========== */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(26,58,110,0.97);
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(11,29,53,0.95);
     backdrop-filter: blur(12px);
-    padding: 0 2rem;
-    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding: 0 clamp(16px,4vw,40px);
     height: 64px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: space-between;
   }
   .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; font-size: 1.35rem; color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--gold);
+    text-decoration: none;
     letter-spacing: -0.5px;
   }
-  .nav-logo span { color: var(--oro-claro); }
-  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+  .nav-logo span { color: var(--white); }
+  .nav-links {
+    display: flex; gap: 8px; align-items: center;
+    list-style: none;
+  }
   .nav-links a {
-    color: rgba(255,255,255,0.8); text-decoration: none;
-    font-size: 0.9rem; font-weight: 500;
-    transition: color .2s;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.2s;
   }
-  .nav-links a:hover { color: var(--oro-claro); }
-  .btn-nav {
-    background: var(--oro); color: var(--azul);
-    border: none; padding: 8px 20px;
-    border-radius: 8px; font-family: 'DM Sans', sans-serif;
-    font-weight: 700; font-size: 0.85rem; cursor: pointer;
-    transition: background .2s;
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold) !important;
+    color: var(--navy) !important;
+    font-weight: 600 !important;
+    padding: 8px 18px !important;
+    border-radius: 8px !important;
   }
-  .btn-nav:hover { background: var(--oro-claro); }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+  .hamburger {
+    display: none;
+    flex-direction: column; gap: 5px;
+    cursor: pointer; background: none; border: none;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--white); border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 64px; left: 0; right: 0;
+    background: var(--navy-mid);
+    border-bottom: 1px solid var(--border);
+    padding: 16px;
+    z-index: 999;
+    flex-direction: column; gap: 4px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .mobile-menu a:hover { background: rgba(201,168,76,0.1); color: var(--gold); }
+  .mobile-menu .m-cta {
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 600;
+    text-align: center;
+    margin-top: 8px;
+  }
 
-  /* ── HERO ── */
+  /* ========== HERO ========== */
   .hero {
     min-height: 100vh;
-    background: linear-gradient(160deg, #0d2a52 0%, #1a3a6e 40%, #0f5c32 100%);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 100px 2rem 4rem;
-    position: relative; overflow: hidden;
-    text-align: center;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-
-  .hero-badge {
-    background: rgba(232,160,32,0.15);
-    border: 1px solid rgba(232,160,32,0.4);
-    color: var(--oro-claro);
-    padding: 6px 16px; border-radius: 100px;
-    font-size: 0.8rem; font-weight: 600;
-    letter-spacing: 1px; text-transform: uppercase;
-    margin-bottom: 1.5rem; display: inline-block;
-  }
-
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; font-size: clamp(2.4rem, 6vw, 4.2rem);
-    line-height: 1.05; color: #fff;
-    margin-bottom: 1.2rem; max-width: 800px;
-  }
-  .hero h1 em { color: var(--oro-claro); font-style: normal; }
-
-  .hero p {
-    font-size: 1.15rem; color: rgba(255,255,255,0.75);
-    max-width: 560px; line-height: 1.7; margin-bottom: 2.5rem;
-  }
-
-  /* ── FORM ── */
-  .form-card {
-    background: var(--blanco);
-    border-radius: var(--radio-xl);
-    padding: 2.5rem 2rem;
-    max-width: 460px; width: 100%;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+    padding: 100px clamp(16px,4vw,40px) 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
     position: relative;
   }
-
-  .form-card h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.3rem; font-weight: 700;
-    color: var(--azul); margin-bottom: 0.3rem;
+  .hero::before {
+    content: '';
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 10% 70%, rgba(28,53,88,0.6) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
   }
-  .form-card p { font-size: 0.85rem; color: var(--texto-gris); margin-bottom: 1.5rem; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .hero-badge span { font-size: 1rem; }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: rgba(255,255,255,0.72);
+    max-width: 460px;
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+  .hero-stats {
+    display: flex; gap: 32px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .stat { text-align: left; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+  .btn-secondary {
+    background: transparent;
+    color: rgba(255,255,255,0.8);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
 
-  .form-group { margin-bottom: 1rem; }
+  /* ========== FORM CARD ========== */
+  .form-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 20px;
+    padding: clamp(24px, 4vw, 40px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .form-card-header {
+    margin-bottom: 24px;
+  }
+  .form-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .form-card-sub {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+  }
+  .form-slots {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .form-slots-info { flex: 1; }
+  .form-slots-count {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+  .form-slots-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .slots-bar {
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+    margin-top: 8px;
+    width: 100%;
+  }
+  .slots-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 4px;
+    width: 63.5%;
+    transition: width 0.5s ease;
+  }
+
+  .form-group { margin-bottom: 14px; }
   .form-group label {
-    display: block; font-size: 0.8rem; font-weight: 600;
-    color: var(--texto-gris); margin-bottom: 5px;
-    text-transform: uppercase; letter-spacing: 0.5px;
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   .form-group input,
   .form-group select {
-    width: 100%; padding: 12px 14px;
-    border: 1.5px solid var(--borde);
-    border-radius: 8px; font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem; color: var(--texto);
-    background: #fafafa;
-    transition: border-color .2s, box-shadow .2s;
-    outline: none; appearance: none;
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
   }
+  .form-group input::placeholder { color: rgba(255,255,255,0.3); }
   .form-group input:focus,
   .form-group select:focus {
-    border-color: var(--verde);
-    box-shadow: 0 0 0 3px rgba(26,122,74,0.12);
-    background: #fff;
+    outline: none;
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
   }
-  .form-group input::placeholder { color: #bbb; }
-
+  .form-group select option { background: var(--navy-mid); color: var(--white); }
   .btn-submit {
-    width: 100%; padding: 14px;
-    background: var(--verde);
-    color: #fff; border: none;
-    border-radius: 10px; font-family: 'Syne', sans-serif;
-    font-size: 1rem; font-weight: 700; cursor: pointer;
-    transition: background .2s, transform .15s;
-    margin-top: 0.5rem;
+    width: 100%;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 16px;
   }
-  .btn-submit:hover { background: var(--verde-hover); transform: translateY(-1px); }
-  .btn-submit:active { transform: translateY(0); }
-
-  .form-note {
-    text-align: center; font-size: 0.75rem;
-    color: var(--texto-gris); margin-top: 0.8rem;
+  .btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .form-trust {
+    text-align: center;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.35);
+    margin-top: 12px;
   }
-
-  /* Success state */
-  .form-success {
-    display: none; text-align: center;
-    padding: 1rem 0;
+  .success-state {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
   }
   .success-icon {
-    width: 72px; height: 72px;
-    background: var(--verde); border-radius: 50%;
+    width: 64px; height: 64px;
+    background: rgba(47,133,90,0.15);
+    border: 2px solid #48BB78;
+    border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1.2rem; font-size: 2rem;
+    font-size: 1.8rem;
+    margin: 0 auto 16px;
   }
-  .form-success h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.4rem; color: var(--azul); margin-bottom: 0.5rem;
+  .success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 8px;
   }
-  .form-success p { color: var(--texto-gris); font-size: 0.9rem; line-height: 1.6; }
-
-  .share-btn {
+  .success-sub { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 20px; }
+  .btn-whatsapp {
     display: inline-flex; align-items: center; gap: 8px;
-    margin-top: 1rem; padding: 10px 20px;
-    background: #25D366; color: #fff; border: none;
-    border-radius: 8px; font-size: 0.9rem; font-weight: 600;
-    cursor: pointer; transition: background .2s;
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
   }
-  .share-btn:hover { background: #1ebe5d; }
+  .btn-whatsapp:hover { background: #1ebe5c; }
 
-  /* ── COUNTER ── */
-  .counter-strip {
-    background: rgba(255,255,255,0.07);
-    border-top: 1px solid rgba(255,255,255,0.08);
-    padding: 1.5rem 2rem;
-    display: flex; justify-content: center; gap: 3rem;
-    flex-wrap: wrap;
+  /* ========== SECTION COMMON ========== */
+  section { padding: clamp(60px,8vw,100px) clamp(16px,4vw,40px); }
+  .section-container { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
   }
-  .counter-item { text-align: center; }
-  .counter-number {
-    font-family: 'Syne', sans-serif;
-    font-size: 2rem; font-weight: 800;
-    color: var(--oro-claro);
-    display: block;
-  }
-  .counter-label { font-size: 0.78rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; }
-
-  /* ── FEATURES ── */
-  section { padding: 5rem 2rem; }
-
   .section-title {
-    text-align: center; margin-bottom: 3rem;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
   }
-  .section-title h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    font-weight: 800; color: var(--azul);
-    line-height: 1.15; margin-bottom: 0.7rem;
+  .section-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+    max-width: 560px;
+    line-height: 1.7;
   }
-  .section-title p { color: var(--texto-gris); font-size: 1rem; max-width: 500px; margin: 0 auto; }
 
+  /* ========== FEATURES SECTION ========== */
+  #funciones { background: var(--navy-mid); }
+  .features-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .features-header .section-sub { margin: 0 auto; }
   .features-grid {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .feature-card {
-    background: var(--blanco);
-    border: 1px solid var(--borde);
-    border-radius: var(--radio-xl);
-    padding: 2rem;
-    transition: transform .2s, box-shadow .2s;
-  }
-  .feature-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.09);
-  }
-  .feature-icon {
-    width: 52px; height: 52px;
-    background: linear-gradient(135deg, #e8f5ee, #c8ebd8);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem; margin-bottom: 1.2rem;
-  }
-  .feature-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.05rem; font-weight: 700;
-    color: var(--azul); margin-bottom: 0.5rem;
-  }
-  .feature-card p { font-size: 0.9rem; color: var(--texto-gris); line-height: 1.65; }
-
-  /* ── CALCULATOR ── */
-  .calc-section {
-    background: var(--azul);
-    color: #fff;
-  }
-  .calc-section .section-title h2 { color: #fff; }
-  .calc-section .section-title p { color: rgba(255,255,255,0.7); }
-
-  .calc-card {
-    max-width: 720px; margin: 0 auto;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: var(--radio-xl);
-    padding: 2.5rem;
-  }
-
-  .calc-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  .calc-field { display: flex; flex-direction: column; gap: 6px; }
-  .calc-field label { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; }
-  .calc-field input,
-  .calc-field select {
-    padding: 11px 13px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 8px; color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem; outline: none; appearance: none;
-    transition: border-color .2s;
-  }
-  .calc-field input:focus,
-  .calc-field select:focus { border-color: var(--oro-claro); }
-  .calc-field input::placeholder { color: rgba(255,255,255,0.4); }
-  .calc-field select option { background: var(--azul); color: #fff; }
-
-  .btn-calc {
-    width: 100%; padding: 14px;
-    background: var(--oro); color: var(--azul);
-    border: none; border-radius: 10px;
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem; font-weight: 800; cursor: pointer;
-    transition: background .2s;
-    margin-bottom: 1.5rem;
-  }
-  .btn-calc:hover { background: var(--oro-claro); }
-
-  .calc-results {
-    display: none;
-    border-top: 1px solid rgba(255,255,255,0.12);
-    padding-top: 1.5rem;
-  }
-  .calc-results.visible { display: block; }
-  .results-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem; margin-bottom: 1rem;
+    gap: 24px;
   }
-  .result-box {
-    background: rgba(255,255,255,0.08);
-    border-radius: 10px; padding: 1rem;
-    text-align: center;
+  .feature-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 16px;
+    padding: 28px 24px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
   }
-  .result-box span {
-    display: block; font-size: 0.75rem;
-    color: rgba(255,255,255,0.6); text-transform: uppercase;
-    letter-spacing: 0.5px; margin-bottom: 4px;
+  .feature-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
   }
-  .result-box strong {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.2rem; color: var(--oro-claro);
+  .feature-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-card.featured {
+    border-color: rgba(201,168,76,0.35);
+    background: rgba(201,168,76,0.06);
   }
-  .result-total {
-    background: rgba(232,160,32,0.15);
-    border: 1px solid rgba(232,160,32,0.3);
-    border-radius: 10px; padding: 1rem 1.5rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .result-total span { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
-  .result-total strong { font-family: 'Syne', sans-serif; font-size: 1.5rem; color: var(--oro-claro); }
-
-  /* ── FOR WHOM ── */
-  .audience-grid {
-    max-width: 960px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.2rem;
-  }
-  .audience-card {
-    background: var(--blanco);
-    border: 1px solid var(--borde);
-    border-radius: var(--radio-xl); padding: 1.8rem;
-    text-align: center;
-    transition: transform .2s, box-shadow .2s;
-  }
-  .audience-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
-  .audience-flag { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
-  .audience-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem; font-weight: 700; color: var(--azul); margin-bottom: 0.5rem;
-  }
-  .audience-card p { font-size: 0.85rem; color: var(--texto-gris); line-height: 1.6; }
-
-  /* ── CTA ── */
-  .cta-section {
-    background: linear-gradient(135deg, var(--verde) 0%, #0d4a28 100%);
-    text-align: center; padding: 5rem 2rem;
-  }
-  .cta-section h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 800; color: #fff;
-    margin-bottom: 0.8rem;
-  }
-  .cta-section p { color: rgba(255,255,255,0.8); font-size: 1.05rem; margin-bottom: 2rem; }
-  .btn-cta {
-    display: inline-block; padding: 16px 40px;
-    background: var(--oro); color: var(--azul);
-    border: none; border-radius: 12px;
-    font-family: 'Syne', sans-serif;
-    font-size: 1.05rem; font-weight: 800; cursor: pointer;
-    transition: background .2s, transform .15s; text-decoration: none;
-  }
-  .btn-cta:hover { background: var(--oro-claro); transform: scale(1.03); }
-
-  /* ── FOOTER ── */
-  footer {
-    background: #0a1a30; color: rgba(255,255,255,0.5);
-    padding: 2rem; text-align: center; font-size: 0.82rem;
-  }
-  footer a { color: var(--oro); text-decoration: none; }
-
-  /* ── CHAT WIDGET ── */
-  #chat-toggle {
-    position: fixed; bottom: 28px; right: 28px; z-index: 999;
-    width: 62px; height: 62px;
-    background: var(--verde);
-    border-radius: 50%; border: none; cursor: pointer;
-    box-shadow: 0 4px 24px rgba(26,122,74,0.45);
+  .feature-card.featured::before { opacity: 1; }
+  .feature-icon {
+    width: 52px; height: 52px;
+    background: rgba(201,168,76,0.12);
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    transition: transform .2s, background .2s;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
   }
-  #chat-toggle:hover { transform: scale(1.08); background: var(--verde-hover); }
-  #chat-toggle .badge {
-    position: absolute; top: -3px; right: -3px;
-    width: 20px; height: 20px;
-    background: var(--oro); border-radius: 50%;
-    font-size: 0.7rem; font-weight: 700; color: var(--azul);
-    display: flex; align-items: center; justify-content: center;
+  .feature-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .feature-desc {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+  .feature-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .feature-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
     animation: pulse 2s infinite;
   }
   @keyframes pulse {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
   }
 
-  #chat-window {
-    position: fixed; bottom: 104px; right: 28px; z-index: 998;
-    width: min(380px, calc(100vw - 40px));
-    height: 540px;
-    background: var(--blanco);
-    border-radius: 20px;
-    box-shadow: 0 20px 80px rgba(0,0,0,0.2);
-    display: flex; flex-direction: column;
-    overflow: hidden;
-    transform: scale(0.8) translateY(30px);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform .25s cubic-bezier(.34,1.56,.64,1), opacity .2s;
-    transform-origin: bottom right;
+  /* ========== MODULE DETAIL TABS ========== */
+  .module-section { background: var(--navy); }
+  .tabs-nav {
+    display: flex; gap: 0;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    margin-bottom: 48px;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
-  #chat-window.open {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-    pointer-events: all;
+  .tabs-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none; border: none;
+    padding: 14px 20px;
+    color: rgba(255,255,255,0.5);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 8px;
   }
+  .tab-btn:hover { color: rgba(255,255,255,0.8); }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-icon { font-size: 1.1rem; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .chat-header {
-    background: linear-gradient(135deg, var(--azul) 0%, #1a3a6e 100%);
-    padding: 1rem 1.2rem;
-    display: flex; align-items: center; gap: 12px;
+  /* ===== MAESTROS PANEL ===== */
+  .maestros-search {
+    display: flex; gap: 12px; margin-bottom: 32px;
+    flex-wrap: wrap;
   }
-  .chat-avatar {
-    width: 42px; height: 42px;
-    background: var(--oro); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem; flex-shrink: 0;
+  .search-input-wrap {
+    position: relative; flex: 1; min-width: 200px;
   }
-  .chat-header-info h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.95rem; font-weight: 700; color: #fff;
-  }
-  .chat-header-info p { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
-  .chat-status {
-    display: flex; align-items: center; gap: 5px;
-  }
-  .chat-dot {
-    width: 8px; height: 8px;
-    background: #4ade80; border-radius: 50%;
-    animation: blink 2s infinite;
-  }
-  @keyframes blink {
-    0%,100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  .chat-close {
-    margin-left: auto; background: none; border: none;
-    color: rgba(255,255,255,0.6); cursor: pointer;
-    font-size: 1.3rem; line-height: 1; padding: 4px;
-  }
-  .chat-close:hover { color: #fff; }
-
-  .chat-quick-buttons {
-    padding: 0.7rem 1rem;
-    display: flex; gap: 6px; flex-wrap: wrap;
-    background: var(--chat-bg);
-    border-bottom: 1px solid var(--borde);
-  }
-  .quick-btn {
-    padding: 5px 11px; font-size: 0.75rem; font-weight: 600;
-    background: var(--blanco); border: 1px solid var(--borde);
-    border-radius: 100px; cursor: pointer; color: var(--azul);
-    transition: all .15s; white-space: nowrap;
-  }
-  .quick-btn:hover { background: var(--azul); color: #fff; border-color: var(--azul); }
-
-  .chat-messages {
-    flex: 1; overflow-y: auto; padding: 1rem;
-    display: flex; flex-direction: column; gap: 10px;
-    background: var(--chat-bg);
-  }
-  .chat-messages::-webkit-scrollbar { width: 4px; }
-  .chat-messages::-webkit-scrollbar-track { background: transparent; }
-  .chat-messages::-webkit-scrollbar-thumb { background: var(--borde); border-radius: 4px; }
-
-  .msg {
-    max-width: 86%; animation: fadeUp .25s ease;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .msg.bot { align-self: flex-start; }
-  .msg.user { align-self: flex-end; }
-  .msg-bubble {
-    padding: 10px 14px; border-radius: 14px;
-    font-size: 0.88rem; line-height: 1.55;
-  }
-  .msg.bot .msg-bubble {
-    background: var(--blanco); color: var(--texto);
-    border-radius: 4px 14px 14px 14px;
-    border: 1px solid var(--borde);
-  }
-  .msg.user .msg-bubble {
-    background: var(--verde); color: #fff;
-    border-radius: 14px 14px 4px 14px;
-  }
-  .msg-time {
-    font-size: 0.68rem; color: var(--texto-gris);
-    margin-top: 3px; padding: 0 4px;
-  }
-  .msg.user .msg-time { text-align: right; }
-
-  .typing-indicator {
-    display: flex; align-items: center; gap: 5px;
-    padding: 10px 14px;
-    background: var(--blanco);
-    border: 1px solid var(--borde);
-    border-radius: 4px 14px 14px 14px;
-    max-width: 80px;
-    display: none;
-  }
-  .typing-indicator.show { display: flex; }
-  .dot {
-    width: 7px; height: 7px;
-    background: var(--texto-gris); border-radius: 50%;
-    animation: bounce 1.2s infinite;
-  }
-  .dot:nth-child(2) { animation-delay: .2s; }
-  .dot:nth-child(3) { animation-delay: .4s; }
-  @keyframes bounce {
-    0%,80%,100% { transform: translateY(0); }
-    40% { transform: translateY(-6px); }
-  }
-
-  .chat-input-area {
-    display: flex; gap: 8px; padding: 0.8rem 1rem;
-    background: var(--blanco);
-    border-top: 1px solid var(--borde);
-    align-items: flex-end;
-  }
-  #chat-input {
-    flex: 1; padding: 10px 13px;
-    border: 1.5px solid var(--borde); border-radius: 10px;
-    font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
-    resize: none; height: 40px; max-height: 100px;
-    outline: none; background: var(--chat-bg);
-    transition: border-color .2s;
-    overflow-y: hidden;
-  }
-  #chat-input:focus { border-color: var(--verde); background: #fff; }
-  #send-btn {
-    width: 40px; height: 40px;
-    background: var(--verde); color: #fff; border: none;
-    border-radius: 10px; cursor: pointer; font-size: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .15s;
-    flex-shrink: 0;
-  }
-  #send-btn:hover { background: var(--verde-hover); }
-
-
-  /* ── MAESTRO CARD ── */
-  .maestro-cta {
-    margin-top: 1.5rem;
+  .search-input-wrap input {
+    width: 100%;
     background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(232,160,32,0.35);
-    border-radius: 14px;
-    padding: 1.2rem 1.4rem;
-    animation: fadeUp .4s ease;
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 12px 16px 12px 40px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
   }
-  .maestro-header {
-    display: flex; gap: 14px; align-items: flex-start; margin-bottom: 1rem;
+  .search-input-wrap input:focus { outline: none; border-color: var(--gold); }
+  .search-input-wrap::before {
+    content: '🔍';
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    font-size: 0.9rem;
   }
+  .filter-select {
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    cursor: pointer;
+    min-width: 140px;
+  }
+  .filter-select:focus { outline: none; border-color: var(--gold); }
+  .filter-select option { background: var(--navy-mid); }
+  .maestros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .maestro-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s;
+  }
+  .maestro-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+  .maestro-card-top { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
   .maestro-avatar {
-    width: 52px; height: 52px; flex-shrink: 0;
-    background: rgba(232,160,32,0.18);
-    border: 1.5px solid rgba(232,160,32,0.4);
-    border-radius: 50%;
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--navy-light), var(--gold));
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
     font-size: 1.5rem;
+    flex-shrink: 0;
   }
-  .maestro-info h4 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem; font-weight: 700; color: #fff;
+  .maestro-info { flex: 1; }
+  .maestro-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
     margin-bottom: 4px;
   }
-  .maestro-info p {
-    font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.5;
-    margin: 0;
+  .maestro-location {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.45);
+    display: flex; align-items: center; gap: 4px;
   }
-  .maestro-badge {
-    display: inline-block;
-    background: rgba(74,222,128,0.15);
-    border: 1px solid rgba(74,222,128,0.35);
-    color: #4ade80;
-    font-size: 0.72rem; font-weight: 700;
-    padding: 2px 10px; border-radius: 100px;
-    margin-bottom: 6px; letter-spacing: 0.3px;
+  .maestro-verified {
+    background: rgba(47,133,90,0.15);
+    border: 1px solid rgba(72,187,120,0.3);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #68D391;
+    white-space: nowrap;
   }
-  .maestro-actions {
-    display: flex; gap: 10px; flex-wrap: wrap;
+  .maestro-stars {
+    display: flex; gap: 2px; margin-bottom: 8px;
   }
-  .btn-maestro-wa {
-    flex: 1; min-width: 180px;
-    padding: 11px 16px;
-    background: #25D366; color: #fff;
-    border: none; border-radius: 10px;
-    font-family: 'Syne', sans-serif; font-size: 0.88rem; font-weight: 700;
-    cursor: pointer; transition: background .2s;
+  .star { color: var(--gold); font-size: 0.85rem; }
+  .star.empty { color: rgba(255,255,255,0.15); }
+  .maestro-rating-text { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-left: 6px; }
+  .maestro-skills {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 16px;
   }
-  .btn-maestro-wa:hover { background: #1ebe5d; }
-  .btn-maestro-chat {
-    flex: 1; min-width: 160px;
-    padding: 11px 16px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #fff; border-radius: 10px;
-    font-family: 'Syne', sans-serif; font-size: 0.88rem; font-weight: 600;
-    cursor: pointer; transition: background .2s;
+  .skill-tag {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--gold-light);
   }
-  .btn-maestro-chat:hover { background: rgba(255,255,255,0.15); }
+  .maestro-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 16px;
+  }
+  .maestro-rate { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+  .maestro-rate strong { color: var(--gold); font-size: 1rem; }
+  .maestro-projects { font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+  .btn-contact {
+    width: 100%;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 11px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-contact:hover { background: #1ebe5c; transform: translateY(-1px); }
 
-  /* RESPONSIVE */
-  @media (max-width: 640px) {
-    .nav-links { display: none; }
-    .hero { padding: 90px 1.2rem 3rem; }
+  /* ===== SUPERVISIÓN PANEL ===== */
+  .supervision-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .sup-phone-mock {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .sup-phone-bar {
+    background: rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .sup-project-name { font-weight: 700; font-size: 0.95rem; }
+  .sup-status {
+    background: rgba(47,133,90,0.2);
+    border: 1px solid rgba(72,187,120,0.3);
+    color: #68D391;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .sup-updates { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .sup-update {
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .sup-update-img {
+    width: 56px; height: 56px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .sup-update-info { flex: 1; }
+  .sup-update-title { font-size: 0.875rem; font-weight: 600; margin-bottom: 3px; }
+  .sup-update-meta { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+  .sup-update-actions {
+    display: flex; gap: 6px; margin-top: 6px;
+  }
+  .btn-approve {
+    background: rgba(47,133,90,0.2);
+    border: 1px solid rgba(72,187,120,0.3);
+    color: #68D391;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans';
+  }
+  .btn-approve:hover { background: rgba(47,133,90,0.35); }
+  .btn-reject {
+    background: rgba(197,48,48,0.15);
+    border: 1px solid rgba(252,129,129,0.2);
+    color: #FC8181;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans';
+  }
+  .btn-reject:hover { background: rgba(197,48,48,0.25); }
+  .sup-panel-right { display: flex; flex-direction: column; gap: 16px; }
+  .sup-progress-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .sup-progress-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  .progress-item { margin-bottom: 12px; }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.82rem; margin-bottom: 6px;
+  }
+  .progress-label span:first-child { color: rgba(255,255,255,0.7); }
+  .progress-label span:last-child { color: var(--gold); font-weight: 700; }
+  .progress-bar {
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 4px;
+    transition: width 0.8s ease;
+  }
+  .sup-chat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    flex: 1;
+  }
+  .sup-chat-header {
+    background: rgba(201,168,76,0.08);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .online-dot {
+    width: 8px; height: 8px;
+    background: #68D391;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  .chat-messages { padding: 12px; display: flex; flex-direction: column; gap: 8px; height: 140px; overflow: hidden; }
+  .chat-msg {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  .chat-msg.incoming {
+    background: rgba(255,255,255,0.08);
+    align-self: flex-start;
+  }
+  .chat-msg.outgoing {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.2);
+    align-self: flex-end;
+    color: var(--gold-pale);
+  }
+  .chat-msg-time { font-size: 0.68rem; color: rgba(255,255,255,0.3); margin-top: 3px; }
+  .chat-input-row {
+    padding: 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; gap: 8px;
+  }
+  .chat-input {
+    flex: 1;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--white);
+    font-family: 'DM Sans';
+    font-size: 0.8rem;
+  }
+  .chat-input:focus { outline: none; border-color: var(--gold); }
+  .btn-send {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+  }
+  .btn-send:hover { background: var(--gold-light); }
+
+  /* ===== GASTOS PANEL ===== */
+  .gastos-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px; align-items: start; }
+  .gasto-form-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .gasto-form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .gasto-form-group { margin-bottom: 14px; }
+  .gasto-form-group label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .gasto-form-group input,
+  .gasto-form-group select {
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+  }
+  .gasto-form-group input:focus,
+  .gasto-form-group select:focus { outline: none; border-color: var(--gold); }
+  .gasto-form-group select option { background: var(--navy-mid); }
+  .btn-add-gasto {
+    width: 100%;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 8px;
+  }
+  .btn-add-gasto:hover { background: var(--gold-light); }
+  .gastos-right { display: flex; flex-direction: column; gap: 16px; }
+  .budget-overview {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .budget-overview-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+  .budget-nums {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; margin-bottom: 16px;
+  }
+  .budget-num { text-align: center; }
+  .budget-num-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+  .budget-num-label { font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .budget-bar-wrap { margin-top: 4px; }
+  .budget-bar-label { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 6px; color: rgba(255,255,255,0.5); }
+  .budget-main-bar {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    height: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .budget-main-fill {
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.8s ease;
+    background: linear-gradient(90deg, #48BB78, var(--gold));
+  }
+  .gastos-list-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .gastos-list-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .gastos-list { max-height: 300px; overflow-y: auto; }
+  .gastos-list::-webkit-scrollbar { width: 4px; }
+  .gastos-list::-webkit-scrollbar-track { background: transparent; }
+  .gastos-list::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 4px; }
+  .gasto-item {
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: center; gap: 14px;
+    transition: background 0.2s;
+  }
+  .gasto-item:last-child { border-bottom: none; }
+  .gasto-item:hover { background: rgba(255,255,255,0.03); }
+  .gasto-cat-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    background: rgba(201,168,76,0.1);
+  }
+  .gasto-item-info { flex: 1; min-width: 0; }
+  .gasto-item-name { font-size: 0.875rem; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gasto-item-meta { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .gasto-item-amount { font-weight: 700; color: var(--gold); font-size: 0.9rem; white-space: nowrap; }
+  .gasto-item-del {
+    background: none; border: none;
+    color: rgba(255,255,255,0.2);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px;
+    transition: color 0.2s;
+    flex-shrink: 0;
+  }
+  .gasto-item-del:hover { color: #FC8181; }
+  .empty-gastos {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.875rem;
+  }
+
+  /* ===== APP MÓVIL PANEL ===== */
+  .app-showcase {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .phone-frame {
+    background: var(--navy-mid);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 40px;
+    padding: 16px;
+    max-width: 240px;
+    margin: 0 auto;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+  }
+  .phone-screen {
+    background: var(--navy);
+    border-radius: 28px;
+    overflow: hidden;
+    aspect-ratio: 9/18;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-status-bar {
+    background: var(--navy-light);
+    padding: 8px 14px;
+    display: flex; justify-content: space-between;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+  }
+  .phone-app-header {
+    background: rgba(201,168,76,0.1);
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .phone-app-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .phone-app-sub { font-size: 0.6rem; color: rgba(255,255,255,0.4); }
+  .phone-content { flex: 1; padding: 10px; overflow: hidden; }
+  .phone-kpi-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6px; margin-bottom: 8px;
+  }
+  .phone-kpi {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+  }
+  .phone-kpi-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .phone-kpi-label { font-size: 0.55rem; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .phone-notif {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .phone-notif-icon { font-size: 0.8rem; }
+  .phone-notif-text { font-size: 0.6rem; color: rgba(255,255,255,0.6); line-height: 1.4; }
+  .phone-notif-time { font-size: 0.55rem; color: rgba(255,255,255,0.3); margin-top: 2px; }
+  .phone-nav {
+    background: var(--navy-light);
+    padding: 8px;
+    display: flex; justify-content: space-around;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .phone-nav-item {
+    display: flex; flex-direction: column; align-items: center;
+    font-size: 0.55rem; color: rgba(255,255,255,0.4);
+    gap: 2px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .phone-nav-item.active { color: var(--gold); }
+  .phone-nav-item span:first-child { font-size: 0.9rem; }
+  .app-features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .app-feature-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px;
+    transition: all 0.3s;
+  }
+  .app-feature-item:hover { border-color: rgba(201,168,76,0.3); }
+  .app-feature-icon { font-size: 1.5rem; margin-bottom: 10px; }
+  .app-feature-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .app-feature-desc { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  /* ===== CONTRATOS PANEL ===== */
+  .contratos-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .contrato-builder {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .contrato-builder-header {
+    background: rgba(201,168,76,0.08);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .contrato-builder-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .contrato-builder-body { padding: 20px; }
+  .contrato-step {
+    display: flex; gap: 14px; margin-bottom: 20px; align-items: flex-start;
+  }
+  .step-num {
+    width: 28px; height: 28px;
+    background: var(--gold);
+    color: var(--navy);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-content { flex: 1; }
+  .step-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .step-input {
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+  }
+  .step-input:focus { outline: none; border-color: var(--gold); }
+  .step-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .btn-gen-contract {
+    width: 100%;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    padding: 13px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 8px;
+  }
+  .btn-gen-contract:hover { background: var(--gold-light); }
+  .contrato-preview {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .contrato-preview-header {
+    background: rgba(201,168,76,0.08);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .contrato-preview-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .contrato-status-badge {
+    background: rgba(237,137,54,0.15);
+    border: 1px solid rgba(237,137,54,0.3);
+    color: #F6AD55;
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+  .contrato-doc {
+    padding: 20px;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .contrato-doc::-webkit-scrollbar { width: 4px; }
+  .contrato-doc::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 4px; }
+  .contrato-doc h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--gold-light);
+    margin: 14px 0 6px;
+    font-weight: 700;
+  }
+  .contrato-doc h4:first-child { margin-top: 0; }
+  .contrato-doc p { color: rgba(255,255,255,0.6); margin-bottom: 6px; }
+  .contrato-doc .blank {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border-bottom: 1.5px solid var(--gold);
+    min-width: 60px;
+    color: var(--gold-light);
+    padding: 0 4px;
+    border-radius: 2px;
+  }
+  .sign-row {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex; gap: 10px;
+  }
+  .btn-sign {
+    flex: 1;
+    background: var(--navy-light);
+    border: 1.5px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn-sign:hover { background: rgba(201,168,76,0.1); }
+  .btn-sign-primary {
+    flex: 1;
+    background: var(--gold);
+    border: none;
+    color: var(--navy);
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn-sign-primary:hover { background: var(--gold-light); }
+
+  /* ========== CALCULADORA ========== */
+  #calculadora { background: var(--navy-mid); }
+  .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .calc-form-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: clamp(20px,3vw,32px);
+  }
+  .calc-form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .calc-group { margin-bottom: 18px; }
+  .calc-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .calc-group input,
+  .calc-group select {
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .calc-group input:focus,
+  .calc-group select:focus { outline: none; border-color: var(--gold); }
+  .calc-group select option { background: var(--navy-mid); }
+  .calc-range-val {
+    display: flex; justify-content: space-between;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+  }
+  .btn-calc {
+    width: 100%;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-calc:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .calc-result-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: clamp(20px,3vw,32px);
+    min-height: 400px;
+    display: flex; flex-direction: column;
+  }
+  .calc-result-placeholder {
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    color: rgba(255,255,255,0.25);
+    gap: 12px;
+  }
+  .calc-result-placeholder-icon { font-size: 3rem; opacity: 0.4; }
+  .calc-result-content { display: none; flex-direction: column; gap: 20px; }
+  .calc-total {
+    text-align: center;
+    padding: 24px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 16px;
+  }
+  .calc-total-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .calc-total-val {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .calc-total-sub { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 8px; }
+  .calc-breakdown { display: flex; flex-direction: column; gap: 12px; }
+  .calc-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .calc-item-left { display: flex; align-items: center; gap: 10px; }
+  .calc-item-icon { font-size: 1.1rem; }
+  .calc-item-name { font-size: 0.875rem; font-weight: 600; }
+  .calc-item-pct { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+  .calc-item-val { font-weight: 700; color: var(--gold); }
+  .maestro-cta-box {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .maestro-cta-text { flex: 1; }
+  .maestro-cta-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .maestro-cta-sub { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+  .maestro-cta-ava {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--navy-light), var(--gold));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .btn-wa-sm {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+    flex-shrink: 0;
+  }
+  .btn-wa-sm:hover { background: #1ebe5c; }
+
+  /* ========== PARA QUIEN ========== */
+  #para-quien { background: var(--navy); }
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .audience-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .audience-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-4px); }
+  .audience-flag { font-size: 2.5rem; margin-bottom: 16px; }
+  .audience-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .audience-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+  /* ========== WAITLIST CTA ========== */
+  .cta-section {
+    background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy-light) 100%);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section .section-container { position: relative; }
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem,4vw,2.8rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .cta-sub { font-size: 1rem; color: rgba(255,255,255,0.6); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+  /* ========== FOOTER ========== */
+  footer {
+    background: rgba(0,0,0,0.2);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 32px clamp(16px,4vw,40px);
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .footer-logo span { color: rgba(255,255,255,0.5); }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-size: 0.82rem;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+
+  /* ========== TOAST ========== */
+  .toast {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    z-index: 9999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    max-width: 320px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-icon { font-size: 1.2rem; flex-shrink: 0; }
+  .toast-text { font-size: 0.85rem; }
+  .toast-text strong { display: block; margin-bottom: 2px; }
+  .toast-text span { color: rgba(255,255,255,0.55); font-size: 0.78rem; }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      padding-top: 88px;
+      padding-bottom: 48px;
+    }
+    .hero::before { display: none; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .supervision-demo { grid-template-columns: 1fr; }
+    .gastos-layout { grid-template-columns: 1fr; }
+    .app-showcase { grid-template-columns: 1fr; }
+    .phone-frame { max-width: 200px; }
+    .contratos-layout { grid-template-columns: 1fr; }
     .calc-grid { grid-template-columns: 1fr; }
-    .results-grid { grid-template-columns: 1fr 1fr; }
-    .counter-strip { gap: 1.5rem; }
+    .audience-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .app-features-grid { grid-template-columns: 1fr 1fr; }
+    .budget-nums { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .features-grid { grid-template-columns: 1fr; }
+    .tabs-nav { gap: 0; }
+    .tab-btn { padding: 12px 14px; font-size: 0.8rem; }
+    .maestros-search { flex-direction: column; }
+    .filter-select { width: 100%; }
+    .audience-grid { grid-template-columns: 1fr 1fr; }
+    .sup-panel-right { display: none; }
+    .app-features-grid { grid-template-columns: 1fr; }
+    .step-input-row { grid-template-columns: 1fr; }
+    .sign-row { flex-direction: column; }
+    .footer-inner { flex-direction: column; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+    .maestro-cta-box { flex-wrap: wrap; }
+    .budget-nums { grid-template-columns: 1fr 1fr; }
+    .budget-nums .budget-num:last-child { grid-column: span 2; }
   }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
-  <div class="nav-logo">Construye<span>RD</span></div>
-  <div class="nav-links">
-    <a href="#funciones">Funciones</a>
-    <a href="#calculadora">Calculadora</a>
-    <a href="#para-quien">Para quién</a>
-    <button class="btn-nav" onclick="document.getElementById('nombre').focus(); window.scrollTo({top:0,behavior:'smooth'})">Registrarme gratis</button>
-  </div>
+<nav id="top">
+  <a href="#top" class="nav-logo">Construye<span>RD</span></a>
+  <ul class="nav-links">
+    <li><a href="#funciones">Funciones</a></li>
+    <li><a href="#modulos">Módulos</a></li>
+    <li><a href="#calculadora">Calculadora</a></li>
+    <li><a href="#para-quien">Para quién</a></li>
+    <li><a href="#registro" class="nav-cta">Registrarme gratis</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#funciones" onclick="closeMobileMenu()">Funciones</a>
+  <a href="#modulos" onclick="closeMobileMenu()">Módulos</a>
+  <a href="#calculadora" onclick="closeMobileMenu()">Calculadora</a>
+  <a href="#para-quien" onclick="closeMobileMenu()">Para quién</a>
+  <a href="#registro" class="m-cta" onclick="closeMobileMenu()">Registrarme gratis</a>
+</div>
+
 <!-- HERO -->
-<section class="hero" id="inicio">
-  <div class="hero-badge">🇩🇴 Lanzamiento próximo · República Dominicana</div>
-  <h1>Construye <em>sin sorpresas</em></h1>
-  <p>La primera plataforma dominicana para presupuestar, contratar y supervisar tu construcción — desde RD o desde el extranjero.</p>
-
-  <!-- FORM CARD -->
-  <div class="form-card" id="form-card">
-    <div id="form-content">
-      <h2>Regístrate gratis</h2>
-      <p>Sé de los primeros — acceso premium gratuito para los primeros 200.</p>
-
-      <div class="form-group">
-        <label>Tu nombre completo</label>
-        <input type="text" id="nombre" placeholder="Ej. Juan Pérez" required>
+<section style="padding:0;">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge"><span>🇩🇴</span> Lanzamiento próximo · República Dominicana</div>
+      <h1>Construye <em>sin sorpresas</em></h1>
+      <p class="hero-sub">La primera plataforma dominicana para presupuestar, contratar y supervisar tu construcción — desde RD o desde el extranjero.</p>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num" id="heroCount">127</div><div class="stat-label">Registrados</div></div>
+        <div class="stat"><div class="stat-num">200</div><div class="stat-label">Cupos premium</div></div>
+        <div class="stat"><div class="stat-num" id="heroSlots">73</div><div class="stat-label">Cupos restantes</div></div>
       </div>
-      <div class="form-group">
-        <label>WhatsApp (con código de país)</label>
-        <input type="tel" id="whatsapp" placeholder="+1 809 000 0000" required>
+      <div class="hero-btns">
+        <a href="#registro" class="btn-primary">🏗️ Registrarme gratis</a>
+        <a href="#modulos" class="btn-secondary">Ver cómo funciona →</a>
       </div>
-      <div class="form-group">
-        <label>¿Desde dónde nos escribes?</label>
-        <select id="pais" required>
-          <option value="">Selecciona...</option>
-          <option value="RD">República Dominicana</option>
-          <option value="USA">Estados Unidos</option>
-          <option value="ES">España</option>
-          <option value="IT">Italia</option>
-          <option value="PR">Puerto Rico</option>
-          <option value="otro">Otro país</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>¿Qué quieres hacer?</label>
-        <select id="objetivo" required>
-          <option value="">Selecciona...</option>
-          <option value="construir">Construir una casa en RD</option>
-          <option value="maestro">Encontrar un maestro confiable</option>
-          <option value="supervisar">Supervisar mi obra desde el extranjero</option>
-          <option value="trabajador">Registrarme como trabajador / maestro</option>
-          <option value="ver">Solo quiero ver cómo funciona</option>
-        </select>
-      </div>
-      <button class="btn-submit" onclick="submitForm()">Quiero ser de los primeros →</button>
-      <p class="form-note">✅ Gratis para siempre · 🔒 Sin spam · Solo te avisamos cuando lancemos</p>
     </div>
 
-    <div class="form-success" id="form-success">
-      <div class="success-icon">✅</div>
-      <h3>¡Ya estás dentro!</h3>
-      <p>Te avisamos por WhatsApp cuando ConstruyeRD abra sus puertas.<br>Eres parte de los fundadores.</p>
-      <button class="share-btn" onclick="shareWhatsApp()">
-        📱 Compartir por WhatsApp
+    <!-- FORM -->
+    <div class="form-card" id="registro">
+      <div class="form-card-header">
+        <div class="form-card-title">Regístrate gratis</div>
+        <div class="form-card-sub">Acceso premium gratuito para los primeros 200</div>
+      </div>
+      <div class="form-slots">
+        <div class="form-slots-info">
+          <div class="form-slots-count" id="slotsCount">73</div>
+          <div class="form-slots-label">cupos restantes de 200</div>
+          <div class="slots-bar"><div class="slots-fill" id="slotsBar"></div></div>
+        </div>
+      </div>
+      <div id="formContent">
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input type="text" id="regName" placeholder="Ej: Juan Rodríguez">
+        </div>
+        <div class="form-group">
+          <label>WhatsApp (con código de país)</label>
+          <input type="tel" id="regPhone" placeholder="+1 809 555 1234">
+        </div>
+        <div class="form-group">
+          <label>¿Desde dónde nos escribes?</label>
+          <select id="regCountry">
+            <option value="">Selecciona...</option>
+            <option>República Dominicana</option>
+            <option>Estados Unidos</option>
+            <option>España</option>
+            <option>Italia</option>
+            <option>Puerto Rico</option>
+            <option>Otro país</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>¿Qué quieres hacer?</label>
+          <select id="regGoal">
+            <option value="">Selecciona...</option>
+            <option>Construir una casa en RD</option>
+            <option>Encontrar un maestro confiable</option>
+            <option>Supervisar mi obra desde el extranjero</option>
+            <option>Registrarme como trabajador / maestro</option>
+            <option>Solo quiero ver cómo funciona</option>
+          </select>
+        </div>
+        <button class="btn-submit" onclick="submitRegistration()">
+          Quiero ser de los primeros →
+        </button>
+        <div class="form-trust">✅ Gratis para siempre &nbsp;·&nbsp; 🔒 Sin spam</div>
+      </div>
+      <div class="success-state" id="successState">
+        <div class="success-icon">✅</div>
+        <div class="success-title">¡Ya estás dentro!</div>
+        <p class="success-sub">Te avisamos por WhatsApp cuando ConstruyeRD abra sus puertas. Eres parte de los fundadores.</p>
+        <a href="https://wa.me/?text=Acabo%20de%20registrarme%20en%20ConstruyeRD%2C%20la%20primera%20plataforma%20dominicana%20para%20construir%20sin%20sorpresas%20%F0%9F%87%A9%F0%9F%87%B4%20https%3A%2F%2Fheredialeuri95-art.github.io%2FConstruyeRD%2Fconstruyerd_waitlist.html" target="_blank" class="btn-whatsapp">
+          📱 Compartir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES CARDS -->
+<section id="funciones">
+  <div class="section-container">
+    <div class="features-header">
+      <div class="section-label">Plataforma completa</div>
+      <h2 class="section-title">Todo lo que necesitas<br>para construir bien</h2>
+      <p class="section-sub">Herramientas reales para el mercado dominicano. Cinco módulos integrados, cero sorpresas.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card featured" onclick="document.getElementById('modulos').scrollIntoView({behavior:'smooth'}); switchTab('maestros')">
+        <div class="feature-icon">👷</div>
+        <div class="feature-title">Maestros Verificados</div>
+        <div class="feature-desc">Directorio de trabajadores con historial real, fotos de proyectos anteriores, valoraciones y precio por día.</div>
+        <div class="feature-badge">Disponible ahora</div>
+      </div>
+      <div class="feature-card" onclick="document.getElementById('modulos').scrollIntoView({behavior:'smooth'}); switchTab('supervision')">
+        <div class="feature-icon">📡</div>
+        <div class="feature-title">Supervisión Remota</div>
+        <div class="feature-desc">Fotos y videos diarios del avance, aprueba gastos desde tu teléfono y habla directo con el maestro.</div>
+        <div class="feature-badge">Disponible ahora</div>
+      </div>
+      <div class="feature-card" onclick="document.getElementById('modulos').scrollIntoView({behavior:'smooth'}); switchTab('gastos')">
+        <div class="feature-icon">💰</div>
+        <div class="feature-title">Control Total de Gastos</div>
+        <div class="feature-desc">Todos los comprobantes organizados, historial de materiales y alertas cuando algo se sale del presupuesto.</div>
+        <div class="feature-badge">Disponible ahora</div>
+      </div>
+      <div class="feature-card" onclick="document.getElementById('modulos').scrollIntoView({behavior:'smooth'}); switchTab('app')">
+        <div class="feature-icon">📱</div>
+        <div class="feature-title">App Móvil Completa</div>
+        <div class="feature-desc">Gestiona tu proyecto completo desde el teléfono. Notificaciones en tiempo real y chat directo con tu equipo.</div>
+        <div class="feature-badge">Disponible ahora</div>
+      </div>
+      <div class="feature-card" onclick="document.getElementById('modulos').scrollIntoView({behavior:'smooth'}); switchTab('contratos')">
+        <div class="feature-icon">🤝</div>
+        <div class="feature-title">Contratos Digitales</div>
+        <div class="feature-desc">Genera contratos con términos claros, pagos programados y garantías. Todo firmado digitalmente.</div>
+        <div class="feature-badge">Disponible ahora</div>
+      </div>
+      <div class="feature-card" onclick="document.getElementById('calculadora').scrollIntoView({behavior:'smooth'})">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Calculadora de Presupuesto</div>
+        <div class="feature-desc">Calcula cemento, blocks, varillas, mano de obra y acabados con precios reales del mercado dominicano.</div>
+        <div class="feature-badge">Usa la calculadora ↓</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE DETAILS -->
+<section id="modulos" class="module-section">
+  <div class="section-container">
+    <div class="section-label" style="text-align:center;">Módulos interactivos</div>
+    <h2 class="section-title" style="text-align:center;margin-bottom:8px;">Explora cada función</h2>
+    <p class="section-sub" style="text-align:center;margin:0 auto 40px;">Prueba cada módulo directamente aquí.</p>
+
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('maestros')" id="tab-maestros">
+        <span class="tab-icon">👷</span> Maestros
+      </button>
+      <button class="tab-btn" onclick="switchTab('supervision')" id="tab-supervision">
+        <span class="tab-icon">📡</span> Supervisión
+      </button>
+      <button class="tab-btn" onclick="switchTab('gastos')" id="tab-gastos">
+        <span class="tab-icon">💰</span> Gastos
+      </button>
+      <button class="tab-btn" onclick="switchTab('app')" id="tab-app">
+        <span class="tab-icon">📱</span> App Móvil
+      </button>
+      <button class="tab-btn" onclick="switchTab('contratos')" id="tab-contratos">
+        <span class="tab-icon">🤝</span> Contratos
       </button>
     </div>
-  </div>
 
-  <!-- COUNTER -->
-  <div class="counter-strip" style="width:100%; max-width:460px; margin-top:1.5rem; border-radius: 14px;">
-    <div class="counter-item">
-      <span class="counter-number" id="counter">127</span>
-      <span class="counter-label">registrados</span>
-    </div>
-    <div class="counter-item">
-      <span class="counter-number">200</span>
-      <span class="counter-label">cupos premium</span>
-    </div>
-    <div class="counter-item">
-      <span class="counter-number">73</span>
-      <span class="counter-label">cupos restantes</span>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section id="funciones" style="background: var(--bg);">
-  <div class="section-title">
-    <h2>Todo lo que necesitas<br>para construir bien</h2>
-    <p>Herramientas reales para el mercado dominicano</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">📊</div>
-      <h3>Presupuesto inteligente</h3>
-      <p>Calcula cemento, blocks, varillas, mano de obra y acabados con precios reales y actualizados del mercado dominicano.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">👷</div>
-      <h3>Maestros verificados</h3>
-      <p>Directorio de trabajadores con historial real, fotos de proyectos anteriores, valoraciones de clientes y precio por día.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📡</div>
-      <h3>Supervisión remota</h3>
-      <p>Fotos y videos diarios del avance, aprueba gastos desde tu teléfono y habla directo con el maestro — desde donde estés.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">💰</div>
-      <h3>Control total de gastos</h3>
-      <p>Todos los comprobantes organizados, historial de materiales y alertas cuando algo se sale del presupuesto.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📱</div>
-      <h3>App móvil completa</h3>
-      <p>Gestiona tu proyecto completo desde el teléfono. Notificaciones en tiempo real y chat directo con tu equipo de construcción.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🤝</div>
-      <h3>Contratos digitales</h3>
-      <p>Genera contratos con términos claros, pagos programados y garantías. Todo firmado digitalmente y protegido por ley.</p>
-    </div>
-  </div>
-</section>
-
-<!-- CALCULATOR -->
-<section id="calculadora" class="calc-section">
-  <div class="section-title">
-    <h2>Calculadora de presupuesto</h2>
-    <p>Estima el costo de tu construcción con precios del mercado dominicano</p>
-  </div>
-  <div class="calc-card">
-    <div class="calc-grid">
-      <div class="calc-field">
-        <label>Metros cuadrados (m²)</label>
-        <input type="number" id="metros" placeholder="Ej. 80" min="20" max="5000">
-      </div>
-      <div class="calc-field">
-        <label>Tipo de construcción</label>
-        <select id="tipo-construccion">
-          <option value="economica">Económica / básica</option>
-          <option value="media" selected>Nivel medio</option>
-          <option value="alta">Alto nivel / premium</option>
+    <!-- MAESTROS TAB -->
+    <div class="tab-panel active" id="panel-maestros">
+      <div class="maestros-search">
+        <div class="search-input-wrap">
+          <input type="text" id="maestroSearch" placeholder="Buscar maestro..." oninput="filterMaestros()">
+        </div>
+        <select class="filter-select" id="especialFilter" onchange="filterMaestros()">
+          <option value="">Todas las especialidades</option>
+          <option>Construcción general</option>
+          <option>Electricidad</option>
+          <option>Plomería</option>
+          <option>Pintura</option>
+          <option>Cerámica y pisos</option>
+          <option>Carpintería</option>
+        </select>
+        <select class="filter-select" id="zonaFilter" onchange="filterMaestros()">
+          <option value="">Todas las zonas</option>
+          <option>Santo Domingo</option>
+          <option>Santiago</option>
+          <option>Baní</option>
+          <option>San Pedro</option>
+          <option>La Romana</option>
         </select>
       </div>
-      <div class="calc-field">
-        <label>Número de plantas</label>
-        <select id="plantas">
-          <option value="1">1 planta</option>
-          <option value="2">2 plantas</option>
-          <option value="3">3 plantas</option>
-        </select>
-      </div>
-      <div class="calc-field">
-        <label>Zona / provincia</label>
-        <select id="zona">
-          <option value="sd">Santo Domingo</option>
-          <option value="stgo">Santiago</option>
-          <option value="interior">Interior del país</option>
-          <option value="turistica">Zona turística</option>
-        </select>
-      </div>
+      <div class="maestros-grid" id="maestrosGrid"></div>
     </div>
-    <button class="btn-calc" onclick="calcular()">Calcular presupuesto estimado →</button>
 
-    <div class="calc-results" id="calc-results">
-      <div class="results-grid">
-        <div class="result-box">
-          <span>Materiales</span>
-          <strong id="r-materiales">—</strong>
-        </div>
-        <div class="result-box">
-          <span>Mano de obra</span>
-          <strong id="r-mano">—</strong>
-        </div>
-        <div class="result-box">
-          <span>Acabados</span>
-          <strong id="r-acabados">—</strong>
-        </div>
-      </div>
-      <div class="result-total">
-        <span>💰 Presupuesto total estimado</span>
-        <strong id="r-total">—</strong>
-      </div>
-      <p style="margin-top:1rem; font-size:0.78rem; color:rgba(255,255,255,0.5); text-align:center;">
-        * Estimación referencial. El precio final puede variar según especificaciones y condiciones del terreno.
-      </p>
-
-      <!-- MAESTRO CARD -->
-      <div class="maestro-cta" id="maestro-cta">
-        <div class="maestro-header">
-          <div class="maestro-avatar">🔨</div>
-          <div class="maestro-info">
-            <span class="maestro-badge">✅ Maestro Verificado</span>
-            <h4>Cuba — Maestro de Construcción</h4>
-            <p>Disponible para visitar tu terreno, ajustar el presupuesto y darte una cotización real sin compromiso.</p>
+    <!-- SUPERVISIÓN TAB -->
+    <div class="tab-panel" id="panel-supervision">
+      <div class="supervision-demo">
+        <div class="sup-phone-mock">
+          <div class="sup-phone-bar">
+            <div class="sup-project-name">🏠 Casa Guachupita</div>
+            <div class="sup-status">En progreso</div>
+          </div>
+          <div class="sup-updates">
+            <div class="sup-update">
+              <div class="sup-update-img">🧱</div>
+              <div class="sup-update-info">
+                <div class="sup-update-title">Levantado de blocks – 2do piso</div>
+                <div class="sup-update-meta">Cuba · hace 2 horas · 3 fotos</div>
+                <div class="sup-update-actions">
+                  <button class="btn-approve" onclick="approveUpdate(this)">✓ Aprobar</button>
+                  <button class="btn-reject" onclick="rejectUpdate(this)">✗ Observar</button>
+                </div>
+              </div>
+            </div>
+            <div class="sup-update">
+              <div class="sup-update-img">🪟</div>
+              <div class="sup-update-info">
+                <div class="sup-update-title">Instalación ventanas sala</div>
+                <div class="sup-update-meta">Paulino · Ayer · 5 fotos</div>
+                <div class="sup-update-actions">
+                  <button class="btn-approve" onclick="approveUpdate(this)">✓ Aprobar</button>
+                  <button class="btn-reject" onclick="rejectUpdate(this)">✗ Observar</button>
+                </div>
+              </div>
+            </div>
+            <div class="sup-update">
+              <div class="sup-update-img">🔌</div>
+              <div class="sup-update-info">
+                <div class="sup-update-title">Cableado eléctrico habitación</div>
+                <div class="sup-update-meta">Cuba · Hace 3 días · 2 fotos</div>
+                <div class="sup-update-actions">
+                  <button class="btn-approve" onclick="approveUpdate(this)" style="opacity:0.5;cursor:default" disabled>✓ Aprobado</button>
+                </div>
+              </div>
+            </div>
+            <div class="sup-update">
+              <div class="sup-update-img">💰</div>
+              <div class="sup-update-info">
+                <div class="sup-update-title">Solicitud de gasto: RD$ 8,500</div>
+                <div class="sup-update-meta">Materiales – cemento y arena · Hoy</div>
+                <div class="sup-update-actions">
+                  <button class="btn-approve" onclick="approveUpdate(this)">✓ Autorizar</button>
+                  <button class="btn-reject" onclick="rejectUpdate(this)">✗ Rechazar</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="maestro-actions">
-          <button class="btn-maestro-wa" onclick="contactarMaestro()">
-            📱 Contactar a Cuba por WhatsApp
-          </button>
-          <button class="btn-maestro-chat" onclick="preguntarMaestro()">
-            💬 Preguntar al asistente
-          </button>
+        <div class="sup-panel-right">
+          <div class="sup-progress-card">
+            <div class="sup-progress-title">Progreso de la obra</div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Cimentación</span><span>100%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Estructura</span><span>100%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Paredes / blocks</span><span>72%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:72%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Electricidad</span><span>45%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:45%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Plomería</span><span>30%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:30%"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label"><span>Acabados</span><span>0%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+            </div>
+          </div>
+          <div class="sup-chat">
+            <div class="sup-chat-header">
+              <div class="online-dot"></div>
+              Cuba – Maestro · En línea
+            </div>
+            <div class="chat-messages" id="chatMessages">
+              <div class="chat-msg incoming">Buenos días señor, ya empezamos con los blocks del 2do piso 🧱<div class="chat-msg-time">8:14 am</div></div>
+              <div class="chat-msg outgoing">Perfecto Cuba, ¿cuántos sacos de cemento quedan?<div class="chat-msg-time">8:22 am</div></div>
+              <div class="chat-msg incoming">Como 15 sacos. Mañana necesitamos más si queremos terminar el nivel.<div class="chat-msg-time">8:25 am</div></div>
+            </div>
+            <div class="chat-input-row">
+              <input type="text" class="chat-input" id="chatInput" placeholder="Escribe un mensaje..." onkeydown="if(event.key==='Enter')sendChatMsg()">
+              <button class="btn-send" onclick="sendChatMsg()">→</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GASTOS TAB -->
+    <div class="tab-panel" id="panel-gastos">
+      <div class="gastos-layout">
+        <div class="gasto-form-card">
+          <div class="gasto-form-title">➕ Registrar gasto</div>
+          <div class="gasto-form-group">
+            <label>Descripción</label>
+            <input type="text" id="gastoDesc" placeholder="Ej: 10 sacos de cemento">
+          </div>
+          <div class="gasto-form-group">
+            <label>Monto (RD$)</label>
+            <input type="number" id="gastoMonto" placeholder="0.00">
+          </div>
+          <div class="gasto-form-group">
+            <label>Categoría</label>
+            <select id="gastoCat">
+              <option value="materiales">🧱 Materiales</option>
+              <option value="mano_obra">👷 Mano de obra</option>
+              <option value="herramientas">🔧 Herramientas</option>
+              <option value="transporte">🚚 Transporte</option>
+              <option value="otros">📦 Otros</option>
+            </select>
+          </div>
+          <div class="gasto-form-group">
+            <label>Fecha</label>
+            <input type="date" id="gastoFecha">
+          </div>
+          <button class="btn-add-gasto" onclick="addGasto()">➕ Registrar gasto</button>
+        </div>
+        <div class="gastos-right">
+          <div class="budget-overview">
+            <div class="budget-overview-title">Resumen del proyecto</div>
+            <div class="budget-nums">
+              <div class="budget-num"><span class="budget-num-val" id="budgetTotal">RD$ 0</span><div class="budget-num-label">Presupuesto</div></div>
+              <div class="budget-num"><span class="budget-num-val" id="budgetGastado">RD$ 0</span><div class="budget-num-label">Gastado</div></div>
+              <div class="budget-num"><span class="budget-num-val" id="budgetResto">RD$ 0</span><div class="budget-num-label">Disponible</div></div>
+            </div>
+            <div class="budget-bar-wrap">
+              <div class="budget-bar-label"><span>Ejecución presupuestaria</span><span id="budgetPct">0%</span></div>
+              <div class="budget-main-bar"><div class="budget-main-fill" id="budgetFill" style="width:0%"></div></div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <input type="number" id="budgetInput" placeholder="Presupuesto total (RD$)" style="flex:1;min-width:140px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 12px;color:var(--white);font-family:'DM Sans';font-size:0.825rem;">
+              <button onclick="setBudget()" style="background:var(--gold);color:var(--navy);border:none;padding:8px 14px;border-radius:8px;font-family:'DM Sans';font-size:0.825rem;font-weight:700;cursor:pointer;white-space:nowrap;">Fijar presupuesto</button>
+            </div>
+          </div>
+          <div class="gastos-list-card">
+            <div class="gastos-list-header">
+              <span>Historial de gastos</span>
+              <span id="gastosTotal" style="color:var(--gold);font-size:0.9rem;">RD$ 0</span>
+            </div>
+            <div class="gastos-list" id="gastosList">
+              <div class="empty-gastos">
+                <div style="font-size:2rem;margin-bottom:8px;opacity:0.4">💰</div>
+                No hay gastos registrados aún.<br>Agrega tu primer gasto arriba.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APP TAB -->
+    <div class="tab-panel" id="panel-app">
+      <div class="app-showcase">
+        <div>
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <div class="phone-status-bar">
+                <span>9:41</span><span>📶 🔋</span>
+              </div>
+              <div class="phone-app-header">
+                <div class="phone-app-title">ConstruyeRD</div>
+                <div class="phone-app-sub">Casa Guachupita · Activa</div>
+              </div>
+              <div class="phone-content">
+                <div class="phone-kpi-row">
+                  <div class="phone-kpi"><div class="phone-kpi-val">68%</div><div class="phone-kpi-label">Avance</div></div>
+                  <div class="phone-kpi"><div class="phone-kpi-val">RD$450K</div><div class="phone-kpi-label">Gastado</div></div>
+                </div>
+                <div class="phone-kpi-row">
+                  <div class="phone-kpi"><div class="phone-kpi-val">42</div><div class="phone-kpi-label">Días</div></div>
+                  <div class="phone-kpi"><div class="phone-kpi-val">2</div><div class="phone-kpi-label">Maestros</div></div>
+                </div>
+                <div class="phone-notif">
+                  <div class="phone-notif-icon">📸</div>
+                  <div>
+                    <div class="phone-notif-text">Cuba subió 3 fotos del avance de hoy</div>
+                    <div class="phone-notif-time">hace 12 min</div>
+                  </div>
+                </div>
+                <div class="phone-notif">
+                  <div class="phone-notif-icon">💬</div>
+                  <div>
+                    <div class="phone-notif-text">Paulino: "Mañana terminamos la plomería"</div>
+                    <div class="phone-notif-time">hace 1 hora</div>
+                  </div>
+                </div>
+                <div class="phone-notif" style="border-color:rgba(252,129,129,0.2);background:rgba(197,48,48,0.08);">
+                  <div class="phone-notif-icon">⚠️</div>
+                  <div>
+                    <div class="phone-notif-text" style="color:rgba(252,129,129,0.8);">Gasto pendiente de aprobación: RD$ 8,500</div>
+                    <div class="phone-notif-time">hace 2 horas</div>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-nav">
+                <div class="phone-nav-item active"><span>🏠</span><span>Inicio</span></div>
+                <div class="phone-nav-item"><span>📊</span><span>Gastos</span></div>
+                <div class="phone-nav-item"><span>👷</span><span>Equipo</span></div>
+                <div class="phone-nav-item"><span>💬</span><span>Chat</span></div>
+                <div class="phone-nav-item"><span>⚙️</span><span>Ajustes</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label" style="margin-bottom:12px;">App móvil completa</div>
+          <h3 class="section-title" style="margin-bottom:16px;font-size:clamp(1.4rem,2.5vw,2rem);">Tu obra en el bolsillo</h3>
+          <p style="color:rgba(255,255,255,0.6);margin-bottom:32px;line-height:1.7;">Gestiona todo tu proyecto de construcción desde tu teléfono, estés donde estés. Notificaciones en tiempo real, chat con tu equipo y control total del presupuesto.</p>
+          <div class="app-features-grid">
+            <div class="app-feature-item">
+              <div class="app-feature-icon">🔔</div>
+              <div class="app-feature-title">Notificaciones en tiempo real</div>
+              <div class="app-feature-desc">Recibe alertas al instante cuando hay avances, gastos o mensajes de tu equipo.</div>
+            </div>
+            <div class="app-feature-item">
+              <div class="app-feature-icon">📸</div>
+              <div class="app-feature-title">Galería de avances</div>
+              <div class="app-feature-desc">Fotos y videos diarios organizados por fecha y etapa de construcción.</div>
+            </div>
+            <div class="app-feature-item">
+              <div class="app-feature-icon">💬</div>
+              <div class="app-feature-title">Chat directo</div>
+              <div class="app-feature-desc">Comunicación directa con maestros y tu equipo, todo en un solo lugar.</div>
+            </div>
+            <div class="app-feature-item">
+              <div class="app-feature-icon">✅</div>
+              <div class="app-feature-title">Aprobaciones rápidas</div>
+              <div class="app-feature-desc">Aprueba gastos, avances y documentos con un solo toque desde tu teléfono.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTRATOS TAB -->
+    <div class="tab-panel" id="panel-contratos">
+      <div class="contratos-layout">
+        <div class="contrato-builder">
+          <div class="contrato-builder-header">
+            <span>📋</span>
+            <div class="contrato-builder-title">Generador de contratos</div>
+          </div>
+          <div class="contrato-builder-body">
+            <div class="contrato-step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <div class="step-label">Datos del cliente</div>
+                <div class="step-input-row">
+                  <input type="text" class="step-input" id="c_cliente" placeholder="Nombre del cliente">
+                  <input type="text" class="step-input" id="c_cedula" placeholder="Cédula / ID">
+                </div>
+              </div>
+            </div>
+            <div class="contrato-step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <div class="step-label">Datos del maestro</div>
+                <div class="step-input-row">
+                  <input type="text" class="step-input" id="c_maestro" placeholder="Nombre del maestro" value="Cuba">
+                  <input type="text" class="step-input" id="c_maestro_ced" placeholder="Cédula / ID">
+                </div>
+              </div>
+            </div>
+            <div class="contrato-step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <div class="step-label">Proyecto</div>
+                <input type="text" class="step-input" id="c_proyecto" placeholder="Descripción del proyecto" style="margin-bottom:8px;">
+                <div class="step-input-row">
+                  <input type="text" class="step-input" id="c_lugar" placeholder="Lugar / dirección">
+                  <input type="date" class="step-input" id="c_inicio">
+                </div>
+              </div>
+            </div>
+            <div class="contrato-step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <div class="step-label">Valores y plazos</div>
+                <div class="step-input-row">
+                  <input type="number" class="step-input" id="c_monto" placeholder="Monto total (RD$)">
+                  <input type="number" class="step-input" id="c_plazo" placeholder="Duración (días)">
+                </div>
+              </div>
+            </div>
+            <button class="btn-gen-contract" onclick="generateContract()">📄 Generar contrato</button>
+          </div>
+        </div>
+        <div class="contrato-preview">
+          <div class="contrato-preview-header">
+            <div class="contrato-preview-title">📄 Vista previa</div>
+            <div class="contrato-status-badge" id="contratoStatus">Borrador</div>
+          </div>
+          <div class="contrato-doc" id="contratoDoc">
+            <h4>CONTRATO DE SERVICIOS DE CONSTRUCCIÓN</h4>
+            <p>Complete el formulario y haga clic en <strong style="color:var(--gold)">Generar contrato</strong> para ver la vista previa aquí.</p>
+            <br>
+            <p style="color:rgba(255,255,255,0.3);font-size:0.72rem;">El contrato generado incluirá: datos de las partes, descripción del proyecto, monto acordado, forma de pago, plazos, garantías, penalidades por incumplimiento y firma digital de ambas partes.</p>
+          </div>
+          <div class="sign-row" id="signRow" style="display:none;">
+            <button class="btn-sign" onclick="showToast('📄','Descargando PDF...','El contrato se está preparando para descarga.')">⬇️ Descargar PDF</button>
+            <button class="btn-sign-primary" onclick="signContract()">✍️ Firmar digitalmente</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CALCULADORA -->
+<section id="calculadora">
+  <div class="section-container">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div class="section-label">Herramienta gratuita</div>
+      <h2 class="section-title">Calculadora de presupuesto</h2>
+      <p class="section-sub" style="margin:0 auto;">Estima el costo de tu construcción con precios actualizados del mercado dominicano.</p>
+    </div>
+    <div class="calc-grid">
+      <div class="calc-form-card">
+        <div class="calc-form-title">🏗️ Datos de tu proyecto</div>
+        <div class="calc-group">
+          <label>Metros cuadrados (m²): <strong id="m2Display" style="color:var(--gold)">80 m²</strong></label>
+          <input type="range" id="m2Range" min="20" max="500" value="80" oninput="updateRange()" style="width:100%;accent-color:var(--gold);height:4px;cursor:pointer;">
+          <div class="calc-range-val"><span>20 m²</span><span>500 m²</span></div>
+        </div>
+        <div class="calc-group">
+          <label>Tipo de construcción</label>
+          <select id="calcTipo">
+            <option value="economica">Económica / básica</option>
+            <option value="media" selected>Nivel medio</option>
+            <option value="premium">Alto nivel / premium</option>
+          </select>
+        </div>
+        <div class="calc-group">
+          <label>Número de plantas</label>
+          <select id="calcPlantas">
+            <option value="1">1 planta</option>
+            <option value="2">2 plantas</option>
+            <option value="3">3 plantas</option>
+          </select>
+        </div>
+        <div class="calc-group">
+          <label>Zona / provincia</label>
+          <select id="calcZona">
+            <option value="sd">Santo Domingo</option>
+            <option value="stg">Santiago</option>
+            <option value="interior">Interior del país</option>
+            <option value="turistica">Zona turística</option>
+          </select>
+        </div>
+        <button class="btn-calc" onclick="calcularPresupuesto()">🧮 Calcular presupuesto estimado →</button>
+      </div>
+      <div class="calc-result-card">
+        <div class="calc-result-placeholder" id="calcPlaceholder">
+          <div class="calc-result-placeholder-icon">🏗️</div>
+          <div style="font-size:0.9rem;">Ingresa los datos de tu proyecto<br>y calcula el presupuesto estimado.</div>
+        </div>
+        <div class="calc-result-content" id="calcResult">
+          <div class="calc-total">
+            <div class="calc-total-label">Presupuesto total estimado</div>
+            <div class="calc-total-val" id="calcTotalVal">—</div>
+            <div class="calc-total-sub" id="calcTotalSub">Estimación referencial · precios de mercado RD</div>
+          </div>
+          <div class="calc-breakdown">
+            <div class="calc-item">
+              <div class="calc-item-left"><span class="calc-item-icon">🧱</span><div><div class="calc-item-name">Materiales</div><div class="calc-item-pct" id="calcMatPct">~55%</div></div></div>
+              <div class="calc-item-val" id="calcMat">—</div>
+            </div>
+            <div class="calc-item">
+              <div class="calc-item-left"><span class="calc-item-icon">👷</span><div><div class="calc-item-name">Mano de obra</div><div class="calc-item-pct" id="calcManoPct">~30%</div></div></div>
+              <div class="calc-item-val" id="calcMano">—</div>
+            </div>
+            <div class="calc-item">
+              <div class="calc-item-left"><span class="calc-item-icon">🎨</span><div><div class="calc-item-name">Acabados</div><div class="calc-item-pct" id="calcAcabPct">~15%</div></div></div>
+              <div class="calc-item-val" id="calcAcab">—</div>
+            </div>
+          </div>
+          <div class="maestro-cta-box" id="calcMaestroCTA">
+            <div class="maestro-cta-ava">🔨</div>
+            <div class="maestro-cta-text">
+              <div class="maestro-cta-name">Cuba — Maestro Verificado</div>
+              <div class="maestro-cta-sub">Disponible para visitar tu terreno y ajustar el presupuesto</div>
+            </div>
+            <a href="https://wa.me/18095550001?text=Hola%20Cuba!%20Vi%20tu%20perfil%20en%20ConstruyeRD%20y%20quiero%20una%20cotización." target="_blank" class="btn-wa-sm">
+              <span>📱</span> WhatsApp
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOR WHOM -->
-<section id="para-quien" style="background: var(--bg);">
-  <div class="section-title">
-    <h2>Hecho para ti</h2>
-    <p>ConstruyeRD entiende tus necesidades específicas</p>
-  </div>
-  <div class="audience-grid">
-    <div class="audience-card">
-      <span class="audience-flag">🇩🇴</span>
-      <h3>Dominicanos en RD</h3>
-      <p>Construye sin que te cobren de más y con maestros verificados de confianza.</p>
+<!-- PARA QUIEN -->
+<section id="para-quien">
+  <div class="section-container">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div class="section-label">Hecho para ti</div>
+      <h2 class="section-title">ConstruyeRD entiende<br>tus necesidades</h2>
     </div>
-    <div class="audience-card">
-      <span class="audience-flag">🇺🇸</span>
-      <h3>Dominicanos en USA</h3>
-      <p>Supervisa tu obra en RD en tiempo real desde cualquier ciudad de los Estados Unidos.</p>
-    </div>
-    <div class="audience-card">
-      <span class="audience-flag">🌍</span>
-      <h3>Diáspora en Europa</h3>
-      <p>España, Italia, Francia — invierte en tu tierra sin perder dinero ni confianza.</p>
-    </div>
-    <div class="audience-card">
-      <span class="audience-flag">🔨</span>
-      <h3>Maestros y trabajadores</h3>
-      <p>Consigue más clientes, mejor reputación y proyectos organizados con comprobantes digitales.</p>
+    <div class="audience-grid">
+      <div class="audience-card">
+        <div class="audience-flag">🇩🇴</div>
+        <div class="audience-title">Dominicanos en RD</div>
+        <div class="audience-desc">Construye sin que te cobren de más y con maestros verificados de confianza.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-flag">🇺🇸</div>
+        <div class="audience-title">Dominicanos en USA</div>
+        <div class="audience-desc">Supervisa tu obra en RD en tiempo real desde cualquier ciudad de los Estados Unidos.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-flag">🌍</div>
+        <div class="audience-title">Diáspora en Europa</div>
+        <div class="audience-desc">España, Italia, Francia — invierte en tu tierra sin perder dinero ni confianza.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-flag">🔨</div>
+        <div class="audience-title">Maestros y trabajadores</div>
+        <div class="audience-desc">Consigue más clientes, mejor reputación y proyectos organizados con comprobantes digitales.</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
+<!-- CTA FINAL -->
 <section class="cta-section">
-  <h2>Sé de los primeros en acceder</h2>
-  <p>Los primeros 200 registrados tendrán acceso gratuito de por vida a las funciones premium.</p>
-  <a href="#inicio" class="btn-cta" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">
-    Registrarme gratis ahora →
-  </a>
+  <div class="section-container">
+    <div class="cta-title">Sé de los primeros en acceder</div>
+    <p class="cta-sub">Los primeros 200 registrados tendrán acceso gratuito de por vida a las funciones premium.</p>
+    <a href="#registro" class="btn-primary" style="font-size:1.05rem;padding:16px 36px;">
+      🏗️ Registrarme gratis ahora →
+    </a>
+  </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p><strong style="color:#fff;">ConstruyeRD</strong> · La plataforma de construcción de República Dominicana · 2025</p>
-  <p style="margin-top:6px;"><a href="mailto:hola@construyerd.com">hola@construyerd.com</a> · <a href="#">WhatsApp</a></p>
+  <div class="footer-inner">
+    <div class="footer-logo">Construye<span>RD</span></div>
+    <div class="footer-links">
+      <a href="#funciones">Funciones</a>
+      <a href="#calculadora">Calculadora</a>
+      <a href="#para-quien">Para quién</a>
+      <a href="mailto:hola@construyerd.com">hola@construyerd.com</a>
+    </div>
+    <div class="footer-copy">© 2025 ConstruyeRD · La plataforma de construcción de República Dominicana</div>
+  </div>
 </footer>
 
-<!-- CHAT TOGGLE -->
-<button id="chat-toggle" onclick="toggleChat()" title="Habla con un asesor">
-  💬
-  <div class="badge">1</div>
-</button>
-
-<!-- CHAT WINDOW -->
-<div id="chat-window">
-  <div class="chat-header">
-    <div class="chat-avatar">🏗️</div>
-    <div class="chat-header-info">
-      <h3>RD Asistente</h3>
-      <div class="chat-status">
-        <div class="chat-dot"></div>
-        <p>En línea ahora · ConstruyeRD</p>
-      </div>
-    </div>
-    <button class="chat-close" onclick="toggleChat()">✕</button>
-  </div>
-
-  <div class="chat-quick-buttons">
-    <button class="quick-btn" onclick="quickSend('¿Cómo funciona ConstruyeRD?')">¿Cómo funciona?</button>
-    <button class="quick-btn" onclick="quickSend('¿Cuánto cuesta construir una casa en RD?')">Precios</button>
-    <button class="quick-btn" onclick="quickSend('Quiero supervisar mi obra desde el extranjero')">Desde el exterior</button>
-    <button class="quick-btn" onclick="quickSend('¿Cómo encuentro un maestro confiable?')">Maestros</button>
-  </div>
-
-  <div class="chat-messages" id="chat-messages">
-    <div class="msg bot">
-      <div class="msg-bubble">¡Hola! 👋 Soy el asistente de <strong>ConstruyeRD</strong>. Estoy aquí para ayudarte a planificar tu proyecto de construcción en República Dominicana.<br><br>¿Qué deseas hacer — construir, supervisar una obra o encontrar maestros confiables?</div>
-      <div class="msg-time">Ahora</div>
-    </div>
-  </div>
-
-  <div class="chat-input-area">
-    <textarea id="chat-input" placeholder="Escribe tu mensaje..." rows="1"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
-      oninput="autoResize(this)"></textarea>
-    <button id="send-btn" onclick="sendMessage()">➤</button>
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon" id="toastIcon">✅</div>
+  <div class="toast-text">
+    <strong id="toastTitle"></strong>
+    <span id="toastMsg"></span>
   </div>
 </div>
 
 <script>
-// ── FORM ──
-let registered = 0;
-let registros = JSON.parse(localStorage.getItem('crd_registros') || '[]');
-let counter = parseInt(localStorage.getItem('crd_counter') || '127');
+// ===================== DATA =====================
+const MAESTROS_DATA = [
+  {
+    name: "Cuba",
+    location: "Baní, Peravia",
+    avatar: "🔨",
+    rating: 4.9,
+    reviews: 47,
+    skills: ["Construcción general", "Blocks", "Columnas"],
+    price: "RD$ 2,800",
+    projects: 23,
+    phone: "18095550001"
+  },
+  {
+    name: "Paulino",
+    location: "Niazo, Baní",
+    avatar: "🏗️",
+    rating: 4.8,
+    reviews: 31,
+    skills: ["Plomería", "Construcción general", "Acabados"],
+    price: "RD$ 2,500",
+    projects: 17,
+    phone: "18095550002"
+  },
+  {
+    name: "Mello",
+    location: "Baní, Peravia",
+    avatar: "🏠",
+    rating: 4.8,
+    reviews: 24,
+    skills: ["Construcción general", "Blocks", "Acabados"],
+    price: "RD$ 2,600",
+    projects: 15,
+    phone: "18296744821"
+  }
+];
 
-document.getElementById('counter').textContent = counter;
-updateCupos();
+// ===================== STATE =====================
+let gastos = [];
+let presupuesto = 0;
+let contratoSigned = false;
 
-function updateCupos() {
-  const cupos = Math.max(0, 200 - counter);
-  const els = document.querySelectorAll('.counter-number');
-  if (els[0]) els[0].textContent = counter;
-  if (els[2]) els[2].textContent = cupos;
+// ===================== INIT =====================
+document.addEventListener('DOMContentLoaded', () => {
+  renderMaestros(MAESTROS_DATA);
+  document.getElementById('gastoFecha').valueAsDate = new Date();
+  updateSlotsBar();
+});
+
+function updateSlotsBar() {
+  const remaining = parseInt(document.getElementById('slotsCount').textContent);
+  const pct = ((200 - remaining) / 200) * 100;
+  document.getElementById('slotsBar').style.width = pct + '%';
 }
 
-function submitForm() {
-  const nombre = document.getElementById('nombre').value.trim();
-  const wa = document.getElementById('whatsapp').value.trim();
-  const pais = document.getElementById('pais').value;
-  const obj = document.getElementById('objetivo').value;
+// ===================== NAV =====================
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
 
-  if (!nombre) { alert('Por favor ingresa tu nombre.'); document.getElementById('nombre').focus(); return; }
-  if (!wa || wa.length < 8) { alert('Por favor ingresa tu WhatsApp con código de país.'); document.getElementById('whatsapp').focus(); return; }
-  if (!pais) { alert('Selecciona tu país de origen.'); return; }
-  if (!obj) { alert('Selecciona lo que quieres hacer.'); return; }
+// ===================== TABS =====================
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
 
-  const entry = { nombre, wa, pais, obj, fecha: new Date().toISOString() };
-  registros.push(entry);
-  localStorage.setItem('crd_registros', JSON.stringify(registros));
+// ===================== REGISTRATION =====================
+function submitRegistration() {
+  const name = document.getElementById('regName').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const country = document.getElementById('regCountry').value;
+  const goal = document.getElementById('regGoal').value;
+  if (!name || !phone || !country || !goal) {
+    showToast('⚠️','Campos incompletos','Por favor completa todos los campos.');
+    return;
+  }
+  // Simulate registration
+  document.getElementById('formContent').style.display = 'none';
+  document.getElementById('successState').style.display = 'block';
+  // Update count
+  const current = parseInt(document.getElementById('heroCount').textContent);
+  const newCount = current + 1;
+  const newSlots = 200 - newCount;
+  document.getElementById('heroCount').textContent = newCount;
+  document.getElementById('heroSlots').textContent = newSlots;
+  document.getElementById('slotsCount').textContent = newSlots;
+  updateSlotsBar();
+  showToast('🎉','¡Registro exitoso!','Bienvenido a los fundadores de ConstruyeRD.');
+}
 
-  counter++;
-  localStorage.setItem('crd_counter', counter);
-  updateCupos();
+// ===================== MAESTROS =====================
+function renderMaestros(list) {
+  const grid = document.getElementById('maestrosGrid');
+  if (!list.length) {
+    grid.innerHTML = '<div style="color:rgba(255,255,255,0.35);padding:40px;text-align:center;grid-column:1/-1;">No se encontraron maestros con esos filtros.</div>';
+    return;
+  }
+  grid.innerHTML = list.map(m => `
+    <div class="maestro-card">
+      <div class="maestro-card-top">
+        <div class="maestro-avatar">${m.avatar}</div>
+        <div class="maestro-info">
+          <div class="maestro-name">${m.name}</div>
+          <div class="maestro-location">📍 ${m.location}</div>
+        </div>
+        <div class="maestro-verified">✓ Verificado</div>
+      </div>
+      <div class="maestro-stars">
+        ${renderStars(m.rating)}
+        <span class="maestro-rating-text">${m.rating} (${m.reviews} reseñas)</span>
+      </div>
+      <div class="maestro-skills">
+        ${m.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+      </div>
+      <div class="maestro-meta">
+        <div class="maestro-rate">Precio/día: <strong>${m.price}</strong></div>
+        <div class="maestro-projects">${m.projects} proyectos</div>
+      </div>
+      <button class="btn-contact" onclick="contactMaestro('${m.name}','${m.phone}')">
+        📱 Contactar a ${m.name} por WhatsApp
+      </button>
+    </div>
+  `).join('');
+}
 
-  document.getElementById('form-content').style.display = 'none';
-  document.getElementById('form-success').style.display = 'block';
+function renderStars(rating) {
+  let html = '';
+  for (let i = 1; i <= 5; i++) {
+    html += `<span class="star${i > Math.round(rating) ? ' empty' : ''}">★</span>`;
+  }
+  return html;
+}
 
-  // Remove badge from chat after register
-  const badge = document.querySelector('#chat-toggle .badge');
-  if (badge) badge.style.display = 'none';
+function filterMaestros() {
+  const search = document.getElementById('maestroSearch').value.toLowerCase();
+  const especial = document.getElementById('especialFilter').value;
+  const zona = document.getElementById('zonaFilter').value;
+  let filtered = MAESTROS_DATA.filter(m => {
+    const matchName = m.name.toLowerCase().includes(search) || m.skills.some(s => s.toLowerCase().includes(search));
+    const matchEsp = !especial || m.skills.some(s => s.toLowerCase().includes(especial.toLowerCase()));
+    const matchZona = !zona || m.location.toLowerCase().includes(zona.toLowerCase());
+    return matchName && matchEsp && matchZona;
+  });
+  renderMaestros(filtered);
+}
 
-  // Auto-open chat with personalized message
+function contactMaestro(name, phone) {
+  const msg = encodeURIComponent(`Hola ${name}! Vi tu perfil en ConstruyeRD y me interesa hablar sobre mi proyecto.`);
+  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+}
+
+// ===================== SUPERVISION =====================
+function approveUpdate(btn) {
+  const row = btn.parentElement;
+  row.innerHTML = '<span style="color:#68D391;font-size:0.8rem;font-weight:700;">✓ Aprobado</span>';
+  showToast('✅','Aprobado','El avance fue aprobado correctamente.');
+}
+function rejectUpdate(btn) {
+  const row = btn.parentElement;
+  row.innerHTML = '<span style="color:#FC8181;font-size:0.8rem;font-weight:700;">⚠️ Observación enviada</span>';
+  showToast('📝','Observación enviada','Se notificó al maestro.');
+}
+
+function sendChatMsg() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const container = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg outgoing';
+  const now = new Date();
+  div.innerHTML = `${msg}<div class="chat-msg-time">${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}</div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  input.value = '';
+  // Auto reply after 1.5s
   setTimeout(() => {
-    if (!chatOpen) toggleChat();
-    addBotMessage(`¡Bienvenido/a ${nombre}! 🎉 Ya estás registrado/a como fundador/a de ConstruyeRD. ¿Te puedo ayudar a planificar algo mientras esperamos el lanzamiento?`);
+    const replies = ['Entendido, ahorita mismo lo hago.','Ok jefe, en seguida.','Claro que sí, ya lo veo.','Sí señor, mañana temprano queda listo.'];
+    const reply = document.createElement('div');
+    reply.className = 'chat-msg incoming';
+    reply.innerHTML = `${replies[Math.floor(Math.random()*replies.length)]}<div class="chat-msg-time">${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2,'0')}</div>`;
+    container.appendChild(reply);
+    container.scrollTop = container.scrollHeight;
   }, 1500);
 }
 
-function shareWhatsApp() {
-  const text = encodeURIComponent('¡Regístrate gratis en ConstruyeRD antes del lanzamiento! La plataforma dominicana para construir sin sorpresas 🏗️🇩🇴 https://heredialeuri95-art.github.io/ConstruyeRD/construyerd_waitlist.html');
-  window.open('https://wa.me/?text=' + text, '_blank');
+// ===================== GASTOS =====================
+const CAT_ICONS = { materiales:'🧱', mano_obra:'👷', herramientas:'🔧', transporte:'🚚', otros:'📦' };
+const CAT_LABELS = { materiales:'Materiales', mano_obra:'Mano de obra', herramientas:'Herramientas', transporte:'Transporte', otros:'Otros' };
+
+function setBudget() {
+  const val = parseFloat(document.getElementById('budgetInput').value);
+  if (!val || val <= 0) { showToast('⚠️','Error','Ingresa un monto válido.'); return; }
+  presupuesto = val;
+  updateBudgetDisplay();
+  showToast('✅','Presupuesto fijado',`RD$ ${formatNum(val)} establecido.`);
 }
 
-// ── CALCULATOR ──
-const PRECIOS = {
-  economica: { mat: 18000, mano: 8000, acabados: 4000 },
-  media:     { mat: 28000, mano: 12000, acabados: 9000 },
-  alta:      { mat: 45000, mano: 18000, acabados: 22000 },
-};
-const ZONA_MULT = { sd: 1.0, stgo: 0.92, interior: 0.82, turistica: 1.18 };
-const PLANTA_MULT = { 1: 1, 2: 1.85, 3: 2.6 };
-
-function calcular() {
-  const m2 = parseFloat(document.getElementById('metros').value);
-  if (!m2 || m2 < 10) { alert('Ingresa los metros cuadrados del proyecto.'); return; }
-
-  const tipo = document.getElementById('tipo-construccion').value;
-  const plantas = document.getElementById('plantas').value;
-  const zona = document.getElementById('zona').value;
-
-  const base = PRECIOS[tipo];
-  const zm = ZONA_MULT[zona];
-  const pm = PLANTA_MULT[plantas];
-
-  const materiales = Math.round(m2 * base.mat * zm * pm);
-  const mano = Math.round(m2 * base.mano * zm * pm);
-  const acabados = Math.round(m2 * base.acabados * zm * pm);
-  const total = materiales + mano + acabados;
-
-  const fmt = n => 'RD$' + n.toLocaleString('es-DO');
-
-  document.getElementById('r-materiales').textContent = fmt(materiales);
-  document.getElementById('r-mano').textContent = fmt(mano);
-  document.getElementById('r-acabados').textContent = fmt(acabados);
-  document.getElementById('r-total').textContent = fmt(total);
-
-  document.getElementById('calc-results').classList.add('visible');
-  document.getElementById('calc-results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-  // Offer chat follow-up
-  setTimeout(() => {
-    if (!chatOpen) toggleChat();
-    addBotMessage(`Vi que calculaste un proyecto de ${m2}m² — ¡buena elección! El estimado de RD$${total.toLocaleString('es-DO')} puede variar según el terreno y especificaciones. ¿Quieres que te explique cómo ahorrar en algún área específica?`);
-  }, 800);
-}
-
-// ── CHAT ──
-let chatOpen = false;
-let isTyping = false;
-
-const SYSTEM_PROMPT = `Eres el asistente virtual de ConstruyeRD, la primera plataforma dominicana para presupuestar, contratar y supervisar construcciones. Tu objetivo es:
-
-1. Responder preguntas sobre construcción en República Dominicana con conocimiento local
-2. Atraer y convencer a clientes potenciales de registrarse
-3. Ayudar a dominicanos en el exterior que quieren construir en RD
-4. Dar información de precios reales del mercado dominicano (cemento, blocks, varillas, mano de obra)
-5. Explicar cómo funciona la plataforma
-
-CONTEXTO DE LA PLATAFORMA:
-- Presupuesto inteligente con precios actuales del mercado RD
-- Directorio de maestros verificados con historial y valoraciones
-- Supervisión remota con fotos/videos diarios para la diáspora
-- Control de gastos y comprobantes digitales
-- Contratos digitales con garantías
-
-PRECIOS APROXIMADOS EN RD (para referencia):
-- Block estándar: RD$35-45 cada uno
-- Saco de cemento: RD$550-650
-- Varilla #3: RD$180-220 cada una
-- Mano de obra maestro: RD$3,000-5,000/día
-- Ayudante: RD$1,200-1,800/día
-- Costo construcción básica: RD$18,000-22,000/m²
-- Costo construcción media: RD$28,000-38,000/m²
-- Costo construcción premium: RD$50,000-80,000/m²
-
-TONO: Amigable, profesional, dominicano. Usa términos locales. Menciona la plataforma cuando sea relevante. Sé conciso (máximo 3 párrafos por respuesta). Si preguntan sobre registro, diles que es GRATIS y que los primeros 200 tienen acceso premium de por vida.`;
-
-function toggleChat() {
-  chatOpen = !chatOpen;
-  document.getElementById('chat-window').classList.toggle('open', chatOpen);
-  if (chatOpen) {
-    document.querySelector('#chat-toggle .badge').style.display = 'none';
-    document.getElementById('chat-input').focus();
+function addGasto() {
+  const desc = document.getElementById('gastoDesc').value.trim();
+  const monto = parseFloat(document.getElementById('gastoMonto').value);
+  const cat = document.getElementById('gastoCat').value;
+  const fecha = document.getElementById('gastoFecha').value;
+  if (!desc || !monto || monto <= 0) { showToast('⚠️','Campos requeridos','Completa descripción y monto.'); return; }
+  const gasto = { id: Date.now(), desc, monto, cat, fecha: fecha || new Date().toISOString().split('T')[0] };
+  gastos.unshift(gasto);
+  renderGastos();
+  updateBudgetDisplay();
+  document.getElementById('gastoDesc').value = '';
+  document.getElementById('gastoMonto').value = '';
+  // Check budget
+  const total = gastos.reduce((s,g) => s+g.monto, 0);
+  if (presupuesto > 0 && total > presupuesto * 0.9) {
+    showToast('⚠️','Alerta de presupuesto','Estás cerca del límite establecido.');
+  } else {
+    showToast('✅','Gasto registrado',`RD$ ${formatNum(monto)} · ${CAT_LABELS[cat]}`);
   }
 }
 
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+function deleteGasto(id) {
+  gastos = gastos.filter(g => g.id !== id);
+  renderGastos();
+  updateBudgetDisplay();
 }
 
-function getCurrentTime() {
-  return new Date().toLocaleTimeString('es-DO', { hour: '2-digit', minute: '2-digit' });
-}
-
-function addUserMessage(text) {
-  const msgs = document.getElementById('chat-messages');
-  msgs.innerHTML += `
-    <div class="msg user">
-      <div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>
-      <div class="msg-time">${getCurrentTime()}</div>
-    </div>`;
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function addBotMessage(text) {
-  const msgs = document.getElementById('chat-messages');
-  msgs.innerHTML += `
-    <div class="msg bot">
-      <div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>
-      <div class="msg-time">${getCurrentTime()}</div>
-    </div>`;
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function showTyping() {
-  const msgs = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = 'msg bot';
-  div.id = 'typing-row';
-  div.innerHTML = `<div class="typing-indicator show"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function hideTyping() {
-  const t = document.getElementById('typing-row');
-  if (t) t.remove();
-}
-
-async function sendMessage() {
-  const input = document.getElementById('chat-input');
-  const text = input.value.trim();
-  if (!text || isTyping) return;
-
-  input.value = '';
-  input.style.height = '40px';
-  addUserMessage(text);
-  isTyping = true;
-  showTyping();
-
-  // Build conversation history
-  const msgs = document.querySelectorAll('.msg');
-  const history = [];
-  msgs.forEach(m => {
-    const bubble = m.querySelector('.msg-bubble');
-    if (!bubble) return;
-    const content = bubble.innerText;
-    if (m.classList.contains('user')) {
-      history.push({ role: 'user', content });
-    } else if (m.classList.contains('bot') && content !== text) {
-      history.push({ role: 'assistant', content });
-    }
-  });
-  history.push({ role: 'user', content: text });
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: history.slice(-12)
-      })
-    });
-
-    const data = await res.json();
-    hideTyping();
-
-    const reply = data?.content?.[0]?.text || 'Lo siento, hubo un problema. Intenta de nuevo.';
-    addBotMessage(reply);
-  } catch (e) {
-    hideTyping();
-    addBotMessage('Hubo un problema de conexión. Puedes escribirnos directo a WhatsApp o intentar de nuevo en unos segundos. 🙏');
+function renderGastos() {
+  const list = document.getElementById('gastosList');
+  if (!gastos.length) {
+    list.innerHTML = '<div class="empty-gastos"><div style="font-size:2rem;margin-bottom:8px;opacity:0.4">💰</div>No hay gastos registrados aún.<br>Agrega tu primer gasto arriba.</div>';
+    return;
   }
-
-  isTyping = false;
+  list.innerHTML = gastos.map(g => `
+    <div class="gasto-item">
+      <div class="gasto-cat-icon">${CAT_ICONS[g.cat]}</div>
+      <div class="gasto-item-info">
+        <div class="gasto-item-name">${g.desc}</div>
+        <div class="gasto-item-meta">${CAT_LABELS[g.cat]} · ${formatDate(g.fecha)}</div>
+      </div>
+      <div class="gasto-item-amount">RD$ ${formatNum(g.monto)}</div>
+      <button class="gasto-item-del" onclick="deleteGasto(${g.id})">✕</button>
+    </div>
+  `).join('');
 }
 
-function quickSend(text) {
-  document.getElementById('chat-input').value = text;
-  sendMessage();
+function updateBudgetDisplay() {
+  const total = gastos.reduce((s,g) => s+g.monto, 0);
+  const resto = presupuesto > 0 ? presupuesto - total : 0;
+  const pct = presupuesto > 0 ? Math.min((total/presupuesto)*100, 100) : 0;
+  document.getElementById('budgetTotal').textContent = presupuesto > 0 ? `RD$ ${formatNum(presupuesto)}` : '—';
+  document.getElementById('budgetGastado').textContent = `RD$ ${formatNum(total)}`;
+  document.getElementById('budgetResto').textContent = presupuesto > 0 ? `RD$ ${formatNum(Math.max(resto,0))}` : '—';
+  document.getElementById('budgetPct').textContent = pct.toFixed(1) + '%';
+  document.getElementById('budgetFill').style.width = pct + '%';
+  document.getElementById('budgetFill').style.background = pct > 90 ? 'linear-gradient(90deg,#FC8181,#F56565)' : 'linear-gradient(90deg,#48BB78,var(--gold))';
+  document.getElementById('gastosTotal').textContent = `RD$ ${formatNum(total)}`;
 }
 
+// ===================== CONTRATOS =====================
+function generateContract() {
+  const cliente = document.getElementById('c_cliente').value || '___________';
+  const cedula = document.getElementById('c_cedula').value || '___________';
+  const maestro = document.getElementById('c_maestro').value || '___________';
+  const maestroCed = document.getElementById('c_maestro_ced').value || '___________';
+  const proyecto = document.getElementById('c_proyecto').value || '___________';
+  const lugar = document.getElementById('c_lugar').value || '___________';
+  const inicio = document.getElementById('c_inicio').value ? formatDate(document.getElementById('c_inicio').value) : '___________';
+  const monto = document.getElementById('c_monto').value ? `RD$ ${formatNum(parseFloat(document.getElementById('c_monto').value))}` : '___________';
+  const plazo = document.getElementById('c_plazo').value || '___________';
 
-// ── MAESTRO CUBA ──
-const MAESTRO_CUBA = {
-  nombre: 'Cuba',
-  wa: '18295396933',
-  display: '(829) 539-6933'
-};
+  const doc = document.getElementById('contratoDoc');
+  doc.innerHTML = `
+    <h4>CONTRATO DE SERVICIOS DE CONSTRUCCIÓN</h4>
+    <p>En la ciudad de <span class="blank">${lugar}</span>, República Dominicana, a fecha de <span class="blank">${inicio}</span>.</p>
 
-function contactarMaestro() {
-  const m2 = document.getElementById('metros').value || '?';
-  const tipo = document.getElementById('tipo-construccion').value;
-  const total = document.getElementById('r-total').textContent;
-  const tipos = { economica: 'económica', media: 'nivel medio', alta: 'premium' };
-  const msg = encodeURIComponent(
-    `Hola ${MAESTRO_CUBA.nombre}, te contacto a través de ConstruyeRD 🏗️\n\n` +
-    `Estoy interesado/a en construir una casa de ${m2}m² de tipo ${tipos[tipo] || tipo}.\n` +
-    `El presupuesto estimado es ${total}.\n\n` +
-    `¿Podemos coordinar una visita o una cita para ajustar el presupuesto? Gracias.`
-  );
-  window.open(`https://wa.me/${MAESTRO_CUBA.wa}?text=${msg}`, '_blank');
+    <h4>PARTE CONTRATANTE (Cliente)</h4>
+    <p>Nombre: <span class="blank">${cliente}</span></p>
+    <p>Cédula / ID: <span class="blank">${cedula}</span></p>
+
+    <h4>PARTE CONTRATADA (Maestro)</h4>
+    <p>Nombre: <span class="blank">${maestro}</span></p>
+    <p>Cédula / ID: <span class="blank">${maestroCed}</span></p>
+
+    <h4>OBJETO DEL CONTRATO</h4>
+    <p>El Maestro se compromete a ejecutar los trabajos de: <span class="blank">${proyecto}</span>, en la dirección indicada: <span class="blank">${lugar}</span>.</p>
+
+    <h4>MONTO Y FORMA DE PAGO</h4>
+    <p>Monto total acordado: <span class="blank">${monto}</span></p>
+    <p>Forma de pago: 30% al inicio, 40% al completar la estructura, 30% al terminar la obra.</p>
+
+    <h4>PLAZO DE EJECUCIÓN</h4>
+    <p>La obra se ejecutará en un plazo de <span class="blank">${plazo} días</span> a partir de la fecha de inicio.</p>
+
+    <h4>GARANTÍAS Y PENALIDADES</h4>
+    <p>El Maestro garantiza la calidad de los trabajos por un período de 12 meses. En caso de incumplimiento del plazo, se aplicará una penalidad del 1% del monto total por cada semana de retraso.</p>
+
+    <h4>JURISDICCIÓN</h4>
+    <p>Ambas partes acuerdan que cualquier controversia será resuelta conforme a las leyes de la República Dominicana.</p>
+
+    <h4>FIRMAS</h4>
+    <p>Este contrato es válido con la firma digital de ambas partes.</p>
+  `;
+
+  document.getElementById('signRow').style.display = 'flex';
+  document.getElementById('contratoStatus').textContent = 'Listo para firmar';
+  document.getElementById('contratoStatus').style.background = 'rgba(72,187,120,0.12)';
+  document.getElementById('contratoStatus').style.borderColor = 'rgba(72,187,120,0.25)';
+  document.getElementById('contratoStatus').style.color = '#68D391';
+  showToast('📄','Contrato generado','Revisa y firma digitalmente.');
 }
 
-function preguntarMaestro() {
-  const m2 = document.getElementById('metros').value || '?';
-  const total = document.getElementById('r-total').textContent;
-  if (!chatOpen) toggleChat();
-  document.getElementById('chat-input').value = `¿Qué debo preguntar al maestro Cuba antes de contratarlo para mi proyecto de ${m2}m² con presupuesto de ${total}?`;
-  sendMessage();
+function signContract() {
+  if (contratoSigned) { showToast('✅','Ya firmado','Este contrato ya fue firmado.'); return; }
+  contratoSigned = true;
+  document.getElementById('contratoStatus').textContent = '✓ Firmado digitalmente';
+  document.getElementById('contratoStatus').style.background = 'rgba(47,133,90,0.2)';
+  document.getElementById('contratoStatus').style.borderColor = 'rgba(72,187,120,0.35)';
+  // Add signature to doc
+  const doc = document.getElementById('contratoDoc');
+  const sig = document.createElement('div');
+  sig.style.cssText = 'margin-top:16px;padding:12px;background:rgba(47,133,90,0.1);border:1px solid rgba(72,187,120,0.25);border-radius:8px;';
+  sig.innerHTML = `<div style="color:#68D391;font-weight:700;font-size:0.82rem;">✓ FIRMADO DIGITALMENTE · ${new Date().toLocaleString('es-DO')}</div><div style="color:rgba(255,255,255,0.4);font-size:0.72rem;margin-top:4px;">Hash: CRD-${Date.now().toString(36).toUpperCase()}</div>`;
+  doc.appendChild(sig);
+  showToast('✍️','Contrato firmado','El contrato fue firmado digitalmente con éxito.');
 }
 
-// ── COUNTER ANIMATION ──
-function animateCounter(el, target, duration = 1500) {
-  const start = parseInt(el.textContent);
-  const diff = target - start;
-  const startTime = performance.now();
-  function update(now) {
-    const elapsed = now - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    el.textContent = Math.round(start + diff * progress);
-    if (progress < 1) requestAnimationFrame(update);
-  }
-  requestAnimationFrame(update);
+// ===================== CALCULADORA =====================
+const PRECIOS_BASE = { economica: 28000, media: 42000, premium: 68000 };
+const ZONA_FACTOR = { sd: 1.12, stg: 1.0, interior: 0.88, turistica: 1.25 };
+const PLANTA_FACTOR = { '1': 1.0, '2': 1.85, '3': 2.6 };
+const DISTRIB = { economica:[0.58,0.28,0.14], media:[0.55,0.30,0.15], premium:[0.50,0.30,0.20] };
+
+function updateRange() {
+  const val = document.getElementById('m2Range').value;
+  document.getElementById('m2Display').textContent = val + ' m²';
 }
 
-// Observe counter to animate
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      animateCounter(document.getElementById('counter'), counter);
-      obs.disconnect();
-    }
-  });
-});
-obs.observe(document.getElementById('counter'));
+function calcularPresupuesto() {
+  const m2 = parseInt(document.getElementById('m2Range').value);
+  const tipo = document.getElementById('calcTipo').value;
+  const plantas = document.getElementById('calcPlantas').value;
+  const zona = document.getElementById('calcZona').value;
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
-  });
-});
+  const base = PRECIOS_BASE[tipo] * m2 * PLANTA_FACTOR[plantas] * ZONA_FACTOR[zona];
+  const [matPct, manoPct, acabPct] = DISTRIB[tipo];
+  const mat = base * matPct;
+  const mano = base * manoPct;
+  const acab = base * acabPct;
+
+  document.getElementById('calcPlaceholder').style.display = 'none';
+  const resultEl = document.getElementById('calcResult');
+  resultEl.style.display = 'flex';
+
+  document.getElementById('calcTotalVal').textContent = `RD$ ${formatNum(Math.round(base))}`;
+  document.getElementById('calcTotalSub').textContent = `${m2} m² · ${plantas} planta(s) · ${tipo}`;
+  document.getElementById('calcMat').textContent = `RD$ ${formatNum(Math.round(mat))}`;
+  document.getElementById('calcMano').textContent = `RD$ ${formatNum(Math.round(mano))}`;
+  document.getElementById('calcAcab').textContent = `RD$ ${formatNum(Math.round(acab))}`;
+  document.getElementById('calcMatPct').textContent = `~${Math.round(matPct*100)}%`;
+  document.getElementById('calcManoPct').textContent = `~${Math.round(manoPct*100)}%`;
+  document.getElementById('calcAcabPct').textContent = `~${Math.round(acabPct*100)}%`;
+
+  showToast('🧮','Presupuesto calculado',`RD$ ${formatNum(Math.round(base))}`);
+}
+
+// ===================== UTILITIES =====================
+function formatNum(n) {
+  return n.toLocaleString('es-DO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+function formatDate(d) {
+  if (!d) return '';
+  const parts = d.split('-');
+  return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+
+let toastTimer;
+function showToast(icon, title, msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastIcon').textContent = icon;
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+}
 </script>
 </body>
 </html>
